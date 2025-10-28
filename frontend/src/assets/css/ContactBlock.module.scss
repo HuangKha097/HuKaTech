@@ -1,0 +1,34 @@
+.wrapper {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+
+    & button {
+        box-shadow: rgba(226, 226, 226, 0.1) 0px 4px 12px;
+        box-sizing: border-box;
+        width: fit-content;
+        height: min-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 1.2rem;
+        background-color: rgba(40, 40, 40, 0.7);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-radius: 32px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    & .move-top {
+        transform: scaleY(-1);
+        width: 5.6rem;
+        height: 5.6rem;
+    }
+}
