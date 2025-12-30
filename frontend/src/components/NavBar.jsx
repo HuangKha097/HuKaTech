@@ -7,11 +7,18 @@ import Submenu from './Submenu';
 import { Link, useNavigate } from 'react-router-dom';
 import { logo } from '../assets/images/index';
 import SubmenuAdvancedSearch from "./SubmenuAdvancedSearch.jsx";
+import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {clearSubfilterValue} from "../redux/SubfilterSlice.js";
+import {clearSubmenuValue} from "../redux/SubmenuSlice.js";
 
 const cx = classNames.bind(styles);
 
 const NavBar = () => {
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
+    const listFilters = useSelector(state => state.subfilter.value)
     const [isSubmenuAdvancedSearch, setIsSubmenuAdvancedSearch] = useState(false);
     const [isSubmenu, setIsSubmenu] = useState(false);
     const [valueSearch, setValueSerch] = useState('');
@@ -28,6 +35,8 @@ const NavBar = () => {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             handleSearch();
+            dispatch(clearSubfilterValue());
+
         }
     };
 
@@ -63,7 +72,6 @@ const NavBar = () => {
                     onKeyDown={handleKeyDown}
                 />
 
-                {/* --- WRAPPER QUAN TRỌNG: Bao cả nút và submenu --- */}
                 <div
                     className={cx('filter-wrapper')}
                     onMouseEnter={handleMouseEnterAdvanced}
@@ -73,11 +81,13 @@ const NavBar = () => {
                         Filters <FontAwesomeIcon icon={faSortDown} />
                     </button>
 
-                    {/* Submenu nằm trong wrapper, kế thừa sự kiện hover của cha */}
                     <div className={cx('submenu-advanced-search', { isOpen: isSubmenuAdvancedSearch })}>
                         <SubmenuAdvancedSearch />
                     </div>
                 </div>
+                { listFilters.length > 0 && <div className={cx("filters-choose-block")}>
+                    <FiltersChooseBlock/>
+                </div>}
             </label>
 
             <ul className={cx('hotlinks')}>
