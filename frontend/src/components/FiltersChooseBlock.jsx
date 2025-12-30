@@ -7,18 +7,15 @@ import {removeSubfilterValue    } from "../redux/SubfilterSlice.js";
 
 const cx = classNames.bind(styles);
 const FiltersChooseBlock = () => {
-    const dispatch = useDispatch();
-    const listFilters = useSelector((state) => state.subfilter.value);
 
-    const handleRemove = (itemToRemove) => {
-        dispatch(removeSubfilterValue(itemToRemove));
-    };
+    const listFilters = useSelector((state) => state.subfilter.value);
 
     return (
         <div className={cx("container")}>
+                <span>Filters:</span>
             <div className={cx("body")}>
                 {listFilters.length > 0 && listFilters.map((filter, index) => (
-                    <FilterChooseItem onRemove = {()=>handleRemove(filter)} props={filter} key={index} />
+                    <FilterChooseItem   props={filter} key={index} />
                 ))
 
                 }

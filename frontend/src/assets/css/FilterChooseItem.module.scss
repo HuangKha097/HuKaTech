@@ -1,31 +1,16 @@
 .item-wrapper{
-  background: #00b3ff;
+  background: #0dded1;
   width: fit-content;
   height: 100%;
-  padding: 0.2rem 0.6rem;
+  padding: 0.4rem 1.2rem;
   border-radius: 0.4rem;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-gap: 0.2rem;
+  gap: 0.2rem;
   .item{
     font-size: 1.4rem;
-    color: #fff;
-  }
-  button {
-    padding: 0.6rem;
-    font-size: 1.4rem;
-    border: none;
-    border-radius: 999px;
-    font-weight: bold;
-    background: transparent;
-    transition: 0.2s;
-    &:hover{
-      cursor: pointer;
-      font-size: 1.5rem;
-
-    }
-
+    color: #ececec;
   }
 }

@@ -4,12 +4,12 @@ import styles from '../assets/css/FilterChooseItem.module.scss';
 
 
 const cx = classNames.bind(styles);
-const FilterChooseItem = ({props, onRemove}) => {
+const FilterChooseItem = ({props}) => {
 
     return (
         <div className={cx('item-wrapper')}>
             <span className={cx("item")}>{props}</span>
-            <button onClick={onRemove}>&times;</button>
+
         </div>
     );
 };

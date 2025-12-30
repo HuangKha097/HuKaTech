@@ -3,19 +3,14 @@ import classNames from 'classnames/bind';
 import styles from '../assets/css/ProductCard.module.scss';
 import banner1 from '../assets/images/hero1.jpg';
 import Tag from './Tag';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const ProductCard = ({ props, category }) => {
+    const navigate = useNavigate();
     return (
-        <Link
-            to={`/product/${props._id}`}
-            onClick={(e) => {
-                e.preventDefault();
-                window.location.href = `/product/${props._id}`;
-            }}
-        >
-            <div className={cx('card-wrapper')}>
+
+            <div className={cx('card-wrapper')} onClick={()=>navigate(`/product/${props._id}`)}>
                 <img src={`data:image/jpeg;base64,${props.image}`} alt="product-img" />
                 <div className={cx('footer')}>
                     <div className={cx('info')}>
@@ -28,7 +23,7 @@ const ProductCard = ({ props, category }) => {
                     <Tag props={category} />
                 </div>
             </div>
-        </Link>
+
     );
 };
 

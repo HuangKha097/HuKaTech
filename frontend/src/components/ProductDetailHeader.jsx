@@ -2,50 +2,43 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/ProductDetailHeader.module.scss';
 import Tag from '../components/Tag';
-import laptop from '../assets/images/demoProductDetail.webp';
-import ProductShow from '../components/ProductShow';
-import CustomerReview from '../components/CustomerReview';
+
+
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+
 import { useEffect } from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {addProduct} from "../redux/CartSlice.js";
 
 const cx = classNames.bind(styles);
 const ProductDetailHeader = ({ delay = 0.3, props }) => {
-    const [cart, setCart] = useState(() => {
-        const saveCart = localStorage.getItem('cart');
-        return saveCart ? JSON.parse(saveCart) : [];
-    });
+ const products = useSelector(state => state.cart.products);
+    console.log("product", products);
+    const dispatch = useDispatch();
+    // const [cart, setCart] = useState(() => {
+    //     const saveCart = localStorage.getItem('cart');
+    //     return saveCart ? JSON.parse(saveCart) : [];
+    // });
 
-    const handleAddToCart = () => {
+    const handleAddToCart = (value) => {
         if (!props || !props._id) return;
-        setCart((prev) => {
-            const existing = prev.find((item) => item.id === props._id);
+        const payload = {
+            id: value._id,
+            product_name: value.name,
+            quantity: "",
+            price: value.newPrice,
+            image_url: value.image,
+        }
+        dispatch(addProduct(payload));
+    }
 
-            if (existing) {
-                return prev.map((item) =>
-                    item.id === props._id
-                        ? { ...item, quantity: item.quantity + 1, price: item.price + item.price }
-                        : item,
-                );
-            }
-            return [
-                ...prev,
-                {
-                    id: props._id,
-                    image: props.image,
-                    name: props.name,
-                    price: props.newPrice,
-                    quantity: 1,
-                },
-            ];
-        });
-        console.log('cart: ', cart);
-    };
 
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-        console.log('updateCart: ', cart);
-    }, [cart]);
+
+
+    // useEffect(() => {
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    //     console.log('updateCart: ', cart);
+    // }, [cart]);
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>
@@ -76,7 +69,7 @@ const ProductDetailHeader = ({ delay = 0.3, props }) => {
                             <Tag props={props.type} />
                             <h2>{props.name}</h2>
                             <div className={cx('price')}>
-                                {props.oldPrice && <span className={cx('old-price')}>{props.oldPrice}</span>}
+                                {props.oldPrice && <span className={cx('old-price')}>{props}</span>}
                                 <span className={cx('new-price')}>{props.newPrice}</span>
                             </div>
                         </div>
@@ -84,7 +77,7 @@ const ProductDetailHeader = ({ delay = 0.3, props }) => {
                             <p>{props.description}</p>
                         </div>
                         <div className={cx('btn-group')}>
-                            <button className={cx('btn-add')} onClick={handleAddToCart}>
+                            <button className={cx('btn-add')} onClick={()=>handleAddToCart(props)}>
                                 Add To Cart
                             </button>
                             <button className={cx('btn-buy')}>Buy Now</button>

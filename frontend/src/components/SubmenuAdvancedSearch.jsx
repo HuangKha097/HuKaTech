@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/SubmenuAdvancedSearch.module.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {setSubfilterValue} from "../redux/SubfilterSlice.js";
+import {removeSubfilterValue, setSubfilterValue} from "../redux/SubfilterSlice.js";
 
 const cx = classNames.bind(styles);
 
@@ -10,19 +10,22 @@ const SubmenuAdvancedSearch = () => {
     const dispatch = useDispatch()
     const listFilters = useSelector(state => state.subfilter.value);
 
-    const categories = ["Laptops", "Audio", "Wearables", "Drones", "PC Components", "Accessories"];
+    const categories = ["Laptops", "Audio", "Wearables", "Drones", "PC/Components", "Accessories"];
     const priceRange = ["$0-$100", "$101-$500", "$501+"];
     const brands = ["Apple", "Samsung", "Asus", "DJI", "Sony", "Logitech"];
 
-    const [filterChoose, setFilterChoose] = React.useState(listFilters);
+
 
     const handleSetValueFilter = (value) =>{
-        const newValue = [...filterChoose, value]
-        setFilterChoose(newValue);
-        dispatch(setSubfilterValue(newValue));
+        const newValue = [...listFilters, value]
+        if(listFilters.includes(value)){
+            dispatch(removeSubfilterValue(value))
+        }else {
+            dispatch(setSubfilterValue(newValue));
+        }
     }
 
-    console.log(filterChoose);
+    console.log("list:",listFilters);
     return (
         <div className={cx('container')}>
             {/* Nhóm Category */}

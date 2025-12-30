@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/NavBar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import {faCartShopping, faMagnifyingGlass, faSortDown} from '@fortawesome/free-solid-svg-icons';
 import Submenu from './Submenu';
 import { Link, useNavigate } from 'react-router-dom';
 import { logo } from '../assets/images/index';
@@ -18,6 +18,7 @@ const NavBar = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+    const productsCart = useSelector(state => state.cart.products);
     const listFilters = useSelector(state => state.subfilter.value)
     const [isSubmenuAdvancedSearch, setIsSubmenuAdvancedSearch] = useState(false);
     const [isSubmenu, setIsSubmenu] = useState(false);
@@ -108,7 +109,7 @@ const NavBar = () => {
                 </li>
                 <Link to={'/about'}><li>About</li></Link>
                 <li>FAQ</li>
-                <Link to={'/checkout'}><li>Checkout</li></Link>
+                <Link to={'/checkout'}><li className={cx("check-out-li")}>Checkout <FontAwesomeIcon className={cx("cart-icon")} icon={faCartShopping} /> <div className={cx("count-products-cart")}>{productsCart.length}</div></li></Link>
             </ul>
         </div>
     );

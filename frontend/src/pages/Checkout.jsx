@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/Checkout.module.scss';
 import Tag from '../components/Tag';
-import CheckoutProduct from '../components/CheckOutProducts';
+import CheckoutProduct from '../components/CheckOutProduct.jsx';
 import * as OrderService from '../services/OrdrerService';
 
 import { Alert, AlertTitle } from '@mui/material';
+import {useSelector} from "react-redux";
 
 const cx = classNames.bind(styles);
 const Checkout = () => {
-    const getProducts = localStorage.getItem('cart');
-    const products = JSON.parse(getProducts);
+    const products= useSelector(state => state.cart.products);
+    console.log("products", products);
 
     const [showAlert, setShowAlert] = useState(['']);
 

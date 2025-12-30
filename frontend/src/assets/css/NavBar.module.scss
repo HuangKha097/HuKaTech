@@ -116,6 +116,7 @@
         align-items: center;
       }
 
+
       & .submenu {
         visibility: hidden;
         opacity: 0;
@@ -130,6 +131,25 @@
           opacity: 1;
         }
       }
+
     }
+
+  }
+}
+
+.check-out-li{
+  position: relative;
+
+  .count-products-cart{
+    background-color: #0dded1;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 0.2rem;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -80%;
+    right:-10%;
   }
 }
