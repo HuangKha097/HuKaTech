@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^3.0.2",
     "@mui/material": "^7.3.2",
     "@reduxjs/toolkit": "^2.9.0",
+    "axios": "^0.27.2",
     "classnames": "^2.5.1",
     "framer-motion": "^12.23.13",
     "react": "^19.1.1",
