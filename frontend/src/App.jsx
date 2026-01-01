@@ -10,10 +10,14 @@ import ProductDetail from './pages/ProductDetail';
 import ContactBlock from './components/ContactBlock';
 import Checkout from './pages/Checkout';
 import Search from './pages/Search';
+import Login from "./pages/Login.jsx";
 const Layout = () => {
+    const location = useLocation()
+
+    const isLoginPage = location.pathname === '/login';
     return (
         <>
-            <NavBar />
+            {!isLoginPage && <NavBar/>}
 
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -22,9 +26,10 @@ const Layout = () => {
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/search/:value" element={<Search />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
             <ContactBlock />
-            <Footer />
+            {!isLoginPage &&  <Footer />}
         </>
     );
 };

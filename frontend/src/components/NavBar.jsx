@@ -110,6 +110,7 @@ const NavBar = () => {
                 <Link to={'/about'}><li>About</li></Link>
                 <li>FAQ</li>
                 <Link to={'/checkout'}><li className={cx("check-out-li")}>Checkout <FontAwesomeIcon className={cx("cart-icon")} icon={faCartShopping} /> <div className={cx("count-products-cart")}>{productsCart.length}</div></li></Link>
+               <Link to={'/login'}> <li className={cx("signin-li")}>Sign In</li></Link>
             </ul>
         </div>
     );

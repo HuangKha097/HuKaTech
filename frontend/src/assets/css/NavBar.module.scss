@@ -102,7 +102,7 @@
   /* Giữ nguyên phần hotlinks của bạn */
   & .hotlinks {
     display: flex;
-    gap: 5rem;
+    gap: 3.4rem;
     align-items: center;
 
     & li {
@@ -132,6 +132,9 @@
         }
       }
 
+    }
+    .signin-li{
+      text-decoration: underline;
     }
 
   }
