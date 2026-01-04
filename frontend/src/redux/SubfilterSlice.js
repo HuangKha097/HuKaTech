@@ -20,5 +20,3 @@ const subfilterSlide = createSlice({
 
 export const { setSubfilterValue,removeSubfilterValue, clearSubfilterValue} = subfilterSlide.actions;
 export default subfilterSlide.reducer;
-//selector
-export const selectValue = (state) => state.subfilter.value;

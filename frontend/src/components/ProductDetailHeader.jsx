@@ -15,30 +15,19 @@ const ProductDetailHeader = ({ delay = 0.3, props }) => {
  const products = useSelector(state => state.cart.products);
     console.log("product", products);
     const dispatch = useDispatch();
-    // const [cart, setCart] = useState(() => {
-    //     const saveCart = localStorage.getItem('cart');
-    //     return saveCart ? JSON.parse(saveCart) : [];
-    // });
 
     const handleAddToCart = (value) => {
         if (!props || !props._id) return;
         const payload = {
             id: value._id,
             product_name: value.name,
-            quantity: "",
+            quantity: 1,
             price: value.newPrice,
             image_url: value.image,
         }
         dispatch(addProduct(payload));
     }
 
-
-
-
-    // useEffect(() => {
-    //     localStorage.setItem('cart', JSON.stringify(cart));
-    //     console.log('updateCart: ', cart);
-    // }, [cart]);
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>

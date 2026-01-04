@@ -1,53 +1,132 @@
 .card-wrapper {
-    position: relative;
-    width: 100%;
-    height: 5rem;
+  position: relative;
+  max-width: 100%;
+  // [EDIT] Đổi height cứng thành min-height và thêm padding để thoáng hơn
+  height: 9rem;
+  padding: 1.2rem 0;
+
+  display: flex;
+  justify-content: flex-start; // Căn trái
+  align-items: flex-start;     // Căn lên trên cùng
+  overflow: hidden;
+  flex-wrap: nowrap;
+  gap: 1.6rem;
+
+  // Đường gạch chân ngăn cách giữa các sản phẩm (nếu muốn)
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  & img {
+    border-radius: 8px;
+    width: 7rem;      // [EDIT] Tăng kích thước ảnh lên xíu cho đẹp
+    min-width: 7rem;
+    height: 7rem;
+    object-fit: cover;
+    background-color: #333; // Placeholder color
+  }
+
+  & .body {
+    flex: 1; // [EDIT] Chiếm hết phần còn lại
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    overflow: visible;
-    flex-wrap: nowrap;
-    gap: 1rem;
+    height: 100%;
+    min-height: 7rem;
 
-    & img {
-        border-radius: 4px;
-        width: 5rem;
-        min-width: 5rem;
-        height: 100%;
-        object-fit: cover;
-    }
+    & .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      gap: 1rem;
 
-    & .body {
+      & .product-name {
+        font-size: 1.6rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--White_80, rgba(250, 250, 250, 0.9));
+
+        // Giới hạn tên sản phẩm hiển thị 2 dòng
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      & .price-quatity {
         width: 100%;
-        height: 100%;
         display: flex;
-        gap: 1rem;
-        & .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            & .product-name {
-                font-size: 1.6rem;
-                font-weight: 500;
-                color: var(--White_60, rgba(250, 250, 250, 0.8));
-            }
-            & .price-quatity {
-                display: flex;
-                gap: 4rem;
-                & .product-price {
-                    font-size: 1.6rem;
-                    font-weight: 600;
-                    color: var(--White_60, rgba(250, 250, 250, 0.7));
-                }
-                & .quantity {
-                    display: flex;
-                    height: 100%;
-                    align-items: flex-end;
-                    font-size: 1.6rem;
-                    font-weight: 600;
-                    color: var(--White_60, rgba(250, 250, 250, 0.7));
-                }
-            }
+        justify-content: space-between;
+        align-items: center; // Căn giữa theo trục dọc
+
+        & .product-price {
+          font-size: 1.6rem;
+          font-weight: 600;
+          color: #fff; // Làm sáng giá tiền lên
+          min-width: 60px; // Đảm bảo giá không bị co
         }
+
+        // [MỚI] Style cho cụm nút tăng giảm số lượng
+        & .quantity-container {
+          display: flex;
+          align-items: center;
+          background-color: rgba(255, 255, 255, 0.05);
+          padding: 0.4rem 0.8rem;
+          border-radius: 6px;
+          gap: 0.8rem;
+
+          .quantity-change-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            transition: color 0.2s;
+
+            &:hover {
+              color: #fff;
+            }
+
+            // Icon font awesome
+            svg {
+              font-size: 1.4rem;
+            }
+          }
+
+          & .quantity {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: rgba(250, 250, 250, 0.9);
+            min-width: 20px;
+            text-align: center;
+          }
+        }
+
+        // [MỚI] Style cho nút xóa thùng rác
+        .remove-item {
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          color: rgba(255, 255, 255, 0.4);
+          transition: all 0.3s ease;
+          padding: 0.5rem;
+
+          &:hover {
+            color: #ff4d4f; // Màu đỏ khi hover
+            transform: scale(1.1);
+          }
+
+          svg {
+            font-size: 1.6rem;
+          }
+        }
+      }
     }
+  }
 }

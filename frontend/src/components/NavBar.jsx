@@ -10,7 +10,6 @@ import SubmenuAdvancedSearch from "./SubmenuAdvancedSearch.jsx";
 import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {clearSubfilterValue} from "../redux/SubfilterSlice.js";
-import {clearSubmenuValue} from "../redux/SubmenuSlice.js";
 
 const cx = classNames.bind(styles);
 
@@ -20,8 +19,9 @@ const NavBar = () => {
     const navigate = useNavigate();
     const productsCart = useSelector(state => state.cart.products);
     const listFilters = useSelector(state => state.subfilter.value)
-    const [isSubmenuAdvancedSearch, setIsSubmenuAdvancedSearch] = useState(false);
-    const [isSubmenu, setIsSubmenu] = useState(false);
+    // const [isSubmenuAdvancedSearch, setIsSubmenuAdvancedSearch] = useState(false);
+    // const [isSubmenu, setIsSubmenu] = useState(false);
+    const [activeMenu, setActiveMenu] = useState("");
     const [valueSearch, setValueSerch] = useState('');
 
     // Dùng useRef để quản lý timeout, tránh lỗi đóng mở chập chờn
@@ -42,17 +42,18 @@ const NavBar = () => {
     };
 
     // Xử lý hover cho phần Advanced Search
-    const handleMouseEnterAdvanced = () => {
+    const handleMouseEnterPopUp = (value) => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        setIsSubmenuAdvancedSearch(true);
+        setActiveMenu(value);
     };
 
-    const handleMouseLeaveAdvanced = () => {
+    const handleMouseLeavePopUp = () => {
         timeoutRef.current = setTimeout(() => {
-            setIsSubmenuAdvancedSearch(false);
+            setActiveMenu("");
         }, 300); // Đợi 300ms mới đóng
     };
 
+    console.log(activeMenu)
     return (
         <div className={cx('container')}>
             <div className={cx('logo')}>
@@ -75,14 +76,14 @@ const NavBar = () => {
 
                 <div
                     className={cx('filter-wrapper')}
-                    onMouseEnter={handleMouseEnterAdvanced}
-                    onMouseLeave={handleMouseLeaveAdvanced}
+                    onMouseEnter={()=>{handleMouseEnterPopUp("advanced-menu");}}
+                    onMouseLeave={handleMouseLeavePopUp}
                 >
                     <button className={cx("filter-btn")}>
                         Filters <FontAwesomeIcon icon={faSortDown} />
                     </button>
 
-                    <div className={cx('submenu-advanced-search', { isOpen: isSubmenuAdvancedSearch })}>
+                    <div className={cx('submenu-advanced-search', { isOpen: activeMenu==="advanced-menu" })}>
                         <SubmenuAdvancedSearch />
                     </div>
                 </div>
@@ -95,22 +96,22 @@ const NavBar = () => {
                 <li>
                     <div
                         className={cx('menuWrapper')}
-                        onMouseEnter={() => setIsSubmenu(true)}
-                        onMouseLeave={() => setTimeout(() => setIsSubmenu(false), 300)}
+                        onMouseEnter={()=>{handleMouseEnterPopUp("sub-menu");}}
+                        onMouseLeave={handleMouseLeavePopUp}
                     >
                         Category
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 15L7 10H17L12 15Z" fill="#FAFAFA" />
                         </svg>
-                        <div className={cx('submenu', { isOpen: isSubmenu })}>
+                        <div className={cx('submenu', { isOpen: activeMenu==="sub-menu" })}>
                             <Submenu />
                         </div>
                     </div>
                 </li>
                 <Link to={'/about'}><li>About</li></Link>
                 <li>FAQ</li>
-                <Link to={'/checkout'}><li className={cx("check-out-li")}>Checkout <FontAwesomeIcon className={cx("cart-icon")} icon={faCartShopping} /> <div className={cx("count-products-cart")}>{productsCart.length}</div></li></Link>
-               <Link to={'/login'}> <li className={cx("signin-li")}>Sign In</li></Link>
+                <Link to={'/checkout'}><li className={cx("check-out-li")}>Checkout <FontAwesomeIcon className={cx("cart-icon")} icon={faCartShopping} /> <div className={cx("count-products-cart")}>{productsCart.length > 0 ? productsCart.reduce((total, current)=> total + current.quantity, 0):0}</div></li></Link>
+               {/*<Link to={'/login'}> <li className={cx("signin-li")}>Sign In</li></Link>*/}
             </ul>
         </div>
     );

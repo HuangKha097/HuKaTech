@@ -33,7 +33,7 @@ const SubmenuAdvancedSearch = () => {
                 <span className={cx("title")}>Category</span>
                 {categories.map((item, index) => (
                     <label key={index}>
-                        <input type="checkbox" name="category" value={item} onClick={()=>handleSetValueFilter(item)} />
+                        <input type="checkbox"  name="category" checked={listFilters.includes(item)} value={item} onClick={()=>handleSetValueFilter(item)} />
                         {item}
                     </label>
                 ))}
@@ -44,7 +44,7 @@ const SubmenuAdvancedSearch = () => {
                 <span className={cx("title")}>Price Range</span>
                 {priceRange.map((item, index) => (
                     <label key={index}>
-                        <input type="checkbox" name="priceRange" value={item} onClick={()=>handleSetValueFilter(item)} />
+                        <input type="checkbox" name="priceRange" checked={listFilters.includes(item)} value={item} onClick={()=>handleSetValueFilter(item)} />
                         {item}
                     </label>
                 ))}
@@ -55,7 +55,7 @@ const SubmenuAdvancedSearch = () => {
                 <span className={cx("title")}>Brand</span>
                 {brands.map((item, index) => (
                     <label key={index}>
-                        <input type="checkbox" name="brand" value={item} onClick={()=>handleSetValueFilter(item)} />
+                        <input type="checkbox" name="brand" checked={listFilters.includes(item)} value={item} onClick={()=>handleSetValueFilter(item)} />
                         {item}
                     </label>
                 ))}

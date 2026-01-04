@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 const Submenu = () => {
     const dispatch = useDispatch();
     const submenuValue = useSelector(selectValue);
-    console.log(submenuValue);
+
 
     return (
         <ul className={cx('container')}>
