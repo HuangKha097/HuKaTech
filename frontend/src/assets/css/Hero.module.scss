@@ -1,61 +1,125 @@
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
 .container {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  & .main-block {
     width: 100%;
-    height: 100vh;
-    background-image: url(../images/hero1.jpg);
-    background-size: cover;
     display: flex;
-    align-items: end;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 6rem;
+    margin-bottom: 4rem;
+  }
 
-    & .text-block {
-        display: flex;
-        flex-direction: column;
-        gap: 3rem;
-        margin-bottom: 5rem;
+  & .text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
-        & h1 {
-            width: 50rem;
-            font-size: 5.6rem;
-            font-weight: 600;
-            height: fit-content;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            word-break: break-word;
-            color: var(--White_80, rgba(250, 250, 250, 0.8));
-            line-height: 1.2;
-        }
-
-        & p {
-            width: 62.2rem;
-            font-size: 2rem;
-            font-weight: 500;
-            height: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            word-break: break-word;
-            opacity: 0.8;
-            color: var(--White_60, rgba(250, 250, 250, 0.6));
-            line-height: 1.2;
-        }
+    & h1 {
+      width: 50rem;
+      font-size: 5.6rem;
+      font-weight: 600;
+      color: var(--White_80, rgba(250, 250, 250, 0.8));
+      line-height: 1.2;
     }
+
+    & p {
+      width: 62.2rem;
+      font-size: 2rem;
+      font-weight: 500;
+      opacity: 0.8;
+      color: var(--White_60, rgba(250, 250, 250, 0.6));
+      line-height: 1.2;
+    }
+  }
+
+  & .list-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    list-style: none;
+
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    height: fit-content;
+    margin-bottom: 0.5rem;
+
+    & li {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      font-size: 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        transform: scale(1.2);
+      }
+
+      &.active {
+        background-color: #0dded1;
+        box-shadow: 0 0 8px rgba(13, 222, 209, 0.6);
+        transform: scale(1.3);
+      }
+    }
+  }
 }
 
 .banner {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 1.2rem 2.4rem;
-    background-color: #3f3f3f;
-    overflow: visible;
-    align-content: flex-start;
-    gap: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.2rem 2.4rem;
+  background-color: #3f3f3f;
+  overflow: hidden;
+  gap: 48px;
 
-    & span {
-        font-size: 1.6rem;
-        font-weight: 500;
-        white-space: pre;
-        color: var(--White_100, #fafafa);
-        line-height: 1.2;
-    }
+  & span {
+    font-size: 1.6rem;
+    font-weight: 700;
+    white-space: pre;
+    line-height: 1.2;
+    flex-shrink: 0;
+
+    background: linear-gradient(
+                    to right,
+                    #fafafa 20%,
+                    #0dded1 40%,
+                    #0dded1 60%,
+                    #fafafa 80%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    animation: shine 3s linear infinite;
+  }
 }

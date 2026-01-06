@@ -1,51 +1,53 @@
 const Product = require("../models/ProductModel");
 
 const addNewProduct = async (newProduct) => {
-  return new Promise(async (resolve, reject) => {
-    const {
-      name,
-      image,
-      type,
-      newPrice,
-      countInStock,
-      rating,
-      description,
-      benefits,
-      category,
-    } = newProduct;
     try {
-      const checkProduct = await Product.findOne({
-        name: name,
-      });
-      if (checkProduct !== null) {
-        resolve({
-          status: "OK",
-          message: "Product name has been existed",
-        });
-      }
+        const {
+            name,
+            images,
+            type,
+            newPrice,
+            countInStock,
+            rating,
+            description,
+            benefits,
+            category,
+        } = newProduct;
 
-      const createProduct = await Product.create({
-        name,
-        image,
-        type,
-        newPrice,
-        countInStock,
-        rating,
-        description,
-        benefits,
-        category,
-      });
-      if (createProduct) {
-        resolve({
-          status: "OK",
-          message: "SUCCESS",
-          data: createProduct,
+        const checkProduct = await Product.findOne({
+            name: name,
         });
-      }
+
+        if (checkProduct !== null) {
+            return {
+                status: "ERR",
+                message: "The name of product is already existed",
+            };
+        }
+
+        const createProduct = await Product.create({
+            name,
+            images,
+            type,
+            newPrice,
+            countInStock,
+            rating,
+            description,
+            benefits,
+            category,
+        });
+
+        if (createProduct) {
+            return {
+                status: "OK",
+                message: "SUCCESS",
+                data: createProduct,
+            };
+        }
     } catch (error) {
-      reject(error);
+
+        throw error;
     }
-  });
 };
 
 const getAllProducts = () => {
