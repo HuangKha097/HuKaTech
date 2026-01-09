@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  display: flex;
+
+  & .slidebar-block {
+    width: 16%;
+
+  }
+
+  & .main-block {
+    width: 84%;
+
+  }
+}

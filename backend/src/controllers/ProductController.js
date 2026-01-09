@@ -2,45 +2,59 @@ const ProductService = require("../services/ProductService");
 
 const addNewProduct = async (req, res) => {
     try {
-        const {name, images, type, newPrice, countInStock, description, category} = req.body;
-        if (
-            !name ||
-            !type ||
-            !newPrice ||
-            !countInStock ||
-            !description ||
-            !category
-        ) {
+        // Lấy dữ liệu từ Frontend
+        const {productName, description, oldPrice, newPrice, type, category, countInStock, images} = req.body;
+
+        // 1. Validate dữ liệu đầu vào
+        if (!productName || !description || !type || !category || !countInStock || !newPrice) {
             return res.status(400).json({
-                status: "Error",
-                message: "The input is required",
+                status: 'ERR',
+                message: 'Vui lòng nhập đầy đủ thông tin (Tên, giá, loại, mô tả...)'
             });
         }
 
+        // 2. Validate ảnh
         if (!images || !Array.isArray(images) || images.length === 0) {
             return res.status(400).json({
-                status: "Error",
-                message: "At least one product image is required",
+                status: 'ERR',
+                message: 'Vui lòng chọn ít nhất 1 ảnh'
             });
         }
 
-        const validCategories = ['Hot Deals', 'Discounts', 'New Arrivals', 'Black Friday Deals'];
-        if (!validCategories.includes(category)) {
-            return res.status(400).json({
-                status: "Error",
-                message: `The category must be one of these values: ${validCategories.join(', ')}`,
-            });
-        }
-        const result = await ProductService.addNewProduct(req.body);
+        // 3. Chuẩn bị object để lưu vào DB
+        // SỬA QUAN TRỌNG: Map dữ liệu cho khớp với ProductModel.js
+        const newProductData = {
+            name: productName,  // Map 'productName' -> 'name' (OK)
+
+            // SỬA: Model yêu cầu mảng object [{ url: '...' }]
+            // Frontend đang gửi mảng string ['data:base64...', ...]
+            // => Phải dùng map để chuyển đổi
+            images: images.map(imgStr => ({url: imgStr})),
+
+            type: type,
+
+            newPrice: Number(newPrice),
+            oldPrice: Number(oldPrice),
+            countInStock: Number(countInStock),
+
+            rating: 0,
+            description: description,
+            category: category
+        };
+
+        // 4. Gọi Service
+        const result = await ProductService.addNewProduct(newProductData);
 
         return res.status(200).json(result);
-    } catch (error) {
+
+    } catch (e) {
+        console.log(" LỖI TẠI CONTROLLER:", e);
         return res.status(500).json({
-            status: "Error",
-            message: error.message || error,
+            status: 'ERR',
+            message: e.message || 'Lỗi Server'
         });
     }
-};
+}
 
 const getAllProducts = async (req, res) => {
     try {

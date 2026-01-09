@@ -1,0 +1,243 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+
+  & .header {
+    display: flex;
+    justify-content: space-between;
+
+    & h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 1.4rem;
+    }
+
+    & p {
+      font-size: 1.6rem;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+  }
+
+
+  & h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(135, 135, 135, 0.4);
+  }
+
+  & label {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+
+    & input, textarea {
+      padding: 1.2rem 0.6rem;
+      border: 1px solid rgba(51, 51, 51, 0.2);
+      border-radius: 6px;
+      font-size: 1.4rem;
+
+      width: 100%;
+
+    }
+
+    & textarea {
+      max-width: 100%;
+      max-height: 40rem;
+    }
+
+    & input {
+      height: 4rem;
+    }
+
+    & select {
+
+      border: 1px solid rgba(51, 51, 51, 0.2);
+      border-radius: 6px;
+      font-size: 1.4rem;
+      width: 100%;
+      height: 4rem;
+
+    }
+  }
+
+  & .main-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin-top: 2rem;
+    gap: 2rem;
+
+
+    & .product-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 65%;
+      background: white;
+      border: 1px solid rgba(51, 51, 51, 0.2);
+      border-radius: 6px;
+      padding: 1.8rem;
+
+      & .prices {
+        display: flex;
+        width: 100%;
+        gap: 2rem;
+
+        & label {
+          width: 100%;
+
+        }
+      }
+    }
+
+    & .organization-block {
+      gap: 2rem;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      width: 35%;
+      background: white;
+      border: 1px solid rgba(51, 51, 51, 0.2);
+      border-radius: 6px;
+
+      & .image-upload-block {
+        height: 100%;
+        margin: 0 0 16px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+
+        & h4 {
+          margin-bottom: 1rem;
+          font-size: 1.6rem;
+          font-weight: 500;
+          color: rgba(0, 0, 0, 0.5);
+        }
+
+
+        .upload-area {
+          border: 2px dashed #d1d5db;
+          border-radius: 8px;
+          padding: 40px 20px;
+          text-align: center;
+          background-color: #f9fafb;
+          cursor: pointer;
+          transition: background-color 0.2s, border-color 0.2s;
+        }
+
+
+        .upload-area:hover {
+          background-color: #eff6ff;
+          border-color: #3b82f6;
+        }
+
+        .icon-cloud svg {
+          width: 48px;
+          height: 48px;
+          color: #3b82f6; /* Màu xanh dương giống hình */
+          margin-bottom: 12px;
+        }
+
+        .upload-text {
+          font-size: 14px;
+          color: #4b5563; /* Xám đậm */
+          margin: 0 0 4px 0;
+        }
+
+        .click-text {
+          color: #2563eb; /* Màu xanh dương đậm cho chữ Click */
+          font-weight: 600;
+        }
+
+        .upload-subtext {
+          font-size: 12px;
+          color: #9ca3af;
+          margin: 0;
+        }
+
+
+        .file-input-wrapper {
+          margin-top: 16px;
+          border: 1px solid #e5e7eb;
+          padding: 8px;
+          border-radius: 6px;
+          background-color: #f9fafb;
+        }
+
+
+        input[type="file"] {
+          font-size: 14px;
+          width: 100%;
+        }
+      }
+
+      & .preview-images {
+        padding-top: 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        & .image-wrapper {
+         display: flex;
+          width: 100%;
+          height: 100%;
+          gap: 2rem;
+
+        }
+
+        & .preview-image {
+          display: flex;
+          position: relative;
+
+          & img {
+            width: 15rem;
+            height: 16rem;
+            object-fit: cover;
+          }
+
+          & button {
+            z-index: 1000;
+            position: absolute;
+            top: -0.8rem;
+            right: -0.8rem;
+            border: none;
+            background: red;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 50%;
+          }
+        }
+
+      }
+    }
+
+    & .btn-group {
+      border-top: 2px solid rgba(135, 135, 135, 0.4);
+      padding-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+
+      & .cancel-btn {
+        background: white;
+        border: 1px solid rgba(51, 51, 51, 0.2);
+        color: rgba(51, 51, 51, 0.5);
+        transition: 0.2s;
+
+        &:hover {
+          color: rgba(51, 51, 51, 0.7);
+        }
+      }
+    }
+  }
+}
