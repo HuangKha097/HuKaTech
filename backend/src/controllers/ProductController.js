@@ -1,64 +1,59 @@
 const ProductService = require("../services/ProductService");
+// Import hàm upload helper (đảm bảo đường dẫn đúng)
+const {uploadToCloudinary} = require("../middlewares/cloudinary");
 
 const addNewProduct = async (req, res) => {
     try {
-        // Lấy dữ liệu từ Frontend
-        const {productName, description, oldPrice, newPrice, type, category, countInStock, images} = req.body;
+        const { productName, description, oldPrice, newPrice, type, category, countInStock } = req.body;
 
-        // 1. Validate dữ liệu đầu vào
-        if (!productName || !description || !type || !category || !countInStock || !newPrice) {
-            return res.status(400).json({
-                status: 'ERR',
-                message: 'Vui lòng nhập đầy đủ thông tin (Tên, giá, loại, mô tả...)'
-            });
+        // --- SỬA ĐOẠN XỬ LÝ ẢNH ---
+        let productImages = [];
+
+        // Kiểm tra nếu có file (req.files số nhiều)
+        if (req.files && req.files.length > 0) {
+            // Dùng Promise.all để upload song song nhiều ảnh cùng lúc cho nhanh
+            const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
+
+            // Chờ tất cả upload xong
+            const uploadResults = await Promise.all(uploadPromises);
+
+            // Map kết quả về đúng định dạng Model yêu cầu
+            productImages = uploadResults.map(result => ({
+                url: result.secure_url,
+                public_id: result.public_id
+            }));
         }
 
-        // 2. Validate ảnh
-        if (!images || !Array.isArray(images) || images.length === 0) {
-            return res.status(400).json({
-                status: 'ERR',
-                message: 'Vui lòng chọn ít nhất 1 ảnh'
-            });
+        // Nếu bắt buộc phải có ảnh thì check
+        if (productImages.length === 0) {
+            return res.status(400).json({ status: 'ERR', message: 'Vui lòng chọn ít nhất 1 ảnh' });
         }
+        // ---------------------------
 
-        // 3. Chuẩn bị object để lưu vào DB
-        // SỬA QUAN TRỌNG: Map dữ liệu cho khớp với ProductModel.js
         const newProductData = {
-            name: productName,  // Map 'productName' -> 'name' (OK)
-
-            // SỬA: Model yêu cầu mảng object [{ url: '...' }]
-            // Frontend đang gửi mảng string ['data:base64...', ...]
-            // => Phải dùng map để chuyển đổi
-            images: images.map(imgStr => ({url: imgStr})),
-
+            name: productName,
+            images: productImages, // Lưu mảng ảnh vừa upload
             type: type,
-
             newPrice: Number(newPrice),
             oldPrice: Number(oldPrice),
             countInStock: Number(countInStock),
-
             rating: 0,
             description: description,
             category: category
         };
 
-        // 4. Gọi Service
         const result = await ProductService.addNewProduct(newProductData);
-
         return res.status(200).json(result);
 
     } catch (e) {
-        console.log(" LỖI TẠI CONTROLLER:", e);
-        return res.status(500).json({
-            status: 'ERR',
-            message: e.message || 'Lỗi Server'
-        });
+        console.log("Error:", e);
+        return res.status(500).json({ status: 'ERR', message: e.message });
     }
 }
-
+// ... Các hàm GET giữ nguyên ...
 const getAllProducts = async (req, res) => {
     try {
-        const result = await ProductService.getAllProducts(); // không cần req.body
+        const result = await ProductService.getAllProducts();
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({
@@ -105,6 +100,7 @@ const getProductsByName = async (req, res) => {
         });
     }
 };
+
 const getProductsByType = async (req, res) => {
     try {
         const type = req.query.type;
@@ -117,12 +113,12 @@ const getProductsByType = async (req, res) => {
         });
     }
 };
-
-const getProductById = async (req, res) => {
+const getRelatedProducts = async (req, res) => {
     try {
-        const id = req.query._id;
-        const result = await ProductService.getProductById(id);
-        console.log(result);
+        const { type } = req.query;
+        const { id } = req.params;
+
+        const result = await ProductService.getRelatedProducts(type, id);
 
         return res.status(200).json(result);
     } catch (error) {
@@ -133,11 +129,40 @@ const getProductById = async (req, res) => {
     }
 };
 
+
+
+// CẬP NHẬT: Dùng req.params nếu router là /get-product-by-id/:id
+const getProductById = async (req, res) => {
+    try {
+        // Nếu router sửa thành /:id thì dùng req.params.id
+        // Nếu router vẫn giữ nguyên thì dùng req.query._id hoặc req.query.id
+        const id = req.params.id || req.query.id || req.query._id;
+
+        if (!id) {
+            return res.status(400).json({status: "ERR", message: "Product ID is required"});
+        }
+
+        const result = await ProductService.getProductById(id);
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({
+            status: "ERROR",
+            message: error.message || "Internal Server Error",
+        });
+    }
+};
+
+// CẬP NHẬT: Dùng req.params nếu router là /delete-product/:id
 const deleteProduct = async (req, res) => {
     try {
-        const id = req.body._id;
-        const result = await ProductService.deleteProduct(id);
+        // Tương tự, ưu tiên lấy từ params cho chuẩn RESTful
+        const id = req.params.id || req.body._id;
 
+        if (!id) {
+            return res.status(400).json({status: "ERR", message: "Product ID is required"});
+        }
+
+        const result = await ProductService.deleteProduct(id);
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({
@@ -156,4 +181,5 @@ module.exports = {
     getProductsByType,
     getProductById,
     deleteProduct,
+    getRelatedProducts
 };

@@ -1,157 +1,198 @@
 .container {
-    width: 100%;
-    background-color: #141414;
+  width: 100%;
+  background-color: #141414;
 
-    & .header {
-        padding-top: 12rem;
-        gap: 6rem;
+  & .header {
+    // --- THAY ĐỔI 1: CĂN GIỮA DỌC ---
+    height: 100vh;
+    display: flex;
+    align-items: center; // Căn giữa nội dung theo chiều dọc
+    padding-top: 0; // Bỏ padding-top lớn để content tự động vào giữa
+    padding-bottom: 2rem; // Thêm chút padding dưới nếu cần thiết
+    gap: 6rem;
+
+    & .image {
+      position: relative;
+      flex: 2;
+
+      // --- THAY ĐỔI 2: TĂNG CHIỀU CAO ---
+      height: 55rem; // Tăng từ 46.1rem lên 55rem cho đầy đặn hơn
+      border-radius: 1.5rem;
+
+      img {
+        border-radius: 1.5rem;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+
+      }
+      & .next-btn {
         display: flex;
-        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: var(--White_60, rgba(250, 250, 250, 0.8));
+        width: 3rem;
+        height: 3rem;
+        position: absolute;
+        border-radius: 50%;
+        padding: 2rem;
+        background-color: #14141468;
+        border: none;
+        transition: background-color 0.3s ease;
 
-        & .image {
-            position: relative;
-            flex: 2;
-            height: 46.1rem;
-            border-radius: 1.5rem;
-            img {
-                border-radius: 1.5rem;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            & .next-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.8rem;
-                font-weight: 500;
-                color: var(--White_60, rgba(250, 250, 250, 0.8));
-                width: 3rem;
-                height: 3rem;
-                position: absolute;
-                border-radius: 50%;
-                padding: 2rem;
-                background-color: #14141468;
-                border: none;
-
-                &:hover {
-                    cursor: pointer;
-                    background-color: #14141498;
-                }
-            }
-
-            & .left {
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-            }
-            & .right {
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
-            }
+        &:hover {
+          cursor: pointer;
+          background-color: #14141498;
         }
+      }
 
-        & .info {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-
-            & .name-price {
-                display: flex;
-                flex-direction: column;
-                gap: 2rem;
-                & h2 {
-                    font-size: 4rem;
-                    width: 100%;
-                    height: auto;
-                    white-space: pre-wrap;
-                    word-wrap: break-word;
-                    word-break: break-word;
-                    transform-perspective: 1200;
-                    line-height: 1.2;
-                    color: var(--White_60, rgba(250, 250, 250, 0.8));
-                }
-
-                & .price {
-                    display: flex;
-                    align-items: center;
-                    gap: 3rem;
-                    & .old-price {
-                        font-size: 1.8rem;
-                        font-weight: 500;
-                        text-decoration: line-through;
-                        color: var(--White_80, rgba(250, 250, 250, 0.5));
-                    }
-
-                    & .new-price {
-                        font-size: 2.4rem;
-                        font-weight: 500;
-                        white-space: pre;
-                        transform-perspective: 1200;
-                        color: var(--White_80, rgba(250, 250, 250, 0.8));
-                        line-height: 1.2;
-                    }
-                }
-            }
-        }
-        & .desc {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-
-            & p {
-                font-size: 1.6rem;
-                width: 100%;
-                height: auto;
-                white-space: pre-wrap;
-                word-wrap: break-word;
-                word-break: break-word;
-                transform-perspective: 1200;
-                opacity: 0.8;
-                color: var(--White_80, rgba(250, 250, 250, 0.8));
-                line-height: 1.5;
-            }
-        }
-
-        & .btn-group {
-            display: flex;
-            gap: 2rem;
-            width: 100%;
-            & button {
-                box-sizing: border-box;
-                height: 5.2rem;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                padding: 1.2rem 2rem;
-                box-shadow:
-                    0px 8px 36px 0px rgba(255, 255, 255, 0.11),
-                    inset 0px -1px 2px 0px rgba(255, 255, 255, 0.550000011920929);
-                background: linear-gradient(
-                    180.0000000000008deg,
-                    rgba(250, 250, 250, 0.2) 0%,
-                    rgba(249, 249, 249, 0.06) 100%
-                );
-                overflow: hidden;
-                align-content: center;
-                flex-wrap: nowrap;
-                gap: 1rem;
-                transform-perspective: 1200;
-                border-radius: 40px;
-                color: var(--White_80, rgba(250, 250, 250, 0.9));
-                font-size: 1.4rem;
-                font-weight: 600;
-                cursor: pointer;
-            }
-            & .btn-add {
-                flex: 2;
-            }
-            & .btn-buy {
-                flex: 3;
-            }
-        }
+      & .left {
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+      }
+      & .right {
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+      }
     }
+
+    & .info {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+
+      // --- ĐỒNG BỘ CHIỀU CAO VỚI ẢNH ---
+      height: 55rem; // Đồng bộ height với .image (55rem)
+      justify-content: space-between; // Căn đều các phần tử con
+
+      & .name-price {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex-shrink: 0;
+
+        & h2 {
+          font-size: 4rem; // Có thể tăng lên 4.5rem hoặc 5rem nếu muốn to hơn
+          width: 100%;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          word-break: break-word;
+          line-height: 1.2;
+          color: var(--White_60, rgba(250, 250, 250, 0.8));
+          margin: 0;
+        }
+
+        & .price {
+          display: flex;
+          align-items: center;
+          gap: 3rem;
+          & .old-price {
+            font-size: 1.8rem;
+            font-weight: 500;
+            text-decoration: line-through;
+            color: var(--White_80, rgba(250, 250, 250, 0.5));
+          }
+
+          & .new-price {
+            font-size: 2.4rem;
+            font-weight: 500;
+            color: var(--White_80, rgba(250, 250, 250, 0.8));
+            line-height: 1.2;
+          }
+        }
+      }
+
+      & .desc {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        flex-grow: 1;
+        min-height: 0;
+        // Tăng max-height lên vì tổng thể đã cao hơn
+        max-height: 30rem;
+        overflow-y: auto;
+        padding-right: 1rem;
+
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+        &::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 10px;
+          &:hover {
+            background: rgba(255, 255, 255, 0.4);
+          }
+        }
+
+        & p {
+          font-size: 1.6rem;
+          width: 100%;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          word-break: break-word;
+          opacity: 0.8;
+          color: var(--White_80, rgba(250, 250, 250, 0.8));
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+
+      & .btn-group {
+        flex-shrink: 0;
+        display: flex;
+        gap: 2rem;
+        width: 100%;
+        margin-top: auto;
+
+        & button {
+          box-sizing: border-box;
+          height: 5.2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 1.2rem 2rem;
+          box-shadow:
+                  0px 8px 36px 0px rgba(255, 255, 255, 0.11),
+                  inset 0px -1px 2px 0px rgba(255, 255, 255, 0.55);
+          background: linear-gradient(
+                          180deg,
+                          rgba(250, 250, 250, 0.2) 0%,
+                          rgba(249, 249, 249, 0.06) 100%
+          );
+          border-radius: 40px;
+          color: var(--White_80, rgba(250, 250, 250, 0.9));
+          font-size: 1.4rem;
+          font-weight: 600;
+          cursor: pointer;
+          border: none;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 10px 40px 0px rgba(255, 255, 255, 0.15);
+          }
+          &:active {
+            transform: translateY(0);
+          }
+        }
+        & .btn-add {
+          flex: 2;
+        }
+        & .btn-buy {
+          flex: 3;
+        }
+      }
+    }
+  }
 }

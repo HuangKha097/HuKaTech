@@ -3,11 +3,13 @@ import classNames from "classnames/bind";
 import style from "../assets/css/AddNewProduct.module.scss";
 import {Link} from "react-router-dom";
 import * as ProductService from "../services/ProductService.js";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const cx = classNames.bind(style);
 
 const AddNewProduct = () => {
     const [files, setFiles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [product, setProduct] = useState({
         productName: '',
         description: '',
@@ -46,63 +48,61 @@ const AddNewProduct = () => {
         }));
     }
 
-    // --- 1. Hàm hỗ trợ chuyển File sang Base64 ---
-    const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
 
-    // --- 2. Sửa lại hàm Submit để gửi JSON ---
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            console.log("Đang xử lý ảnh...");
+            setIsLoading(true);
+            // Tạo đối tượng FormData
+            const formData = new FormData();
 
-            // Chuyển tất cả file ảnh sang chuỗi Base64
-            // Kết quả sẽ là mảng các chuỗi rất dài: ["data:image/png;base64,iVBOR...", ...]
-            const base64Images = await Promise.all(files.map(file => convertToBase64(file)));
+            // 1. Đưa dữ liệu text vào FormData
+            // (Mình đã xóa dòng duplicate productName bị thừa ở code cũ)
+            formData.append('productName', product.productName);
+            formData.append('description', product.description);
+            formData.append('oldPrice', product.oldPrice);
+            formData.append('newPrice', product.newPrice);
+            formData.append('type', product.type);
+            formData.append('category', product.category);
+            formData.append('countInStock', product.countInStock);
 
-            // Tạo object JSON thuần túy
-            const payload = {
-                productName: product.productName,
-                description: product.description,
-                oldPrice: Number(product.oldPrice), // Ép kiểu số cho an toàn với JSON
-                newPrice: Number(product.newPrice),
-                type: product.type,
-                category: product.category,
-                countInStock: Number(product.countInStock),
-                images: base64Images // Mảng string base64
-            };
+            if (files && files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('images', files[i]);
+                }
+            }
 
-            console.log("Dữ liệu JSON chuẩn bị gửi:", payload);
+            console.log("Đang gửi FormData...");
 
-            // Gọi API
-            // Lưu ý: ProductService.addNewProduct phải cấu hình header 'Content-Type': 'application/json'
-            const res = await ProductService.addNewProduct(payload);
+
+            const res = await ProductService.addNewProduct(formData);
 
             if (res.status === "OK") {
                 alert("Thêm sản phẩm thành công!");
 
-                setProduct({});
+                // Reset form
+                setProduct({
+                    productName: '',
+                    description: '',
+                    oldPrice: '',
+                    newPrice: '',
+                    type: '',
+                    category: '',
+                    countInStock: 0
+                });
                 setImages([]);
+                setFiles([]);
             } else {
-                alert("Có lỗi xảy ra!");
+                alert("Có lỗi: " + res.message);
             }
         } catch (error) {
             console.error("Lỗi:", error);
-            alert("Không thể kết nối hoặc ảnh quá lớn.");
+            alert("Lỗi kết nối server");
+        } finally {
+            setIsLoading(false);
         }
     };
-
     return (
         <div className={cx("container")}>
             {/* ... (Phần giao diện giữ nguyên không đổi) ... */}
@@ -189,7 +189,7 @@ const AddNewProduct = () => {
                         <select name="category" id="category" onChange={handleChangeForm} value={product.category}>
                             <option value="">Select Category</option>
                             <option value="Black Friday Deals">Black Friday Deals</option>
-                            <option value="Aew Arrivals">New Arrivals</option>
+                            <option value="New Arrivals">New Arrivals</option>
                             <option value="Hot Deals">Hot Deals</option>
                             <option value="Discounts">Discounts</option>
                         </select>
@@ -241,13 +241,13 @@ const AddNewProduct = () => {
                             </div>
                         </div>
                     </div>
-
-                    <div className={cx("btn-group")}>
-                        <Link to="..">
-                            <button type="button" className={cx("add-btn", "cancel-btn")}>Cancel</button>
-                        </Link>
-                        <button type="submit" className={cx("add-btn")}>Save Product</button>
-                    </div>
+                    {isLoading ? <CircularProgress/> : (
+                        <div className={cx("btn-group")}>
+                            <Link to="..">
+                                <button type="button" className={cx("add-btn", "cancel-btn")}>Cancel</button>
+                            </Link>
+                            <button type="submit" className={cx("add-btn")}>Save Product</button>
+                        </div>)}
                 </div>
             </form>
         </div>

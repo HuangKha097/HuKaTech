@@ -33,22 +33,20 @@ li {
 /*  */
 html {
     font-size: 62.5%;
-    height: 100vh;
-     width: 100vw;
+    min-height: 100%;
     background-color: rgba(198, 198, 198, 0.45);
-    overflow: hidden;
+    font-family: 'Poppin', sans-serif;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.6rem;
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
 .content {
     padding: 0 10rem;
 }
-
-.add-btn{
+.add-btn {
     padding: 0.4rem 1.8rem;
     border: none;
     background-color: #0dded1;
@@ -60,13 +58,11 @@ body {
     border-radius: 6px;
     transition: 0.2s;
     height: 4rem;
+}
 
-    &:hover{
-        background-color: rgba(11, 186, 175, 0.84);
-    }
+.add-btn:hover {
+    background-color: rgba(11, 186, 175, 0.84);
 }
-input:focus, textarea:focus {
-    outline: none;
-    border: none;
-}
+
+
 

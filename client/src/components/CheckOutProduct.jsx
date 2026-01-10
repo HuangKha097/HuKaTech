@@ -25,13 +25,12 @@ const CheckoutProduct = ({ item }) => {
 
     return (
         <div className={cx('card-wrapper')}>
-            <img src={`data:image/jpeg;base64,${item.image_url
-            }`} alt="product-img" />
+            <img src={item.image_url} alt="product-img" />
             <div className={cx('body')}>
                 <div className={cx('info')}>
                     <h2 className={cx('product-name')}>{item.product_name}</h2>
                     <div className={cx('price-quatity')}>
-                        <span className={cx('product-price')}>$ {item.price}</span>
+                        <span className={cx('product-price')}>{item.price?.toLocaleString()} đ</span>
                         <div className={cx("quantity-container")}>
                             <button className={cx("quantity-change-button")} onClick={()=>handleIncreaseProduct(item)}><FontAwesomeIcon icon={faSortUp} /></button>
                             <span className={cx('quantity')} > &times; {item.quantity}</span>

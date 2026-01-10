@@ -182,32 +182,32 @@ const Checkout = () => {
                                         <span>Subtotal</span>
                                         <div>
                                             <span className={cx('subtotal')}>
-                                                ${' '}
+                                                {' '}
                                                 {products
                                                     ? products.reduce(
                                                           (sum, item) => sum + item.price * item.quantity,
                                                           0,
-                                                      )
-                                                    : 0}
+                                                      ).toLocaleString()
+                                                    : 0} đ
                                             </span>
                                         </div>
                                     </div>
                                     <div className={cx('more')}>
                                         <span>Shipping</span>
-                                        <span>${products ? 35000 : 0}</span>
+                                        <span>{products ? (35000).toLocaleString() : 0} đ</span>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className={cx('total', 'more')}>
                                     <span>Total</span>
                                     <span>
-                                        ${' '}
+                                        {' '}
                                         {products
                                             ? products.reduce(
                                                   (sum, item) => sum + item.price * item.quantity + 35000,
                                                   0,
-                                              )
-                                            : 0}{' '}
+                                              ).toLocaleString()
+                                            : 0}{' '} đ
                                     </span>
                                 </div>
                             </div>
