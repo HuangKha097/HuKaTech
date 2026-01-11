@@ -36,18 +36,6 @@ const Table = ({data = [], onDelete, onView}) => {
             console.log(error);
         }
     }
-    const hanleActiveProduct = async (productId) => {
-        try {
-            const res = await ProductService.handleActiveProduct(productId);
-            if (res.status === "OK") {
-                alert("Successfully updated product");
-            }else {
-                alert("Error occurred while getting products");
-            }
-        }catch(error) {
-            console.log(error);
-        }
-    }
 
     return (
         <table className={cx('table')}>
@@ -114,13 +102,13 @@ const Table = ({data = [], onDelete, onView}) => {
                                     <button
                                         className={cx('actionBtn', 'viewBtn')}
                                         title="Bỏ ẩn sản phẩm"
-                                        onClick={()=>onView(item._id)}
+                                        onClick={() => onView(item._id)}
                                     >
                                         <FontAwesomeIcon icon={faEyeSlash}/>
                                     </button> : <button
                                         className={cx('actionBtn', 'viewBtn')}
                                         title="Ẩn sản phẩm"
-                                        onClick={()=>onView(item._id)}
+                                        onClick={() => onView(item._id)}
                                     >
                                         <FontAwesomeIcon icon={faEye}/>
                                     </button>
@@ -142,7 +130,7 @@ const Table = ({data = [], onDelete, onView}) => {
                             <button
                                 className={cx('actionBtn', 'deleteBtn')}
                                 title="Xóa"
-                                onClick={() => onDelete && onDelete(item)}
+                                onClick={() => onDelete(item._id)}
                             >
                                 <FontAwesomeIcon icon={faTrashCan}/>
                             </button>

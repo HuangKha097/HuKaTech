@@ -1,5 +1,5 @@
 const Product = require("../models/ProductModel");
-
+const { uploadToCloudinary, deleteFromCloudinary } = require("../middlewares/cloudinary");
 const addNewProduct = (newProduct) => {
     return new Promise(async (resolve, reject) => {
         try {

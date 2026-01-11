@@ -14,12 +14,29 @@ const Products = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const ITEMS_PER_PAGE = 8;
-    const pagesCount = Math.ceil(products?.length / ITEMS_PER_PAGE);
+    const totalItems = products?.length || 0;
+    const pagesCount = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-    const startIndex = currentPage * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const currentProducts = products?.slice(
+        currentPage * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+    );
 
-    const currentProducts = products?.slice(startIndex, endIndex);
+    useEffect(() => {
+        if (!products || products.length === 0) {
+            setCurrentPage(0);
+            return;
+        }
+
+        const maxPage = Math.max(
+            Math.ceil(products.length / ITEMS_PER_PAGE) - 1,
+            0
+        );
+
+        if (currentPage > maxPage) {
+            setCurrentPage(maxPage);
+        }
+    }, [products, currentPage]);
 
 
     useEffect(() => {
@@ -35,7 +52,7 @@ const Products = () => {
             }
         }
         fetchProducts();
-    }, [])
+    }, [dispatch])
 
     const handleToggleActive = async (productId) => {
         try {
@@ -56,6 +73,31 @@ const Products = () => {
             console.error(error);
         }
     };
+
+    const handleDeleteProduct = async (productId) => {
+        const isConfirm = window.confirm(
+            "Are you sure you want to delete this product?"
+        );
+
+        if (!isConfirm) return;
+
+        try {
+            const res = await ProductService.deleteProduct(productId);
+
+            if (res.status === "OK") {
+                dispatch(
+                    setProducts(products.filter(item => item._id !== productId))
+                );
+                alert("Successfully deleted product");
+            } else {
+                alert("Failed to delete product");
+            }
+        } catch (error) {
+            alert("Failed to delete product");
+            console.error(error);
+        }
+    };
+
 
     return (
         <div className={cx("container")}>
@@ -99,7 +141,7 @@ const Products = () => {
                 <button type="submit" className={cx("add-btn", "search-btn")}>Search</button>
             </form>
             <div className={cx("table-block")}>
-                <Table data={currentProducts} onView={handleToggleActive}/>
+                <Table data={currentProducts} onView={handleToggleActive} onDelete={handleDeleteProduct} />
                 <div className={cx("pages-btn")}>
                     {Array.from({length: pagesCount}).map((_, index) => (
                         <button
@@ -108,6 +150,7 @@ const Products = () => {
                                 "page-btn",
                                 currentPage === index && "active"
                             )}
+                            type="button"
                             onClick={() => setCurrentPage(index)}
                         >
                             {index + 1}

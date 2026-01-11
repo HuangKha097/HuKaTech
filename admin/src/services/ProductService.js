@@ -27,3 +27,8 @@ export const updateProduct = async (id, data) => {
     );
     return res.data;
 };
+
+export const deleteProduct = async (id) => {
+    const res = await axios.delete(`http://localhost:8000/api/product/delete-product/${id}`);
+    return res.data;
+}
