@@ -26,6 +26,7 @@ const addProduct = async (req, res) => {
   }
 }
 
+
 const getProducts = async (req, res) => {
   try {
     const cartId = req.query._id

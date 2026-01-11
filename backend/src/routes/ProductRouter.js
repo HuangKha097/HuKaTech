@@ -5,6 +5,7 @@ const productController = require("../controllers/ProductController");
 //  Import middleware upload từ file cấu hình (đảm bảo đường dẫn đúng)
 const {upload} = require("../middlewares/cloudinary");
 
+
 // 'images': Tên key
 // 3: Số lượng file tối đa cho phép upload 1 lần
 router.post(
@@ -28,5 +29,9 @@ router.get(
 
 // Route xóa   nhận ID qua params
 router.delete("/delete-product/:id", productController.deleteProduct);
+
+router.put("/handle-active/:id", productController.activeProductController)
+router.put("/update-product/:id",upload.array("images", 3), productController.updateProduct);
+
 
 module.exports = router;

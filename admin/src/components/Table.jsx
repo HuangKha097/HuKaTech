@@ -1,22 +1,54 @@
 import classNames from 'classnames/bind'
 import styles from '../assets/css/Table.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faPen, faPlus, faRemove, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faEye, faEyeSlash, faPen, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import * as ProductService from "../services/ProductService.js";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {setProductsEdit} from "../redux/productsSlice.js";
 
 const cx = classNames.bind(styles)
+const Table = ({data = [], onDelete, onView}) => {
 
-const getProductImage = (item) => {
-    if (item.images?.length && item.images[0].url) {
-        return item.images[0].url
-    }
-    if (item.image) {
-        return `data:image/jpeg;base64,${item.image}`
-    }
-    return 'https://via.placeholder.com/60'
-}
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-// Bạn có thể truyền thêm các hàm xử lý sự kiện vào props
-const Table = ({ data = [], onEdit, onDelete, onView, onAdd }) => {
+
+    const getProductImage = (item) => {
+        if (item.images?.length && item.images[0].url) {
+            return item.images[0].url
+        }
+        return 'https://via.placeholder.com/60'
+    }
+
+    const handleGetProductUpdate = async (product) => {
+        try {
+            const res = await ProductService.getProductById(product._id);
+            if (res.status === "OK" && res.message === "SUCCESS") {
+                dispatch(setProductsEdit(res.data))
+                navigate(`/products/edit-product/${product._id}`);
+
+            } else {
+                alert("Error occurred while getting products");
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const hanleActiveProduct = async (productId) => {
+        try {
+            const res = await ProductService.handleActiveProduct(productId);
+            if (res.status === "OK") {
+                alert("Successfully updated product");
+            }else {
+                alert("Error occurred while getting products");
+            }
+        }catch(error) {
+            console.log(error);
+        }
+    }
+
     return (
         <table className={cx('table')}>
             <thead className={cx('thead')}>
@@ -75,29 +107,33 @@ const Table = ({ data = [], onEdit, onDelete, onView, onAdd }) => {
                     {/* THÊM: Các nút Action */}
                     <td className={cx('td')}>
                         <div className={cx('actionGroup')}>
-                            {/* Nút Thêm (Add) */}
-                            <button
-                                className={cx('actionBtn', 'addBtn')}
-                                title="Thêm"
-                                onClick={() => onAdd && onAdd(item)}
-                            >
-                                <FontAwesomeIcon icon={faPlus}/>
-                            </button>
 
-                            {/* Nút Chi tiết (View) */}
-                            <button
-                                className={cx('actionBtn', 'viewBtn')}
-                                title="Chi tiết"
-                                onClick={() => onView && onView(item)}
-                            >
-                                <FontAwesomeIcon icon={faEye}/>
-                            </button>
+                            {/* Nút ẩn sản phẩm */}
+                            {
+                                item.status === "inactive" ?
+                                    <button
+                                        className={cx('actionBtn', 'viewBtn')}
+                                        title="Bỏ ẩn sản phẩm"
+                                        onClick={()=>onView(item._id)}
+                                    >
+                                        <FontAwesomeIcon icon={faEyeSlash}/>
+                                    </button> : <button
+                                        className={cx('actionBtn', 'viewBtn')}
+                                        title="Ẩn sản phẩm"
+                                        onClick={()=>onView(item._id)}
+                                    >
+                                        <FontAwesomeIcon icon={faEye}/>
+                                    </button>
+                            }
 
                             {/* Nút Sửa (Edit) */}
                             <button
                                 className={cx('actionBtn', 'editBtn')}
                                 title="Sửa"
-                                onClick={() => onEdit && onEdit(item)}
+                                onClick={() => {
+                                    handleGetProductUpdate(item);
+
+                                }}
                             >
                                 <FontAwesomeIcon icon={faPen}/>
                             </button>
@@ -108,7 +144,7 @@ const Table = ({ data = [], onEdit, onDelete, onView, onAdd }) => {
                                 title="Xóa"
                                 onClick={() => onDelete && onDelete(item)}
                             >
-                               <FontAwesomeIcon icon={faTrashCan}/>
+                                <FontAwesomeIcon icon={faTrashCan}/>
                             </button>
                         </div>
                     </td>

@@ -28,6 +28,51 @@ const addNewProduct = (newProduct) => {
         }
     });
 };
+const updateProduct = async (productUpdate) => {
+    try {
+        // Lấy _id và name từ object controller truyền xuống
+        const {_id, name} = productUpdate;
+
+        // Check trùng tên (Trừ chính thằng đang sửa ra: $ne: _id)
+        const checkProduct = await Product.findOne({
+            name: name,
+            _id: {$ne: _id}
+        });
+
+        if (checkProduct) {
+            return {
+                status: "ERR",
+                message: "Tên sản phẩm đã tồn tại"
+            };
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            _id,
+            productUpdate,
+            {new: true}
+        );
+
+        if (!updatedProduct) {
+            return {
+                status: "ERR",
+                message: "Không tìm thấy sản phẩm"
+            };
+        }
+
+        return {
+            status: "OK",
+            message: "SUCCESS",
+            data: updatedProduct
+        };
+
+    } catch (error) {
+        return {
+            status: "ERR",
+            message: error.message
+        };
+    }
+};
+
 
 const getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
@@ -115,8 +160,8 @@ const getProductsByType = (type) => {
 const getRelatedProducts = async (type, currentProductId) => {
     try {
         const products = await Product.find({
-            type: { $regex: String(type), $options: "i" },
-            _id: { $ne: currentProductId },
+            type: {$regex: String(type), $options: "i"},
+            _id: {$ne: currentProductId},
         }).limit(3);
 
         return {
@@ -187,6 +232,36 @@ const deleteProduct = (id) => {
         }
     });
 };
+const handleActiveProduct = async (id) => {
+    try {
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return {
+                status: "ERR",
+                message: "Product not found"
+            };
+        }
+
+        product.status = product.status === "active"
+            ? "inactive"
+            : "active";
+
+        await product.save();
+
+        return {
+            status: "OK",
+            message: "Update product status success",
+            data: product
+        };
+    } catch (error) {
+        return {
+            status: "ERR",
+            message: error.message
+        };
+    }
+};
+
 module.exports = {
     getAllProducts,
     addNewProduct,
@@ -196,5 +271,7 @@ module.exports = {
     getProductsByType,
     getProductById,
     deleteProduct,
-    getRelatedProducts
+    getRelatedProducts,
+    handleActiveProduct,
+    updateProduct
 };

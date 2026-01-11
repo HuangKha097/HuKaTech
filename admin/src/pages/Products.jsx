@@ -36,7 +36,27 @@ const Products = () => {
         }
         fetchProducts();
     }, [])
-    console.log(products)
+
+    const handleToggleActive = async (productId) => {
+        try {
+            const res = await ProductService.handleActiveProduct(productId);
+
+            if (res.status === "OK") {
+                const updatedProducts = products.map(item =>
+                    item._id === productId
+                        ? {...item, status: res.data.status}
+                        : item
+                );
+
+                dispatch(setProducts(updatedProducts));
+                alert("Successfully updated products");
+            }
+        } catch (error) {
+            alert("Failed to fetch the product");
+            console.error(error);
+        }
+    };
+
     return (
         <div className={cx("container")}>
 
@@ -73,14 +93,15 @@ const Products = () => {
                         <option value="inactive">Inactive</option>
                         <option value="lowStock">Low Stock</option>
                         <option value="outOfStock">Out of Stock</option>
+
                     </select>
                 </label>
                 <button type="submit" className={cx("add-btn", "search-btn")}>Search</button>
             </form>
             <div className={cx("table-block")}>
-                <Table data={currentProducts}/>
+                <Table data={currentProducts} onView={handleToggleActive}/>
                 <div className={cx("pages-btn")}>
-                    {Array.from({ length: pagesCount }).map((_, index) => (
+                    {Array.from({length: pagesCount}).map((_, index) => (
                         <button
                             key={index}
                             className={cx(
