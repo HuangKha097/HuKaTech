@@ -26,7 +26,9 @@ const Layout = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/search" element={<Search />} />
                 <Route path="/search/:value" element={<Search />} />
+
                 {/*<Route path="/login" element={<Login />} />*/}
             </Routes>
             <ContactBlock />

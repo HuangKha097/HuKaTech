@@ -145,6 +145,19 @@ const advancedSearchProductAdmin = async (req, res) => {
         })
     }
 }
+const advancedSearchProductClient = async (req, res) => {
+    try {
+        const result = await ProductService.advancedSearchProductClient(req.body);
+        return res.status(200).json(result);
+    } catch (e) {
+        return res.status(500).json({
+            status: "ERR",
+            message: e.message
+        });
+    }
+};
+
+
 
 const getProductToShowHome = async (req, res) => {
     try {
@@ -293,5 +306,6 @@ module.exports = {
     getRelatedProducts,
     activeProductController,
     updateProduct,
-    advancedSearchProductAdmin
+    advancedSearchProductAdmin,
+    advancedSearchProductClient
 };

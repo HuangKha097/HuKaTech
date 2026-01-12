@@ -27,6 +27,11 @@ router.get(
     productController.getRelatedProducts
 );
 router.get("/advanced-search-products-admin", productController.advancedSearchProductAdmin);
+router.post(
+    "/advanced-search-products-client",
+    productController.advancedSearchProductClient
+);
+
 
 
 // Route xóa   nhận ID qua params

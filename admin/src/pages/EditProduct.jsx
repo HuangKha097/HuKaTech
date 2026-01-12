@@ -32,7 +32,7 @@ const EditProduct = () => {
         setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
         const imagePreviews = selectedFiles.map(file => URL.createObjectURL(file));
         setImages(prevImages => [...prevImages, ...imagePreviews]);
-    //Reset value của input file sau khi chọn
+        //Reset value của input file sau khi chọn
         e.target.value = null;
 
     }
@@ -63,6 +63,13 @@ const EditProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (
+            (!product.images || product.images.length === 0) &&
+            files.length === 0
+        ) {
+            alert("Sản phẩm phải có ít nhất 1 hình ảnh");
+            return;
+        }
         try {
             setIsLoading(true);
 
@@ -89,6 +96,7 @@ const EditProduct = () => {
             for (let pair of formData.entries()) {
                 console.log(pair[0], pair[1]);
             }
+
 
             const res = await ProductService.updateProduct(product._id, formData);
 
@@ -223,8 +231,15 @@ const EditProduct = () => {
                             <p className={cx("upload-subtext")}>PNG, JPG, GIF up to 10MB</p>
                         </label>
 
-                        <input type="file" multiple onChange={handleChangeImages} id="fileInputHidden"
-                               style={{display: 'none'}}/>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleChangeImages}
+                            id="fileInputHidden"
+                            style={{display: 'none'}}
+                        />
+
 
                         <div className={cx("preview-images")}>
                             <h4>Preview Images </h4>

@@ -127,7 +127,7 @@
         .upload-area {
           border: 2px dashed #d1d5db;
           border-radius: 8px;
-          padding: 40px 20px;
+          padding: 30px 15px;
           text-align: center;
           background-color: #f9fafb;
           cursor: pointer;
@@ -187,10 +187,12 @@
         flex-direction: column;
 
         & .image-wrapper {
-         display: flex;
+          overflow-x: auto;
+          display: flex;
           width: 100%;
           height: 100%;
           gap: 2rem;
+          padding-top: 1rem;
 
         }
 

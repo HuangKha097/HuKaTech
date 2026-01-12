@@ -1,32 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import classNames from 'classnames/bind';
-import styles from '../assets/css/FiltersChooseBlock.module.scss';
+import React from "react";
+import classNames from "classnames/bind";
+import styles from "../assets/css/FiltersChooseBlock.module.scss";
 import FilterChooseItem from "./FilterChooseItem.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {clearSubfilterValue} from "../redux/SubfilterSlice.js";
-import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import { clearSubfilter } from "../redux/SubfilterSlice.js";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const cx = classNames.bind(styles);
-const FiltersChooseBlock = () => {
 
+const FiltersChooseBlock = () => {
     const dispatch = useDispatch();
-    const listFilters = useSelector((state) => state.subfilter.value);
+
+    const { type, brand, priceRange } = useSelector(
+        (state) => state.subfilter
+    );
+
+
+    const selectedFilters = [
+        ...type,
+        ...brand,
+        ...(priceRange ? [priceRange] : [])
+    ];
 
     const handleRemoveAllFilter = () => {
-        dispatch(clearSubfilterValue());
-    }
+        dispatch(clearSubfilter());
+    };
+
+    if (selectedFilters.length === 0) return null;
 
     return (
         <div className={cx("container")}>
-                <span>Filters:</span>
+            <span>Filters:</span>
+
             <div className={cx("body")}>
-                {listFilters.length > 0 && listFilters.map((filter, index) => (
-                    <FilterChooseItem   props={filter} key={index} />
-                ))
-                }
+                {selectedFilters.map((filter, index) => (
+                    <FilterChooseItem key={index} props={filter} />
+                ))}
             </div>
-            <button className={cx("clear-all")} onClick={handleRemoveAllFilter} ><FontAwesomeIcon icon={faCircleXmark} /></button>
+
+            <button
+                className={cx("clear-all")}
+                onClick={handleRemoveAllFilter}
+            >
+                <FontAwesomeIcon icon={faCircleXmark} />
+            </button>
         </div>
     );
 };

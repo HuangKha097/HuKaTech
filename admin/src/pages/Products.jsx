@@ -208,6 +208,7 @@ const Products = () => {
                         onClick={handleBack}
                     >
                         <FontAwesomeIcon icon={faArrowLeft}/>
+                        Back to all products
                     </button>}
                     <div className={cx("pages-btn")}>
 

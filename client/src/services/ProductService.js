@@ -23,7 +23,7 @@ export const getProductToShowHome = async () => {
 // 4. GET: Theo danh mục (Dùng params ?category=...)
 export const getProductsByCategory = async (category) => {
     const res = await axios.get(`http://localhost:8000/api/product/get-products-by-category`, {
-        params: { category: category }
+        params: {category: category}
     });
     return res.data;
 };
@@ -31,7 +31,7 @@ export const getProductsByCategory = async (category) => {
 // 5. GET: Theo tên (Search params ?name=...)
 export const getProductsByName = async (name) => {
     const res = await axios.get(`http://localhost:8000/api/product/get-products-by-name`, {
-        params: { name: name }
+        params: {name: name}
     });
     return res.data;
 };
@@ -39,7 +39,7 @@ export const getProductsByName = async (name) => {
 // 6. GET: Theo loại (params ?type=...)
 export const getProductsByType = async (type) => {
     const res = await axios.get(`http://localhost:8000/api/product/get-products-by-type`, {
-        params: { type: type }
+        params: {type: type}
     });
     return res.data;
 };
@@ -63,9 +63,13 @@ export const deleteProduct = async (id) => {
 };
 
 export const getRelatedProducts = async (type, id) => {
-    const res = await axios.get(
-        `http://localhost:8000/api/product/get-related-products/${id}?type=${type}`
+    const res = await axios.get(`http://localhost:8000/api/product/get-related-products/${id}?type=${type}`);
+    return res.data;
+};
+export const advancedSearchProductClient = async (data) => {
+    const res = await axios.post(
+        "http://localhost:8000/api/product/advanced-search-products-client",
+        data
     );
     return res.data;
 };
-

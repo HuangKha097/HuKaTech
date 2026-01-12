@@ -5,6 +5,7 @@ import AddNewProduct from "./pages/AddNewProduct.jsx";
 import {Route, Routes} from 'react-router-dom';
 import Products from "./pages/Products.jsx";
 import EditProduct from "./pages/EditProduct.jsx";
+import Orders from "./pages/Orders.jsx";
 
 const cx = classNames.bind(style);
 
@@ -24,6 +25,7 @@ function App() {
                             <Route path="add-new-product" element={<AddNewProduct />} />
                             <Route path="edit-product/:id" element={<EditProduct />} />
                         </Route>
+                        <Route path="/orders" element={<Orders />} />
                     </Routes>
                 </div>
             </div>

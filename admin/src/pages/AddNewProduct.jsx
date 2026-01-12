@@ -51,6 +51,10 @@ const AddNewProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (files.length === 0) {
+            alert("Vui lòng chọn ít nhất 1 hình ảnh");
+            return;
+        }
 
         try {
             setIsLoading(true);
@@ -72,6 +76,7 @@ const AddNewProduct = () => {
                     formData.append('images', files[i]);
                 }
             }
+
 
             console.log("Đang gửi FormData...");
 
@@ -229,8 +234,16 @@ const AddNewProduct = () => {
                             <p className={cx("upload-subtext")}>PNG, JPG, GIF up to 10MB</p>
                         </label>
 
-                        <input type="file" multiple onChange={handleChangeImages} id="fileInputHidden"
-                               style={{display: 'none'}} required/>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleChangeImages}
+                            id="fileInputHidden"
+                            style={{display: 'none'}}
+
+                        />
+
 
                         <div className={cx("preview-images")}>
                             <h4>Preview Images </h4>

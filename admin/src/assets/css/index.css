@@ -64,7 +64,8 @@ body {
     background-color: rgba(11, 186, 175, 0.84);
 }
 .back-btn {
-
+    display: flex ;
+    align-items: center;
     width: fit-content;
     height: 4rem;
     padding: 0.4rem 2.4rem;

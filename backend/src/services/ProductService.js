@@ -1,5 +1,5 @@
 const Product = require("../models/ProductModel");
-const { uploadToCloudinary, deleteFromCloudinary } = require("../middlewares/cloudinary");
+const {uploadToCloudinary, deleteFromCloudinary} = require("../middlewares/cloudinary");
 const addNewProduct = (newProduct) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -77,7 +77,7 @@ const updateProduct = async (productUpdate) => {
 const getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const products = await Product.find(); // lấy tất cả sản phẩm
+            const products = await Product.find();
 
             resolve({
                 status: "OK",
@@ -90,19 +90,20 @@ const getAllProducts = () => {
     });
 };
 
-const advancedSearchProductAdmin = (payload) =>{
+const advancedSearchProductAdmin = (payload) => {
     console.log("Dữ liệu nhận được:", payload);
     return new Promise(async (resolve, reject) => {
         try {
             const {name, type, status} = payload;
             const query = {};
-            if(!name && !type && !status) {
+            if (!name && !type && !status) {
                 return reject({
                     status: "ERR",
-                    message:"Cần ít nhất một trường dữ liệu để tìm kiếm",
+                    message: "Cần ít nhất một trường dữ liệu để tìm kiếm",
                 })
-            } if (name) {
-                query.name = { $regex: name, $options: 'i' };
+            }
+            if (name) {
+                query.name = {$regex: name, $options: 'i'};
                 // $options: 'i' để không phân biệt hoa thường
             }
 
@@ -135,6 +136,60 @@ const advancedSearchProductAdmin = (payload) =>{
         }
     });
 };
+const advancedSearchProductClient = async (payload) => {
+    const { name, type, brand, priceRange } = payload;
+    const query = {};
+
+    if (
+        !name &&
+        (!type || type.length === 0) &&
+        (!brand || brand.length === 0) &&
+        !priceRange
+    ) {
+        return { status: "OK", data: [], total: 0 };
+    }
+
+    if (name) {
+        query.name = { $regex: name, $options: "i" };
+    }
+
+    if (type?.length) {
+        query.type = { $in: type };
+    }
+
+    if (brand?.length) {
+        query.brand = { $in: brand };
+    }
+
+    if (priceRange) {
+        switch (priceRange) {
+            case "< 500,000 đ":
+                query.newPrice = { $lt: 500000 };
+                break;
+            case "500,000 đ - 1,500,000 đ":
+                query.newPrice = { $gte: 500000, $lte: 1500000 };
+                break;
+            case "1,500,001 đ - 3,500,000 đ":
+                query.newPrice = { $gte: 1500000, $lte: 3500000 };
+                break;
+            case "> 3,500,000 đ":
+                query.newPrice = { $gt: 3500000 };
+                break;
+        }
+    }
+
+    const products = await Product.find(query);
+
+    return {
+        status: "OK",
+        data: products,
+        total: products.length
+    };
+};
+
+
+
+
 const getProductToShowHome = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -319,5 +374,6 @@ module.exports = {
     getRelatedProducts,
     handleActiveProduct,
     updateProduct,
-    advancedSearchProductAdmin
+    advancedSearchProductAdmin,
+    advancedSearchProductClient
 };

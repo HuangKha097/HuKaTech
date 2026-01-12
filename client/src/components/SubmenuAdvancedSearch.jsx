@@ -1,91 +1,84 @@
-import React from 'react'; // Bỏ useEffect nếu không dùng
-import classNames from 'classnames/bind';
-import styles from '../assets/css/SubmenuAdvancedSearch.module.scss';
-import { useDispatch, useSelector } from "react-redux";
-import { removeSubfilterValue, setSubfilterValue } from "../redux/SubfilterSlice.js";
+import React from "react";
+import classNames from "classnames/bind";
+import styles from "../assets/css/SubmenuAdvancedSearch.module.scss";
+import {useDispatch, useSelector} from "react-redux";
+import {setPriceRange, toggleBrand, toggleType} from "../redux/SubfilterSlice";
 
 const cx = classNames.bind(styles);
 
 const SubmenuAdvancedSearch = () => {
     const dispatch = useDispatch();
-    // Lấy danh sách đang được chọn từ Redux
-    const listFilters = useSelector(state => state.subfilter.value) || []; // Thêm || [] để tránh lỗi nếu state null
 
-    const categories = ["Laptops", "Audio", "Wearables", "Drones", "PC/Components", "Accessories"];
-    const priceRange = ["$0-$100", "$101-$500", "$501+"];
-    const brands = ["Apple", "Samsung", "Asus", "DJI", "Sony", "Logitech"];
+    // Lấy state rõ ràng từ redux
+    const {type, brand, priceRange} = useSelector(
+        state => state.subfilter
+    );
 
-    // SỬA LẠI HÀM NÀY: Dùng event onChange
-    const handleToggleFilter = (e) => {
-        const value = e.target.value;
-        const isChecked = e.target.checked;
+    const types = [
+        "Laptop", "Headphone", "Mouse", "Webcam",
+        "KeyBoard", "Watch", "Speaker", "Accessories", "Others"
+    ];
 
-        if (isChecked) {
-            // Nếu tick vào -> Thêm vào mảng
-            // Lưu ý: Logic này giả định action setSubfilterValue nhận vào cả mảng mới
-            // Nếu action của bạn chỉ nhận 1 giá trị để push thì sửa lại code này
-            const newValue = [...listFilters, value];
-            dispatch(setSubfilterValue(newValue));
-        } else {
-            // Nếu bỏ tick -> Xóa khỏi mảng
-            dispatch(removeSubfilterValue(value));
-        }
-    };
+    const priceRanges = [
+        "< 500,000 đ",
+        "500,000 đ - 1,500,000 đ",
+        "1,500,001 đ - 3,500,000 đ",
+        "> 3,500,000 đ"
+    ];
+
+    const brands = [
+        "Apple", "Samsung", "Asus", "DJI", "Sony", "Logitech"
+    ];
 
     return (
-        <div className={cx('container')}>
-            {/* Nhóm Category */}
+        <div className={cx("container")}>
+
+            {/* TYPE */}
             <div className={cx("body-menu")}>
-                <span className={cx("title")}>Category</span>
-                {categories.map((item, index) => (
-                    <label key={index}>
+                <span className={cx("title")}>Type</span>
+                {types.map(item => (
+                    <label key={item}>
                         <input
                             type="checkbox"
-                            name="category"
-                            value={item}
-                            // 1. Kiểm tra xem item có trong listFilters không để tick
-                            checked={listFilters.includes(item)}
-                            // 2. Đổi onClick thành onChange
-                            onChange={handleToggleFilter}
+                            checked={type.includes(item)}
+                            onChange={() => dispatch(toggleType(item.toLowerCase()))}
                         />
                         {item}
                     </label>
                 ))}
             </div>
 
-            {/* Nhóm Price */}
+            {/* PRICE RANGE (CHỈ 1) */}
             <div className={cx("body-menu")}>
                 <span className={cx("title")}>Price Range</span>
-                {priceRange.map((item, index) => (
-                    <label key={index}>
+                {priceRanges.map(item => (
+                    <label key={item}>
                         <input
-                            type="checkbox"
+                            type="radio"
                             name="priceRange"
-                            value={item}
-                            checked={listFilters.includes(item)}
-                            onChange={handleToggleFilter}
+                            checked={priceRange === item}
+                            onChange={() => dispatch(setPriceRange(item))}
                         />
                         {item}
                     </label>
                 ))}
             </div>
 
-            {/* Nhóm Brand */}
+            {/* BRAND */}
             <div className={cx("body-menu")}>
                 <span className={cx("title")}>Brand</span>
-                {brands.map((item, index) => (
-                    <label key={index}>
+                {brands.map(item => (
+                    <label key={item}>
                         <input
                             type="checkbox"
-                            name="brand"
-                            value={item}
-                            checked={listFilters.includes(item)}
-                            onChange={handleToggleFilter}
+                            checked={brand.includes(item)}
+                            onChange={() => dispatch(toggleBrand(item.toLowerCase()))}
                         />
                         {item}
                     </label>
                 ))}
             </div>
+
         </div>
     );
 };
