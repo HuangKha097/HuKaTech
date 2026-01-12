@@ -90,6 +90,51 @@ const getAllProducts = () => {
     });
 };
 
+const advancedSearchProductAdmin = (payload) =>{
+    console.log("Dữ liệu nhận được:", payload);
+    return new Promise(async (resolve, reject) => {
+        try {
+            const {name, type, status} = payload;
+            const query = {};
+            if(!name && !type && !status) {
+                return reject({
+                    status: "ERR",
+                    message:"Cần ít nhất một trường dữ liệu để tìm kiếm",
+                })
+            } if (name) {
+                query.name = { $regex: name, $options: 'i' };
+                // $options: 'i' để không phân biệt hoa thường
+            }
+
+            // Nếu có type -> Thêm điều kiện tìm chính xác
+            if (type) {
+                query.type = type;
+            }
+
+            // Nếu có status -> Thêm điều kiện tìm chính xác
+            if (status) {
+                query.status = status;
+            }
+
+            // 4. Thực hiện truy vấn vào Database
+            const searchResults = await Product.find(query);
+
+            resolve({
+                status: "OK",
+                message: "Success",
+                data: searchResults,
+                total: searchResults.length
+            });
+
+        } catch (e) {
+            reject({
+                status: "ERR",
+                message: "Lỗi hệ thống",
+                error: e
+            });
+        }
+    });
+};
 const getProductToShowHome = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -273,5 +318,6 @@ module.exports = {
     deleteProduct,
     getRelatedProducts,
     handleActiveProduct,
-    updateProduct
+    updateProduct,
+    advancedSearchProductAdmin
 };

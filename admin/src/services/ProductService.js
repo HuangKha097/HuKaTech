@@ -32,3 +32,12 @@ export const deleteProduct = async (id) => {
     const res = await axios.delete(`http://localhost:8000/api/product/delete-product/${id}`);
     return res.data;
 }
+
+export const advancedSearchProductAdmin = async (data) => {
+
+    const res = await axios.get(
+        `http://localhost:8000/api/product/advanced-search-products-admin`,
+        {params: data}
+    );
+    return res.data;
+}

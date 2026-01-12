@@ -6,6 +6,7 @@ const productController = require("../controllers/ProductController");
 const {upload} = require("../middlewares/cloudinary");
 
 
+
 // 'images': Tên key
 // 3: Số lượng file tối đa cho phép upload 1 lần
 router.post(
@@ -25,6 +26,7 @@ router.get(
     "/get-related-products/:id",
     productController.getRelatedProducts
 );
+router.get("/advanced-search-products-admin", productController.advancedSearchProductAdmin);
 
 
 // Route xóa   nhận ID qua params

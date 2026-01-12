@@ -134,6 +134,18 @@ const getAllProducts = async (req, res) => {
     }
 };
 
+const advancedSearchProductAdmin = async (req, res) => {
+    try {
+    const result = await ProductService.advancedSearchProductAdmin(req.query);
+    return res.status(200).json(result);
+    }catch (e) {
+        return res.status(500).json({
+            status: "ERR",
+            message: e.message
+        })
+    }
+}
+
 const getProductToShowHome = async (req, res) => {
     try {
         const result = await ProductService.getProductToShowHome();
@@ -280,5 +292,6 @@ module.exports = {
     deleteProduct,
     getRelatedProducts,
     activeProductController,
-    updateProduct
+    updateProduct,
+    advancedSearchProductAdmin
 };

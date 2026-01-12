@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  /* 1. Đặt chiều cao tối thiểu là 100% màn hình để layout luôn căng đủ */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -86,60 +85,58 @@
 
   }
 
-  /* --- TABLE BLOCK (PHẦN QUAN TRỌNG NHẤT) --- */
   & .table-block {
     margin-top: 2rem;
     width: 100%;
+    height: 100%;
 
-    /* 2. Chiếm hết khoảng trống còn lại bên dưới Header & Filter */
     flex: 1;
 
-    /* 3. Biến thành cột Flex để đẩy nút phân trang xuống đáy */
     display: flex;
     flex-direction: column;
 
-    /* Tùy chọn: Thêm nền trắng bao quanh bảng cho đẹp */
-    /* background-color: #fff; */
-    /* padding: 1rem; */
-    /* border-radius: 8px; */
+    justify-content: space-between;
 
-    /* --- PAGINATION BUTTONS --- */
-    & .pages-btn {
+    & .footer-btn {
       display: flex;
-      width: 100%;
-      justify-content: flex-end;
-      padding-top: 2rem; /* Tăng khoảng cách với bảng một chút */
-      padding-bottom: 1rem;
-      gap: 0.8rem;
-
-      /* 4. MẤU CHỐT: Đẩy nút xuống đáy cùng của table-block */
-      margin-top: auto;
-
-      & .page-btn {
-        min-width: 4rem;
-        height: 4rem;
-        padding: 0 1rem;
-        background-color: white;
-        border: 1px solid #d1d5db;
-        cursor: pointer;
-        font-size: 1.4rem;
-        font-weight: 600;
-        border-radius: 6px;
-        transition: all 0.2s;
-        color: #374151;
+      align-items: center;
+      & .pages-btn {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        gap: 0.8rem;
 
-        &:hover {
-          border-color: #0BBAAF;
-          color: #0BBAAF;
-        }
 
-        &.active {
-          background-color: #0BBAAF;
-          color: white;
-          border-color: #0BBAAF;
+        margin-top: auto;
+
+        & .page-btn {
+          min-width: 4rem;
+          height: 4rem;
+          padding: 0 1rem;
+          background-color: white;
+          border: 1px solid #d1d5db;
+          cursor: pointer;
+          font-size: 1.4rem;
+          font-weight: 600;
+          border-radius: 6px;
+          transition: all 0.2s;
+          color: #374151;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            border-color: #0BBAAF;
+            color: #0BBAAF;
+          }
+
+          &.active {
+            background-color: #0BBAAF;
+            color: white;
+            border-color: #0BBAAF;
+          }
         }
       }
     }
