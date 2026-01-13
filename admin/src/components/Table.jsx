@@ -6,9 +6,11 @@ import * as ProductService from "../services/ProductService.js";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {setProductsEdit} from "../redux/productsSlice.js";
+import CircularProgress from "@mui/material/CircularProgress";
+import React from "react";
 
 const cx = classNames.bind(styles)
-const Table = ({data = [], onDelete, onView}) => {
+const Table = ({data = [], onDelete, onView, loading}) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -53,7 +55,7 @@ const Table = ({data = [], onDelete, onView}) => {
             </tr>
             </thead>
 
-            <tbody>
+            {loading ?  <CircularProgress/> : (<tbody>
             {data.length > 0 && data.map((item) => (
                 <tr key={item._id} className={cx('row')}>
                     <td className={cx('td')}>
@@ -138,7 +140,7 @@ const Table = ({data = [], onDelete, onView}) => {
                     </td>
                 </tr>
             ))}
-            </tbody>
+            </tbody>)}
         </table>
     )
 }

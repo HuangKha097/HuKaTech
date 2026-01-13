@@ -204,6 +204,7 @@ const Orders = () => {
                     onDelete={handleDeleteProduct} // sau này có thể disable
                 />
 
+                </div>
                 <div className={cx("footer-btn")}>
                     {isShowBackBtn && (
                         <button
@@ -231,7 +232,6 @@ const Orders = () => {
                             </button>
                         ))}
                     </div>
-                </div>
             </div>
 
         </div>

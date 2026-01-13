@@ -1,9 +1,11 @@
 .container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 2rem;
+
+ overflow-y: scroll;
 
   & .header {
     display: flex;
@@ -72,8 +74,9 @@
   & .main-form {
     width: 100%;
     height: 100%;
+
     display: flex;
-    margin-top: 2rem;
+    padding-top: 2rem;
     gap: 2rem;
 
 
@@ -105,6 +108,7 @@
       display: flex;
       flex-direction: column;
       width: 35%;
+
       background: white;
       border: 1px solid rgba(51, 51, 51, 0.2);
       border-radius: 6px;
@@ -224,7 +228,9 @@
     }
 
     & .btn-group {
+      padding-bottom: 2rem;
       border-top: 2px solid rgba(135, 135, 135, 0.4);
+      width: 100%;
       padding-top: 1rem;
       display: flex;
       justify-content: flex-end;

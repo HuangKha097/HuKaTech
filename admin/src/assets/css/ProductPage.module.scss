@@ -1,11 +1,11 @@
 .container {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  box-sizing: border-box; /* Quan trọng: Để padding không làm hiện thanh cuộn ngang */
-  background-color: #f8f9fa; /* Thêm màu nền nhẹ cho trang đẹp hơn */
+  box-sizing: border-box;
+  background-color: #f8f9fa;
 
   /* --- HEADER BLOCK --- */
   & .header {
@@ -89,7 +89,7 @@
     margin-top: 2rem;
     width: 100%;
     height: 100%;
-
+    overflow: auto;
     flex: 1;
 
     display: flex;
@@ -97,46 +97,48 @@
 
     justify-content: space-between;
 
-    & .footer-btn {
+  }
+
+  & .footer-btn {
+    display: flex;
+    align-items: center;
+
+    & .pages-btn {
       display: flex;
-      align-items: center;
-      & .pages-btn {
+      width: 100%;
+      justify-content: flex-end;
+      padding-top: 2rem;
+      padding-bottom: 1rem;
+      gap: 0.8rem;
+
+
+      margin-top: auto;
+
+      & .page-btn {
+        min-width: 4rem;
+        height: 4rem;
+        padding: 0 1rem;
+        background-color: white;
+        border: 1px solid #d1d5db;
+        cursor: pointer;
+        font-size: 1.4rem;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: all 0.2s;
+        color: #374151;
         display: flex;
-        width: 100%;
-        justify-content: flex-end;
-        padding-top: 2rem;
-        padding-bottom: 1rem;
-        gap: 0.8rem;
+        align-items: center;
+        justify-content: center;
 
+        &:hover {
+          border-color: #0BBAAF;
+          color: #0BBAAF;
+        }
 
-        margin-top: auto;
-
-        & .page-btn {
-          min-width: 4rem;
-          height: 4rem;
-          padding: 0 1rem;
-          background-color: white;
-          border: 1px solid #d1d5db;
-          cursor: pointer;
-          font-size: 1.4rem;
-          font-weight: 600;
-          border-radius: 6px;
-          transition: all 0.2s;
-          color: #374151;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          &:hover {
-            border-color: #0BBAAF;
-            color: #0BBAAF;
-          }
-
-          &.active {
-            background-color: #0BBAAF;
-            color: white;
-            border-color: #0BBAAF;
-          }
+        &.active {
+          background-color: #0BBAAF;
+          color: white;
+          border-color: #0BBAAF;
         }
       }
     }

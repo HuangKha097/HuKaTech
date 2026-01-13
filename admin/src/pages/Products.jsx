@@ -14,6 +14,8 @@ const Products = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.list);
 
+    const [isLoading, serIsLoading] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(0);
     const ITEMS_PER_PAGE = 8;
     const totalItems = products?.length || 0;
@@ -51,6 +53,7 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                serIsLoading(true)
                 const res = await ProductService.fetchAllProducts()
                 console.log(res.data)
                 if (res.status === "OK") {
@@ -59,6 +62,8 @@ const Products = () => {
                 }
             } catch (e) {
                 console.error(e)
+            }finally {
+                serIsLoading(false)
             }
         }
         fetchProducts();
@@ -114,9 +119,9 @@ const Products = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(payloadSearch);
 
         try {
+            serIsLoading(true)
             const res = await ProductService.advancedSearchProductAdmin(payloadSearch);
             if (res.status === "OK") {
                 dispatch(setProducts(res.data))
@@ -125,6 +130,8 @@ const Products = () => {
         } catch (error) {
             alert("Cần ít nhất một trường dữ liệu để tìm kiếm")
             console.error(error);
+        }finally {
+            serIsLoading(false)
         }
     }
     const handleBack = async () => {
@@ -200,34 +207,34 @@ const Products = () => {
             </form>
 
             <div className={cx("table-block")}>
-                <Table data={currentProducts} onView={handleToggleActive} onDelete={handleDeleteProduct}/>
-                <div className={cx("footer-btn")}>
-                    {isShowBackBtn && <button
-                        className={cx("back-btn")}
-                        type="button"
-                        onClick={handleBack}
-                    >
-                        <FontAwesomeIcon icon={faArrowLeft}/>
-                        Back to all products
-                    </button>}
-                    <div className={cx("pages-btn")}>
+                <Table data={currentProducts} onView={handleToggleActive} onDelete={handleDeleteProduct} loading={isLoading}/>
 
-                        {Array.from({length: pagesCount}).map((_, index) => (
-                            <button
-                                key={index}
-                                className={cx(
-                                    "page-btn",
-                                    currentPage === index && "active"
-                                )}
-                                type="button"
-                                onClick={() => setCurrentPage(index)}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
-                    </div>
+            </div>
+            <div className={cx("footer-btn")}>
+                {isShowBackBtn && <button
+                    className={cx("back-btn")}
+                    type="button"
+                    onClick={handleBack}
+                >
+                    <FontAwesomeIcon icon={faArrowLeft}/>
+                    Back to all products
+                </button>}
+                <div className={cx("pages-btn")}>
+
+                    {Array.from({length: pagesCount}).map((_, index) => (
+                        <button
+                            key={index}
+                            className={cx(
+                                "page-btn",
+                                currentPage === index && "active"
+                            )}
+                            type="button"
+                            onClick={() => setCurrentPage(index)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
                 </div>
-
             </div>
         </div>
     );
