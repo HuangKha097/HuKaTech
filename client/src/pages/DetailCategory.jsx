@@ -39,16 +39,7 @@ const DetailCategory = () => {
                     >
                         As Hot As They Come. Shop Now!
                     </motion.h1>
-                    <motion.label
-                        htmlFor="search"
-                        className={cx('search')}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
-                    >
-                        <FontAwesomeIcon className={cx('icon')} icon={faMagnifyingGlass} />
-                        <input type="text" id="search" placeholder="Search gadgets, devices" />
-                    </motion.label>
+
                 </motion.div>
 
                 {/* Product List */}

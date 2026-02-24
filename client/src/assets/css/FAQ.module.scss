@@ -1,0 +1,156 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #141414; // Màu nền theo code bạn gửi
+
+  // --- Phần Header (Giữ nguyên cấu trúc của bạn) ---
+  .header {
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem; // Giảm nhẹ gap để Tag và Title gần nhau hơn xíu
+
+    .title {
+      text-align: center;
+      width: 60%; // Tăng lên xíu để chữ FAQ dài không bị xuống dòng xấu
+      height: fit-content;
+      font-size: 5.6rem;
+      font-weight: 700;
+      // Hiệu ứng Gradient Text
+      background: linear-gradient(to right, #ffffff, #888888);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+      overflow: visible;
+    }
+
+    // Style cho dòng mô tả nhỏ dưới tiêu đề (nếu có)
+    .description {
+      font-size: 1.4rem;
+      color: var(--White_80, rgba(250, 250, 250, 0.6));
+      font-weight: 300;
+    }
+  }
+
+  // --- Phần Body (Chứa danh sách FAQ) ---
+  .body {
+    padding: 0rem 22rem; // Padding lớn theo yêu cầu của bạn
+    padding-bottom: 10rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    // Container cho toàn bộ list câu hỏi
+    .faq-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    .faq-item {
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2.2rem 0;
+      transition: all 0.3s ease;
+
+      .question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        width: 100%;
+
+        h3 {
+          font-size: 2rem; // Font to cho dễ đọc
+          font-weight: 500;
+          color: #fff;
+          margin: 0;
+          transition: color 0.3s ease;
+        }
+
+        .icon {
+          font-size: 2.4rem;
+          color: #888;
+          font-weight: 300;
+          transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+
+        &:hover {
+          h3 {
+            background: linear-gradient(to right, #ffffff, #aaaaaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          .icon {
+            color: #fff;
+          }
+        }
+      }
+
+
+      .answer-wrapper {
+        overflow: hidden;
+      }
+
+      .answer {
+        margin-top: 2rem;
+        width: 100%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        word-break: break-word;
+        transform-perspective: 1200;
+
+        // Màu chữ và line-height theo yêu cầu
+        color: var(--White_80, rgba(250, 250, 250, 0.8));
+        line-height: 1.5; // Tăng nhẹ so với 1.2 để đoạn văn dài dễ đọc hơn
+        font-size: 1.6rem;
+        font-weight: 300;
+      }
+
+      // Trạng thái khi đang mở
+      &.active {
+        .icon {
+          transform: rotate(45deg); // Xoay dấu cộng thành dấu nhân (nếu dùng +)
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// --- Responsive (Quan trọng vì padding 22rem quá lớn trên màn nhỏ) ---
+@media (max-width: 1400px) {
+  .container .body {
+    padding: 0 10rem;
+  }
+  .container .header .title {
+    width: 80%;
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container .header {
+    height: 40vh;
+    .title {
+      font-size: 3.2rem;
+      width: 90%;
+    }
+  }
+  .container .body {
+    padding: 0 2rem; // Mobile padding nhỏ lại
+
+    .faq-item {
+      padding: 2rem 0;
+      .question h3 {
+        font-size: 1.8rem;
+      }
+    }
+  }
+}

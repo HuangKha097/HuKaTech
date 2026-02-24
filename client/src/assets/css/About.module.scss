@@ -24,7 +24,7 @@
         }
     }
     & .body {
-        padding: 0rem 22rem;
+        padding: 0rem 24rem;
         padding-bottom: 10rem;
         width: 100%;
         display: flex;
@@ -32,6 +32,7 @@
         align-items: flex-start;
 
         & p {
+            font-size: 1.6rem;
             margin-top: 2rem;
             width: 100%;
             white-space: pre-wrap;
@@ -39,7 +40,7 @@
             word-break: break-word;
             transform-perspective: 1200;
             color: var(--White_80, rgba(250, 250, 250, 0.8));
-            line-height: 1.2;
+            line-height: 1.5;
         }
     }
 }

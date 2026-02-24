@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import classNames from "classnames/bind";
 import style from "../assets/css/AddNewProduct.module.scss";
-import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import {useDispatch, useSelector} from "react-redux";
 import {setProductsEdit} from "../redux/productsSlice.js";
@@ -10,6 +10,7 @@ import * as ProductService from "../services/ProductService.js";
 const cx = classNames.bind(style);
 
 const EditProduct = () => {
+    const navigate = useNavigate();
     const [files, setFiles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const product = useSelector(state => state.products.productsEdit);
@@ -271,9 +272,13 @@ const EditProduct = () => {
                     </div>
                     {isLoading ? <CircularProgress/> : (
                         <div className={cx("btn-group")}>
-                            <Link to="..">
-                                <button type="button" className={cx("add-btn", "cancel-btn")}>Cancel</button>
-                            </Link>
+                            <button
+                                type="button"
+                                className={cx("add-btn", "cancel-btn")}
+                                onClick={() => navigate(-1)}
+                            >
+                                Cancel
+                            </button>
                             <button type="submit" className={cx("add-btn")}>Save Product</button>
                         </div>)}
                 </div>

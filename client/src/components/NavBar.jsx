@@ -1,18 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from "react";
 import classNames from "classnames/bind";
 import styles from "../assets/css/NavBar.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faCartShopping,
-    faMagnifyingGlass,
-    faSortDown
-} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCartShopping, faMagnifyingGlass, faSortDown} from "@fortawesome/free-solid-svg-icons";
 import Submenu from "./Submenu";
-import { Link, useNavigate } from "react-router-dom";
-import { logo } from "../assets/images";
+import {Link, useNavigate} from "react-router-dom";
+import {logo} from "../assets/images";
 import SubmenuAdvancedSearch from "./SubmenuAdvancedSearch.jsx";
 import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {clearSubfilter, setProductsSearch} from "../redux/SubfilterSlice.js";
 import * as ProductService from "../services/ProductService.js";
 
@@ -23,7 +19,7 @@ const NavBar = () => {
     const navigate = useNavigate();
 
     const productsCart = useSelector((state) => state.cart.products);
-    const { type, brand, priceRange } = useSelector(
+    const {type, brand, priceRange} = useSelector(
         (state) => state.subfilter
     );
 
@@ -68,7 +64,6 @@ const NavBar = () => {
     };
 
 
-
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
             handleSearch();
@@ -93,7 +88,7 @@ const NavBar = () => {
             {/* LOGO */}
             <div className={cx("logo")}>
                 <Link to="/">
-                    <img src={logo} alt="logo shop" />
+                    <img src={logo} alt="logo shop"/>
                 </Link>
             </div>
 
@@ -121,7 +116,7 @@ const NavBar = () => {
                     onMouseLeave={handleMouseLeavePopUp}
                 >
                     <button className={cx("filter-btn")}>
-                        Filters <FontAwesomeIcon icon={faSortDown} />
+                        Filters <FontAwesomeIcon icon={faSortDown}/>
                     </button>
 
                     <div
@@ -129,14 +124,14 @@ const NavBar = () => {
                             isOpen: activeMenu === "advanced-menu"
                         })}
                     >
-                        <SubmenuAdvancedSearch />
+                        <SubmenuAdvancedSearch/>
                     </div>
                 </div>
 
                 {/* FILTERS CHOSEN */}
                 {hasFilters && (
                     <div className={cx("filters-choose-block")}>
-                        <FiltersChooseBlock />
+                        <FiltersChooseBlock/>
                     </div>
                 )}
             </label>
@@ -168,7 +163,7 @@ const NavBar = () => {
                                 isOpen: activeMenu === "sub-menu"
                             })}
                         >
-                            <Submenu />
+                            <Submenu/>
                         </div>
                     </div>
                 </li>
@@ -177,7 +172,10 @@ const NavBar = () => {
                     <li>About</li>
                 </Link>
 
-                <li>FAQ</li>
+                <Link to="/faq">
+                    <li>FAQ</li>
+                </Link>
+
 
                 <Link to="/checkout">
                     <li className={cx("check-out-li")}>

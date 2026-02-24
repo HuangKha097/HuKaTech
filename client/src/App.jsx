@@ -11,6 +11,7 @@ import ContactBlock from './components/ContactBlock';
 import Checkout from './pages/Checkout';
 import Search from './pages/Search';
 import Login from "./pages/Login.jsx";
+import FAQ from "./pages/FAQ.jsx";
 const Layout = () => {
     const location = useLocation()
     //
@@ -28,7 +29,7 @@ const Layout = () => {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:value" element={<Search />} />
-
+                <Route path="/faq" element={<FAQ />} />
                 {/*<Route path="/login" element={<Login />} />*/}
             </Routes>
             <ContactBlock />

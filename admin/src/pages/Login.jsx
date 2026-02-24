@@ -3,9 +3,13 @@ import classNames from "classnames/bind";
 import style from "../assets/css/LoginPage.module.scss"
 import {Link} from "react-router-dom"
 import * as UserService from "../services/UserService.js"
+import {useDispatch, useSelector} from "react-redux";
+import {setToken} from "../redux/userSlice.js"
 
 const cx = classNames.bind(style);
 const Login = () => {
+    const dispatch = useDispatch();
+
     const [ phone, setPhone ] = useState();
     const [ password, setPassword] = useState();
     const [errorText, setErrortext] = useState()
@@ -16,6 +20,8 @@ const Login = () => {
             if (res.status == "ERROR") {
                  setErrortext(res.message)
             }
+            dispatch(setToken(res.access_token));
+
         }catch (error)
         {
             console.log("error: ",error)

@@ -2,15 +2,20 @@ import classNames from "classnames/bind";
 import Slidebar from "./components/Slidebar.jsx";
 import style from "./assets/css/App.module.scss"
 import AddNewProduct from "./pages/AddNewProduct.jsx";
-import {Route, Routes, useLocation} from 'react-router-dom';
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Products from "./pages/Products.jsx";
 import EditProduct from "./pages/EditProduct.jsx";
 import Orders from "./pages/Orders.jsx";
 import Login from "./pages/Login.jsx";
 
+
+import { useSelector } from 'react-redux';
+import { ProtectedRoute } from "../src/protected/ProtectedRoute.jsx";
+
 const cx = classNames.bind(style);
 
 function App() {
+    const token = useSelector((state) => state.user.token);
     const location = useLocation();
     return (
         <>
@@ -19,17 +24,48 @@ function App() {
                     <Slidebar/>
                 </div>}
 
-                <div className={cx("main-block")}>
-                    <Routes>
-                        <Route path="/products">
-                            <Route index element={<Products/>}/>
-                            <Route path="add-new-product" element={<AddNewProduct/>}/>
-                            <Route path="edit-product/:id" element={<EditProduct/>}/>
-                        </Route>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/orders" element={<Orders/>}/>
-                    </Routes>
-                </div>
+                <Routes>
+                    <Route
+                        path="/login"
+                        element={!token ? <Login /> : <Navigate to="/products" />}
+                    />
+
+                    <Route
+                        path="/products"
+                        element={
+                            <ProtectedRoute>
+                                <Products />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/products/add-new-product"
+                        element={
+                            <ProtectedRoute>
+                                <AddNewProduct />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/products/edit-product/:id"
+                        element={
+                            <ProtectedRoute>
+                                <EditProduct />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/orders"
+                        element={
+                            <ProtectedRoute>
+                                <Orders />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
             </div>
         </>
     )

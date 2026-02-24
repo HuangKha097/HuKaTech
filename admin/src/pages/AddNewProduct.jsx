@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import classNames from "classnames/bind";
 import style from "../assets/css/AddNewProduct.module.scss";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import * as ProductService from "../services/ProductService.js";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const cx = classNames.bind(style);
 
 const AddNewProduct = () => {
+    const navigate = useNavigate();
     const [files, setFiles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [product, setProduct] = useState({
@@ -262,9 +263,11 @@ const AddNewProduct = () => {
                     </div>
                     {isLoading ? <CircularProgress/> : (
                         <div className={cx("btn-group")}>
-                            <Link to="..">
-                                <button type="button" className={cx("add-btn", "cancel-btn")}>Cancel</button>
-                            </Link>
+
+                            <button type="button" className={cx("add-btn", "cancel-btn")}
+                                    onClick={() => navigate(-1)}>Cancel
+                            </button>
+
                             <button type="submit" className={cx("add-btn")}>Save Product</button>
                         </div>)}
                 </div>
