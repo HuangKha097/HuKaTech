@@ -1,18 +1,17 @@
 const UserService = require('../services/UserService')
 
-const createUser = async (req, res) =>{
+const createUser = async (req, res) => {
     try {
-        const { name, phone, password, confirmPassword } = req.body
-        if ( !name || !phone || !password || !confirmPassword) {
+        const {name, phone, password, confirmPassword} = req.body
+        if (!name || !phone || !password || !confirmPassword) {
             return res.status(200).json({
                 status: "Error",
                 message: "The input is required"
             })
-        }
-        else if (password !== confirmPassword){
+        } else if (password !== confirmPassword) {
             return res.status(200).json({
                 status: "Error",
-                message: "Password does not match" 
+                message: "Password does not match"
             })
         }
         const result = await UserService.createUser(req.body);
@@ -24,10 +23,10 @@ const createUser = async (req, res) =>{
     }
 }
 
-const loginUser = async (req, res) =>{
+const loginUser = async (req, res) => {
     try {
-        const { phone, password  } = req.body
-        if (  !phone || !password ) {
+        const {phone, password} = req.body
+        if (!phone || !password) {
             return res.status(200).json({
                 status: "Error",
                 message: "The input is required"
@@ -41,7 +40,22 @@ const loginUser = async (req, res) =>{
         })
     }
 }
-const getUserById = async (req, res) =>{
+const logoutUser = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const result = await UserService.logoutUser(userId);
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+        return res.status(500).json({
+            status: "ERROR",
+            message: error.message
+        });
+    }
+};
+const getUserById = async (req, res) => {
     try {
         const userId = req.query._id
         const result = await UserService.getUserById(userId);
@@ -57,5 +71,6 @@ const getUserById = async (req, res) =>{
 module.exports = {
     createUser,
     loginUser,
-    getUserById
+    getUserById,
+    logoutUser
 }

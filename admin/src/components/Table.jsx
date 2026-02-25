@@ -50,99 +50,105 @@ const Table = ({data = [], onDelete, onView, loading}) => {
                 <th className={cx('th', 'priceCol')}>New Price</th>
                 <th className={cx('th', 'stockCol')}>Stock</th>
                 <th className={cx('th', 'categoryCol')}>Category</th>
-                {/* THÊM: Cột Action */}
                 <th className={cx('th', 'actionCol')}>Action</th>
             </tr>
             </thead>
 
-            {loading ?  <CircularProgress/> : (<tbody>
-            {data.length > 0 && data.map((item) => (
-                <tr key={item._id} className={cx('row')}>
-                    <td className={cx('td')}>
-                        <img
-                            src={getProductImage(item)}
-                            alt={item.name}
-                            className={cx('productImage')}
-                        />
+            <tbody>
+            {loading ? (
+                <tr>
+                    <td colSpan="8" style={{ textAlign: "center", padding: "20px" }}>
+                        <CircularProgress />
                     </td>
+                </tr>
+            ) : data.length > 0 ? (
+                data.map((item) => (
+                    <tr key={item._id} className={cx('row')}>
+                        <td className={cx('td')}>
+                            <img
+                                src={getProductImage(item)}
+                                alt={item.name}
+                                className={cx('productImage')}
+                            />
+                        </td>
 
-                    <td className={cx('td')}>
-                        <div className={cx('textClamp', 'nameText')}>
-                            {item.name}
-                        </div>
-                    </td>
+                        <td className={cx('td')}>
+                            <div className={cx('textClamp', 'nameText')}>
+                                {item.name}
+                            </div>
+                        </td>
 
-                    <td className={cx('td')}>
-                        <div className={cx('textClamp', 'descText')}>
-                            {item.description || '-'}
-                        </div>
-                    </td>
+                        <td className={cx('td')}>
+                            <div className={cx('textClamp', 'descText')}>
+                                {item.description || '-'}
+                            </div>
+                        </td>
 
-                    <td className={cx('td', 'priceText')}>
-                        {item.oldPrice ?? '-'}
-                    </td>
+                        <td className={cx('td', 'priceText')}>
+                            {item.oldPrice ?? '-'}
+                        </td>
 
-                    <td className={cx('td', 'priceText')}>
-                        {item.newPrice?.toLocaleString()} đ
-                    </td>
+                        <td className={cx('td', 'priceText')}>
+                            {item.newPrice?.toLocaleString()} đ
+                        </td>
 
-                    <td className={cx('td', 'centerText')}>
-                        {item.countInStock ?? '-'}
-                    </td>
+                        <td className={cx('td', 'centerText')}>
+                            {item.countInStock ?? '-'}
+                        </td>
 
-                    <td className={cx('td')}>
-                        {item.category || '-'}
-                    </td>
+                        <td className={cx('td')}>
+                            {item.category || '-'}
+                        </td>
 
-                    {/* THÊM: Các nút Action */}
-                    <td className={cx('td')}>
-                        <div className={cx('actionGroup')}>
-
-                            {/* Nút ẩn sản phẩm */}
-                            {
-                                item.status === "inactive" ?
+                        <td className={cx('td')}>
+                            <div className={cx('actionGroup')}>
+                                {item.status === "inactive" ? (
                                     <button
                                         className={cx('actionBtn', 'viewBtn')}
                                         title="Bỏ ẩn sản phẩm"
                                         onClick={() => onView(item._id)}
                                     >
-                                        <FontAwesomeIcon icon={faEyeSlash}/>
-                                    </button> : <button
+                                        <FontAwesomeIcon icon={faEyeSlash} />
+                                    </button>
+                                ) : (
+                                    <button
                                         className={cx('actionBtn', 'viewBtn')}
                                         title="Ẩn sản phẩm"
                                         onClick={() => onView(item._id)}
                                     >
-                                        <FontAwesomeIcon icon={faEye}/>
+                                        <FontAwesomeIcon icon={faEye} />
                                     </button>
-                            }
+                                )}
 
-                            {/* Nút Sửa (Edit) */}
-                            <button
-                                className={cx('actionBtn', 'editBtn')}
-                                title="Sửa"
-                                onClick={() => {
-                                    handleGetProductUpdate(item);
+                                <button
+                                    className={cx('actionBtn', 'editBtn')}
+                                    title="Sửa"
+                                    onClick={() => handleGetProductUpdate(item)}
+                                >
+                                    <FontAwesomeIcon icon={faPen} />
+                                </button>
 
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faPen}/>
-                            </button>
-
-                            {/* Nút Xóa (Delete) */}
-                            <button
-                                className={cx('actionBtn', 'deleteBtn')}
-                                title="Xóa"
-                                onClick={() => onDelete(item._id)}
-                            >
-                                <FontAwesomeIcon icon={faTrashCan}/>
-                            </button>
-                        </div>
+                                <button
+                                    className={cx('actionBtn', 'deleteBtn')}
+                                    title="Xóa"
+                                    onClick={() => onDelete(item._id)}
+                                >
+                                    <FontAwesomeIcon icon={faTrashCan} />
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                ))
+            ) : (
+                <tr>
+                    <td colSpan="8" style={{ textAlign: "center", padding: "20px" }}>
+                        Không có sản phẩm nào
                     </td>
                 </tr>
-            ))}
-            </tbody>)}
+            )}
+            </tbody>
         </table>
-    )
+    );
 }
 
 export default Table
