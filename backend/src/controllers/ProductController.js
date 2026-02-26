@@ -6,7 +6,6 @@ const addNewProduct = async (req, res) => {
     try {
         const {productName, description, oldPrice, newPrice, type, category, countInStock} = req.body;
 
-        // --- SỬA ĐOẠN XỬ LÝ ẢNH ---
         let productImages = [];
 
         // Kiểm tra nếu có file (req.files số nhiều)
@@ -24,7 +23,7 @@ const addNewProduct = async (req, res) => {
             }));
         }
 
-        // Nếu bắt buộc phải có ảnh thì check
+        // Nếu bắt buộc phải check
         if (productImages.length === 0) {
             return res.status(400).json({status: 'ERR', message: 'Vui lòng chọn ít nhất 1 ảnh'});
         }
@@ -100,15 +99,13 @@ const updateProduct = async (req, res) => {
             );
         }
 
-        // --- GỌI SERVICE ĐỂ UPDATE DB ---
-        // Gom dữ liệu cần update
+
         const dataToUpdate = {
             ...req.body,
             images: finalImages,
-            _id: productId // Truyền ID vào để Service biết check trùng tên ngoại trừ ID này
+            _id: productId // Truyền ID để Service  check trùng tên ngoại trừ ID này
         };
 
-        // Gọi service thay vì tự update tại đây
         const response = await ProductService.updateProduct(dataToUpdate);
 
         return res.status(200).json(response);
@@ -226,11 +223,8 @@ const getRelatedProducts = async (req, res) => {
 };
 
 
-// CẬP NHẬT: Dùng req.params nếu router là /get-product-by-id/:id
 const getProductById = async (req, res) => {
     try {
-        // Nếu router sửa thành /:id thì dùng req.params.id
-        // Nếu router vẫn giữ nguyên thì dùng req.query._id hoặc req.query.id
         const id = req.params.id || req.query.id || req.query._id;
 
         if (!id) {
@@ -247,10 +241,8 @@ const getProductById = async (req, res) => {
     }
 };
 
-// CẬP NHẬT: Dùng req.params nếu router là /delete-product/:id
 const deleteProduct = async (req, res) => {
     try {
-        // Tương tự, ưu tiên lấy từ params cho chuẩn RESTful
         const id = req.params.id || req.body._id;
 
         if (!id) {

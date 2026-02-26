@@ -87,9 +87,7 @@ const NavBar = () => {
         <div className={cx("container")}>
             {/* LOGO */}
             <div className={cx("logo")}>
-                <Link to="/">
-                    <img src={logo} alt="logo shop"/>
-                </Link>
+                <img src={logo} onClick={() => navigate("/")} alt="logo shop"/>
             </div>
 
             {/* SEARCH */}

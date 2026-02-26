@@ -6,6 +6,7 @@ import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Products from "./pages/Products.jsx";
 import EditProduct from "./pages/EditProduct.jsx";
 import Orders from "./pages/Orders.jsx";
+import Categories from "./pages/Categories.jsx";
 import Settings from "./pages/Settings.jsx";
 import Login from "./pages/Login.jsx";
 
@@ -59,13 +60,21 @@ function App() {
                     />
 
                     <Route
+                        path="/categories"
+                        element={
+                            <ProtectedRoute>
+                                <Categories />
+                            </ProtectedRoute>
+                        }
+                    />  <Route
                         path="/orders"
                         element={
                             <ProtectedRoute>
                                 <Orders />
                             </ProtectedRoute>
                         }
-                    /><Route
+                    />
+                    <Route
                         path="/setting"
                         element={
                             <ProtectedRoute>
