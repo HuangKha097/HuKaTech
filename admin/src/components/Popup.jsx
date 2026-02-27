@@ -4,7 +4,8 @@ import style from "../assets/css/Popup.module.scss";
 
 const cx = classNames.bind(style);
 
-const Popup = ({ header, onClose, onSubmit }) => {
+// Bổ sung prop initialData (mặc định là object rỗng)
+const Popup = ({ header, onClose, onSubmit, initialData = {} }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,6 +32,7 @@ const Popup = ({ header, onClose, onSubmit }) => {
                             id="input-name"
                             name="name"
                             required
+                            defaultValue={initialData.name || ""} // Tự động điền khi Edit
                         />
                     </label>
 
@@ -40,11 +42,13 @@ const Popup = ({ header, onClose, onSubmit }) => {
                             id="input-description"
                             name="description"
                             rows="3"
+                            defaultValue={initialData.description || ""} // Tự động điền khi Edit
                         ></textarea>
                     </label>
 
-                    <select name="status" required>
-                        <option value="">Choose status</option>
+                    {/* Tự động chọn đúng status khi Edit */}
+                    <select name="status" required defaultValue={initialData.status || ""}>
+                        <option value="" disabled>Choose status</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>

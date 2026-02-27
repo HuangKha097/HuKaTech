@@ -4,15 +4,17 @@ import {persistReducer, persistStore} from "redux-persist";
 import productsSlide from "./productsSlice.js";
 import userSlice from "./userSlice.js";
 import {configureStore} from "@reduxjs/toolkit";
+import categoriesReducer from './categorySlice.js';
 
 const rootReducer = combineReducers({
     products: productsSlide,
-    user: userSlice
+    user: userSlice,
+    categories: categoriesReducer,
 })
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ["products","user"],
+    whitelist: ["products", "user", "categories"],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

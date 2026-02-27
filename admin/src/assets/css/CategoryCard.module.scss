@@ -1,0 +1,108 @@
+.category-card {
+  height: 200px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eaeaea;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card-content {
+  padding: 20px;
+  flex-grow: 1;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .card-desc {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+
+  &.active {
+    background-color: #e6f4ea;
+    color: #1e8e3e;
+  }
+
+  &.inactive {
+    background-color: #fce8e6;
+    color: #d93025;
+  }
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+
+  .action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+
+    &.toggle-btn {
+      color: #5f6368;
+    }
+
+    &.toggle-btn:hover {
+      background-color: #f1f3f4;
+    }
+
+    &.edit-btn {
+      color: #1a73e8;
+    }
+
+    &.edit-btn:hover {
+      background-color: #e8f0fe;
+    }
+
+    &.delete-btn {
+      color: #d93025;
+    }
+
+    &.delete-btn:hover {
+      background-color: #fce8e6;
+    }
+  }
+}

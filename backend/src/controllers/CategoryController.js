@@ -1,6 +1,5 @@
 const CategoryService = require("../services/CategoryService.js");
 
-
 const addNewCategory = async (req, res) => {
     try {
         const {name, description, status} = req.body;
@@ -25,6 +24,7 @@ const addNewCategory = async (req, res) => {
 
         return res.status(201).json({
             status: "SUCCESS",
+            message: result.message, // Đã thêm message
             data: result.data
         });
 
@@ -63,6 +63,7 @@ const updateCategory = async (req, res) => {
 
         return res.status(200).json({
             status: "SUCCESS",
+            message: result.message, // Đã thêm message
             data: result.data
         });
 
@@ -73,7 +74,6 @@ const updateCategory = async (req, res) => {
         });
     }
 };
-
 
 const deleteCategory = async (req, res) => {
     try {
@@ -108,9 +108,87 @@ const deleteCategory = async (req, res) => {
     }
 };
 
+const getAllCategories = async (req, res) => {
+    try {
+        const result = await CategoryService.getAllCategories();
+
+        if (!result.success) {
+            return res.status(400).json({
+                status: "ERR",
+                message: result.message
+            });
+        }
+
+        return res.status(200).json({
+            status: "SUCCESS",
+            message: result.message, // Đã thêm message
+            data: result.data
+        });
+
+    } catch (e) {
+        return res.status(500).json({
+            status: "ERR",
+            message: e.message
+        });
+    }
+};
+
+const searchCategories = async (req, res) => {
+    try {
+        const {name, status} = req.query;
+
+        const result = await CategoryService.searchCategories({name, status});
+
+        if (!result.success) {
+            return res.status(400).json({
+                status: "ERR",
+                message: result.message
+            });
+        }
+
+        return res.status(200).json({
+            status: "SUCCESS",
+            message: result.message, // Đã thêm message
+            data: result.data
+        });
+    } catch (e) {
+        return res.status(500).json({
+            status: "ERR",
+            message: e.message
+        });
+    }
+};
+
+const getActiveCategories = async (req, res) => {
+    try {
+        const result = await CategoryService.getActiveCategories();
+
+        if (!result.success) {
+            return res.status(400).json({
+                status: "ERR",
+                message: result.message
+            });
+        }
+
+        return res.status(200).json({
+            status: "SUCCESS",
+            message: result.message, // Đã thêm message
+            data: result.data
+        });
+
+    } catch (e) {
+        return res.status(500).json({
+            status: "ERR",
+            message: e.message
+        });
+    }
+};
 
 module.exports = {
     addNewCategory,
     updateCategory,
     deleteCategory,
+    getAllCategories,
+    searchCategories,
+    getActiveCategories
 };

@@ -91,9 +91,72 @@ const deleteCategory = async (categoryId) => {
         };
     }
 }
+const getAllCategories = async () => {
+    try {
+        const categories = await Category.find();
+        return {
+            success: true,
+            message: "Successfully fetched all categories",
+            data: categories,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
 
+const searchCategories = async (queryParams) => {
+    try {
+        const {name, status} = queryParams;
+        let query = {};
+
+        // Nếu có truyền name thì tìm kiếm tương đối (không phân biệt hoa thường)
+        if (name) {
+            query.name = {$regex: name, $options: 'i'};
+        }
+
+        // Nếu có truyền status thì tìm chính xác theo status
+        if (status) {
+            query.status = status;
+        }
+
+        const categories = await Category.find(query);
+
+        return {
+            success: true,
+            message: "Successfully fetched categories",
+            data: categories,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
+const getActiveCategories = async () => {
+    try {
+        const activeCategories = await Category.find({status: 'active'});
+
+        return {
+            success: true,
+            message: "Successfully fetched active categories",
+            data: activeCategories,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
 module.exports = {
     addNewCategory,
     updateCategory,
     deleteCategory,
+    getAllCategories,
+    searchCategories,
+    getActiveCategories
 }
