@@ -1,24 +1,22 @@
 const jwt = require("jsonwebtoken")
 
-const genneralAccesToken = async (payload) =>{
-    console.log(payload);
-    
-    const accessToken = jwt.sign({
-        payload
-    }, 'access_token', { expiresIn:'1h'})   
-    return accessToken;
-}
+const genneralAccesToken = async (payload) => {
+    return jwt.sign(
+        payload,
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "1h" }
+    );
+};
 
-const genneralRefreshToken = async (payload) =>{
-    console.log(payload);
-    
-    const refreshToken = jwt.sign({
-        payload
-    }, 'refresh_token', { expiresIn:'365d'})   
-    return refreshToken;
-}
+const genneralRefreshToken = async (payload) => {
+    return jwt.sign(
+        payload,
+        process.env.REFRESH_TOKEN,
+        { expiresIn: "365d" }
+    );
+};
 
 module.exports = {
     genneralAccesToken,
     genneralRefreshToken
-}
+};

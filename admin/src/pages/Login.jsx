@@ -16,18 +16,17 @@ const Login = () => {
     const handleSubmit = async (data) => {
         try {
             const res = await UserService.login(data);
+
             if (res.status === "OK") {
-  
                 dispatch(setToken(res.access_token));
+                localStorage.setItem("token", res.access_token);
                 navigate("/");
+            } else {
+                setErrortext(res.message);
             }
-            if (res.status == "ERROR") {
-                setErrortext(res.message)
-            }
-            dispatch(setToken(res.access_token));
 
         } catch (error) {
-            console.log("error: ", error)
+            console.log("error: ", error);
         }
     }
     return (

@@ -8,5 +8,4 @@ export const login = async (data) => {
 export const logout = async () => {
     const res = await axios.post("http://localhost:8000/api/user/logout");
     return res.data;
-
 };
