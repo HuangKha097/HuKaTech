@@ -82,12 +82,12 @@ const OrderDetailPopup = ({ isOpen, onClose, order }) => {
                                 <tr key={index}>
                                     <td>
                                         <img
-                                            src={item.image || 'https://via.placeholder.com/40'}
-                                            alt={item.name}
+                                            src={item.image_url || 'https://via.placeholder.com/40'}
+                                            alt={item.product_name}
                                             className={cx('productImg')}
                                         />
                                     </td>
-                                    <td>{item.name || `Product ID: ${item.productId}`}</td>
+                                    <td>{item.product_name || `Product ID: ${item.productId}`}</td>
                                     <td>{item.price?.toLocaleString()} đ</td>
                                     <td>x{item.quantity}</td>
                                     <td><b>{((item.price || 0) * (item.quantity || 1)).toLocaleString()} đ</b></td>

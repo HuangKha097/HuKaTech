@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     products: []
@@ -9,13 +9,26 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addProduct: (state, action) => {
-            const isExistingProduct = state.products.find((item) => item.id === action.payload.id);
+            const newItem = action.payload;
+            const isExistingProduct = state.products.find((item) => item.id === newItem.id);
+
             if (isExistingProduct) {
-                isExistingProduct.quantity++;
-            } else if (!isExistingProduct) state.products.push(action.payload)
+                // Kiểm tra: Nếu số lượng hiện tại vẫn NHỎ HƠN số lượng tồn kho thì mới cho phép tăng
+                if (isExistingProduct.quantity < newItem.countInStock) {
+                    isExistingProduct.quantity++;
+                }
+
+            } else {
+                // Nếu chưa có trong giỏ hàng và kho còn hàng (> 0) thì thêm mới
+                if (newItem.countInStock > 0) {
+                    state.products.push(newItem);
+                }
+            }
         },
+
         decrementProduct: (state, action) => {
-            const isExistingProduct = state.products.find((item)=> item.id === action.payload.id);
+            const isExistingProduct = state.products.find((item) => item.id === action.payload.id);
+
             if (isExistingProduct && isExistingProduct.quantity > 1) {
                 isExistingProduct.quantity--;
             }
@@ -27,5 +40,5 @@ const cartSlice = createSlice({
     }
 })
 
-export const {addProduct, removeProduct,decrementProduct} = cartSlice.actions;
-export default cartSlice.reducer
+export const { addProduct, removeProduct, decrementProduct } = cartSlice.actions;
+export default cartSlice.reducer;

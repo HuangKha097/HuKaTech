@@ -1,5 +1,16 @@
 const Product = require("../models/ProductModel");
 const {uploadToCloudinary, deleteFromCloudinary} = require("../middlewares/cloudinary");
+
+const calculateStatusByStock = (countInStock, currentStatus) => {
+    if (currentStatus === "inactive") return "inactive";
+
+    const stock = Number(countInStock);
+    if (stock <= 0) return "out-of-stock";
+    if (stock <= 5) return "low-stock";
+
+    return "active";
+};
+
 const addNewProduct = async (newProduct) => {
     try {
         const {name} = newProduct;
@@ -11,6 +22,7 @@ const addNewProduct = async (newProduct) => {
                 message: "Tên sản phẩm đã tồn tại",
             } ;
         }
+        newProduct.status = calculateStatusByStock(countInStock, newProduct.status);
 
         // Dữ liệu newProduct đã được Controller định dạng chuẩn (bao gồm images có public_id)
         const createdProduct = await Product.create(newProduct);
@@ -28,8 +40,7 @@ const addNewProduct = async (newProduct) => {
 };
 const updateProduct = async (productUpdate) => {
     try {
-        // Lấy _id và name từ object controller truyền xuống
-        const {_id, name} = productUpdate;
+        const {_id, name, countInStock, status} = productUpdate;
 
         // Check trùng tên (Trừ chính thằng đang sửa ra: $ne: _id)
         const checkProduct = await Product.findOne({
@@ -44,18 +55,27 @@ const updateProduct = async (productUpdate) => {
             };
         }
 
-        const updatedProduct = await Product.findByIdAndUpdate(
-            _id,
-            productUpdate,
-            {new: true}
-        );
-
-        if (!updatedProduct) {
+        // Lấy thông tin sản phẩm hiện tại trong DB để đối chiếu
+        const existingProduct = await Product.findById(_id);
+        if (!existingProduct) {
             return {
                 status: "ERR",
                 message: "Không tìm thấy sản phẩm"
             };
         }
+
+        // Xác định tồn kho và trạng thái mới nhất để tính toán
+        const updatedStock = countInStock !== undefined ? countInStock : existingProduct.countInStock;
+        const targetStatus = status !== undefined ? status : existingProduct.status;
+
+        // Cập nhật lại status theo stock
+        productUpdate.status = calculateStatusByStock(updatedStock, targetStatus);
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            _id,
+            productUpdate,
+            {new: true}
+        );
 
         return {
             status: "OK",
@@ -70,7 +90,6 @@ const updateProduct = async (productUpdate) => {
         };
     }
 };
-
 
 const getAllProducts = async () => {
     try {
@@ -334,9 +353,14 @@ const handleActiveProduct = async (id) => {
             };
         }
 
-        product.status = product.status === "active"
-            ? "inactive"
-            : "active";
+        // Nếu đang khóa -> Mở khóa thì phải check lại số lượng tồn kho
+        if (product.status === "inactive") {
+            // Truyền tham số thứ 2 là "active" giả lập để hàm helper tự phân loại stock
+            product.status = calculateStatusByStock(product.countInStock, "active");
+        } else {
+            // Nếu đang hiển thị (active/low-stock/out-of-stock) -> Đổi thành khóa (inactive)
+            product.status = "inactive";
+        }
 
         await product.save();
 
@@ -352,7 +376,6 @@ const handleActiveProduct = async (id) => {
         };
     }
 };
-
 module.exports = {
     getAllProducts,
     addNewProduct,

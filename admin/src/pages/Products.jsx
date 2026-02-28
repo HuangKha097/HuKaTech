@@ -252,8 +252,8 @@ const Products = () => {
                         <option value="">All Status</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
-                        <option value="lowStock">Low Stock</option>
-                        <option value="outOfStock">Out of Stock</option>
+                        <option value="low-stock">Low Stock</option>
+                        <option value="out-of-stock">Out of Stock</option>
                     </select>
                 </label>
                 <button type="submit" className={cx("add-btn", "search-btn")}>Search</button>

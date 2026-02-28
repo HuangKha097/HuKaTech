@@ -3,34 +3,37 @@ import classNames from 'classnames/bind';
 import styles from '../assets/css/ProductDetailHeader.module.scss';
 import Tag from '../components/Tag';
 import {motion} from 'framer-motion';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addProduct} from "../redux/CartSlice.js";
+import {useNavigate} from "react-router-dom"; // Thêm useNavigate để chuyển hướng
+
 
 const cx = classNames.bind(styles);
 
 const ProductDetailHeader = ({delay = 0.3, props}) => {
+
+    const listProduct = useSelector((state) => state.cart.products);
+
+    console.log(listProduct)
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // Khởi tạo navigate
     const [currentProductImage, setCurrentProductImage] = useState(0);
-    const imageLength = props.images.length - 1;
-    // --- 1. Hàm lấy ảnh an toàn (Hybrid: Cloudinary + Base64) ---
+    const imageLength = props?.images?.length - 1;
+
+    // --- 1. Hàm lấy ảnh an toàn ---
     const getProductImage = () => {
         if (!props) return 'https://via.placeholder.com/300';
 
-        // Ưu tiên 1: Dữ liệu MỚI (Cloudinary - Mảng images)
-        // Kiểm tra kỹ xem mảng có tồn tại và có phần tử không
         if (props.images && Array.isArray(props.images) && props.images.length > 0) {
             return props.images[currentProductImage].url;
         }
 
-        // Ưu tiên 2: Dữ liệu CŨ (Base64 - Chuỗi string)
         if (props.image) {
-            // Kiểm tra xem chuỗi đã có prefix chưa, nếu chưa thì thêm vào
             return props.image.startsWith('data:image')
                 ? props.image
                 : `data:image/jpeg;base64,${props.image}`;
         }
 
-        // Fallback: Ảnh mặc định nếu không có ảnh nào
         return 'https://via.placeholder.com/300';
     };
 
@@ -44,6 +47,19 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
             setCurrentProductImage((prevState) => prevState - 1);
         }
     }
+
+    // --- Hàm tạo payload chuẩn để dùng chung cho Add to Cart & Buy Now ---
+    const createCartPayload = () => {
+        return {
+            id: props._id,
+            product_name: props.name,
+            quantity: 1,
+            price: props.newPrice,
+            image_url: getProductImage(),
+            countInStock: props.countInStock, // QUAN TRỌNG: Gửi kèm số lượng tồn kho lên Redux
+        };
+    };
+
     // --- 2. Xử lý thêm vào giỏ hàng ---
     const handleAddToCart = () => {
         if (!props || !props._id) {
@@ -51,22 +67,50 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
             return;
         }
 
-        const payload = {
-            id: props._id,
-            product_name: props.name,
-            quantity: 1,
-            price: props.newPrice,
-            // QUAN TRỌNG: Gọi hàm getProductImage để lấy URL chuỗi ngắn
-            // Giúp Redux nhẹ hơn, không bị lỗi QuotaExceededError
-            image_url: getProductImage(),
-        };
+        // Chặn nếu hết hàng
+        if (props.countInStock <= 0 || props.status === 'out-of-stock') {
+            alert("Rất tiếc, sản phẩm này hiện đã hết hàng!");
+            return;
+        }
+        const cartItems = Array.isArray(listProduct) ? listProduct : (listProduct?.products || []);
 
-        dispatch(addProduct(payload));
+        const productInCart = cartItems.find(item => item.id === props._id);
+        const currentQuantityInCart = productInCart ? productInCart.quantity : 0;
+
+        if (currentQuantityInCart >= props.countInStock) {
+            alert(`Bạn đã thêm tối vượt quá số lượng trong kho - (${props.countInStock} sản phẩm) vào giỏ hàng!`);
+            return; // Dừng lại, không cho thêm nữa
+        }
+
+
+        dispatch(addProduct(createCartPayload()));
         alert("Đã thêm sản phẩm vào giỏ hàng thành công!");
     }
 
-    // Nếu dữ liệu chưa tải xong thì không render gì cả (hoặc render Skeleton loading)
+    // --- 3. Xử lý nút Buy Now ---
+    const handleBuyNow = () => {
+        if (!props || !props._id) {
+            alert("Dữ liệu sản phẩm chưa tải xong!");
+            return;
+        }
+
+        // Chặn nếu hết hàng
+        if (props.countInStock <= 0 || props.status === 'out-of-stock') {
+            alert("Rất tiếc, sản phẩm này hiện đã hết hàng!");
+            return;
+        }
+
+        // Thêm vào giỏ hàng
+        dispatch(addProduct(createCartPayload()));
+
+        // Chuyển hướng sang trang checkout (Bạn có thể đổi '/checkout' thành '/cart' tùy route dự án của bạn)
+        navigate('/checkout');
+    }
+
     if (!props) return null;
+
+    // Kiểm tra trạng thái hết hàng để vô hiệu hóa nút bấm
+    const isOutOfStock = props.countInStock <= 0 || props.status === 'out-of-stock';
 
     return (
         <div className={cx('container')}>
@@ -95,7 +139,6 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
                         viewport={{once: true, amount: 0.2}}
                     >
                         <div className={cx('name-price')}>
-                            {/* Ưu tiên hiển thị Category, nếu không có thì lấy Type */}
                             <Tag props={ props.type || 'General'}/>
 
                             <h2>{props.name}</h2>
@@ -114,13 +157,29 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
 
                         <div className={cx('desc')}>
                             <p>{props.description}</p>
+                            {/* Hiển thị dòng thông báo tồn kho cho khách hàng thấy */}
+                            <p style={{ marginTop: '10px', fontWeight: 'bold', color: isOutOfStock ? 'red' : 'green' }}>
+                                {isOutOfStock ? 'Trạng thái: Đã hết hàng' : `Còn lại: ${props.countInStock} sản phẩm`}
+                            </p>
                         </div>
 
                         <div className={cx('btn-group')}>
-                            <button className={cx('btn-add')} onClick={handleAddToCart}>
+                            <button
+                                className={cx('btn-add')}
+                                onClick={handleAddToCart}
+                                disabled={isOutOfStock}
+                                style={{ opacity: isOutOfStock ? 0.5 : 1, cursor: isOutOfStock ? 'not-allowed' : 'pointer' }}
+                            >
                                 Add To Cart
                             </button>
-                            <button className={cx('btn-buy')}>Buy Now</button>
+                            <button
+                                className={cx('btn-buy')}
+                                onClick={handleBuyNow}
+                                disabled={isOutOfStock}
+                                style={{ opacity: isOutOfStock ? 0.5 : 1, cursor: isOutOfStock ? 'not-allowed' : 'pointer' }}
+                            >
+                                Buy Now
+                            </button>
                         </div>
                     </motion.div>
                 </div>
