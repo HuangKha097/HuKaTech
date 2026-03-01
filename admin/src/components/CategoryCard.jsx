@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from "classnames/bind";
-import style from "../assets/css/CategoryCard.module.scss";
+import style from "../assets/css/CategoryPage.module.scss";
 import { faEdit, faEye, faEyeSlash, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

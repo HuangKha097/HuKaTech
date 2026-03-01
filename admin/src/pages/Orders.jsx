@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import classNames from "classnames/bind";
-import style from "../assets/css/OrderPage.module.scss";
+import style from "../assets/css/Pages.module.scss";
 import tableStyle from "../assets/css/Table.module.scss";
 import Table from "../components/Table.jsx";
 import {useDispatch, useSelector} from "react-redux";
