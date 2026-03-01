@@ -2,7 +2,7 @@ const Order = require("../models/OrderModel");
 
 const Product = require("../models/ProductModel");
 
-// Hàm tính toán trạng thái (Copy giống hệt bên ProductService)
+// Hàm tính toán trạng thái
 const calculateStatusByStock = (countInStock, currentStatus) => {
     if (currentStatus === "inactive") return "inactive";
     const stock = Number(countInStock);
@@ -16,16 +16,11 @@ const createNewOrder = (newOrder) => {
         const {id, name, email, phone, address, city, moreInfo, payMethod, cart, status} = newOrder;
 
         try {
-            // ==========================================
-            // LỚP PHÒNG THỦ 1 & 2: KIỂM TRA BẢO MẬT
-            // ==========================================
             let verifiedCart = [];
 
-            // Dùng vòng lặp for thường (hoặc for...of) để chờ (await) từng sản phẩm
             for (let i = 0; i < cart.length; i++) {
                 const item = cart[i];
 
-                // Lấy thông tin GỐC từ Database
                 const realProduct = await Product.findById(item.id);
 
                 if (!realProduct) {
@@ -35,11 +30,11 @@ const createNewOrder = (newOrder) => {
                     });
                 }
 
-                // 1. Check tồn kho thật
+                //  Check tồn kho thật
                 if (item.quantity > realProduct.countInStock) {
                     return resolve({
                         status: "ERR",
-                        message: `Sản phẩm "${realProduct.name}" chỉ còn ${realProduct.countInStock} cái. Vui lòng điều chỉnh lại số lượng!`,
+                        message: `Sản phẩm "${realProduct.name}" chỉ còn ${realProduct.countInStock}. Vui lòng điều chỉnh lại số lượng!`,
                     });
                 }
 
@@ -51,7 +46,7 @@ const createNewOrder = (newOrder) => {
                     });
                 }
 
-                // 2. Chốt dữ liệu chuẩn (Ép dùng giá từ DB, bỏ qua giá từ Frontend)
+                // Dữ liệu chuẩn (Ép dùng giá từ DB, bỏ qua giá từ Frontend
                 verifiedCart.push({
                     id: realProduct._id,
                     product_name: realProduct.name,
@@ -61,9 +56,6 @@ const createNewOrder = (newOrder) => {
                 });
             }
 
-            // ==========================================
-            // TẠO ĐƠN HÀNG VỚI DỮ LIỆU ĐÃ XÁC THỰC
-            // ==========================================
             const createOrder = await Order.create({
                 id,
                 name,
@@ -77,18 +69,14 @@ const createNewOrder = (newOrder) => {
                 status
             });
 
-            // ==========================================
-            // LỚP PHÒNG THỦ 3: TRỪ TỒN KHO
-            // ==========================================
             if (createOrder) {
                 // Đơn hàng tạo thành công, tiến hành trừ kho
                 for (let i = 0; i < verifiedCart.length; i++) {
                     const item = verifiedCart[i];
                     const product = await Product.findById(item.id);
 
-                    // Tính số lượng mới
                     const newStock = product.countInStock - item.quantity;
-                    // Cập nhật lại trạng thái (vd: mua xong cái cuối cùng thì đổi thành out-of-stock)
+                    // Cập nhật lại trạng thái- mua xong cái cuối cùng  đổi thành out-of-stock
                     const newStatus = calculateStatusByStock(newStock, product.status);
 
                     await Product.findByIdAndUpdate(item.id, {
@@ -130,7 +118,7 @@ const searchOrder = (query) => {
             const {status, phone, email} = query;
             let filter = {};
 
-            // Lọc theo status (phải chính xác cụm từ trong enum)
+            // Lọc theo status
             if (status) {
                 filter.status = status;
             }
@@ -164,10 +152,10 @@ const updateOrder = (id, data) => {
                     status: "ERR",
                     message: "The order is not defined",
                 });
-                return; // Dừng lại ở đây
+                return;
             }
 
-            // runValidators: true là BẮT BUỘC để Mongoose kiểm tra enum của status khi update
+            // runValidators: true để Mongoose kiểm tra enum của status khi update
             const updatedOrder = await Order.findByIdAndUpdate(id, data, {
                 new: true,
                 runValidators: true
@@ -186,7 +174,6 @@ const updateOrder = (id, data) => {
 const getOrderByUserId = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Tìm các đơn hàng có trường 'id' trùng với userId truyền vào
             const orders = await Order.find({id: userId}).sort({createdAt: -1});
             resolve({
                 status: "OK",

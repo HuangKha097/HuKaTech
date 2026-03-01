@@ -3,7 +3,6 @@ const OrderService = require("../services/OrderService");
 const createNewOrder = async (req, res) => {
     try {
         const {name, email, phone, address, city, payMethod, cart} = req.body;
-        // Bỏ moreInfo và status ra khỏi điều kiện bắt buộc vì nó có thể tùy chọn hoặc mặc định
         if (!name || !email || !phone || !address || !city || !payMethod || !cart) {
             return res.status(400).json({
                 status: "ERR",
@@ -59,23 +58,21 @@ const updateOrder = async (req, res) => {
 
         const response = await OrderService.updateOrder(orderId, data);
 
-        // Nếu kết quả trả về là lỗi từ service
         if (response.status === "ERR") {
             return res.status(404).json(response);
         }
-
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({
             status: "ERR",
-            // Nếu có lỗi ValidationError từ Mongoose (do enum), nó sẽ hiện thông báo chi tiết ở đây
+            // Nếu có lỗi ValidationError từ Mongoose (do enum)
             message: error.message || error,
         });
     }
 };
 const getOrderByUserId = async (req, res) => {
     try {
-        const userId = req.params.id; // Lấy ID user từ tham số URL
+        const userId = req.params.id;
 
         if (!userId) {
             return res.status(400).json({

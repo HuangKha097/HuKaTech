@@ -10,8 +10,10 @@ import Categories from "./pages/Categories.jsx";
 import Settings from "./pages/Settings.jsx";
 import Login from "./pages/Login.jsx";
 
-
-import { useSelector } from 'react-redux';
+// THÊM: import useEffect
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from './redux/userSlice';
 import { ProtectedRoute } from "../src/protected/ProtectedRoute.jsx";
 
 const cx = classNames.bind(style);
@@ -19,6 +21,16 @@ const cx = classNames.bind(style);
 function App() {
     const token = useSelector((state) => state.user.token);
     const location = useLocation();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+
+        if (storedToken && !token) {
+            dispatch(setToken(storedToken));
+        }
+    }, [dispatch, token]);
+
     return (
         <>
             <div className={cx("container")}>
@@ -27,6 +39,7 @@ function App() {
                 </div>}
 
                 <Routes>
+
                     <Route
                         path="/login"
                         element={!token ? <Login /> : <Navigate to="/products" />}
@@ -66,7 +79,9 @@ function App() {
                                 <Categories />
                             </ProtectedRoute>
                         }
-                    />  <Route
+                    />
+
+                    <Route
                         path="/orders"
                         element={
                             <ProtectedRoute>
@@ -74,6 +89,7 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+
                     <Route
                         path="/setting"
                         element={

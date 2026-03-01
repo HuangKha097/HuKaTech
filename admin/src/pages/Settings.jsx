@@ -4,6 +4,7 @@ import style from "../assets/css/Settings.module.scss";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setToken} from "../redux/userSlice.js";
+import * as UserService from "../services/UserService.js";
 
 const cx = classNames.bind(style);
 
@@ -16,12 +17,26 @@ const Settings = () => {
         if (!isConfirm) return;
 
         try {
-            if (isConfirm) {
-                dispatch(setToken(null));
-                navigate("/login");
-            }
+            // 1. (Tùy chọn nhưng khuyên dùng) Gọi API báo backend hủy session/token
+            await UserService.logout();
+
+            // 2. Dọn sạch Local Storage của trình duyệt
+            localStorage.removeItem("token");
+            localStorage.removeItem("refresh_token");
+
+            // 3. Xóa state trong Redux
+            dispatch(setToken(null));
+
+            // 4. Chuyển hướng về trang đăng nhập
+            navigate("/login");
+
         } catch (error) {
-            console.error(error);
+            console.error("Lỗi khi đăng xuất:", error);
+            // Kể cả gọi API lỗi thì cũng nên ép xóa local và bắt đăng xuất
+            localStorage.removeItem("token");
+            localStorage.removeItem("refresh_token");
+            dispatch(setToken(null));
+            navigate("/login");
         }
     };
     return (

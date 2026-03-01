@@ -17,10 +17,10 @@ const addNewProduct = async (newProduct) => {
 
         const checkProduct = await Product.findOne({name: name});
         if (checkProduct !== null) {
-            return  {
+            return {
                 status: "ERR",
                 message: "Tên sản phẩm đã tồn tại",
-            } ;
+            };
         }
         newProduct.status = calculateStatusByStock(countInStock, newProduct.status);
 
@@ -32,10 +32,10 @@ const addNewProduct = async (newProduct) => {
                 status: "OK",
                 message: "SUCCESS",
                 data: createdProduct,
-            } ;
+            };
         }
     } catch (error) {
-       return error;
+        return error;
     }
 };
 const updateProduct = async (productUpdate) => {
@@ -95,13 +95,13 @@ const getAllProducts = async () => {
     try {
         const products = await Product.find({status: {$ne: "inactive"}});
 
-       return {
+        return {
             status: "OK",
             message: "SUCCESS",
             data: products,
-        } ;
+        };
     } catch (error) {
-       return error;
+        return error;
     }
 
 };
@@ -205,13 +205,13 @@ const getProductToShowHome = async () => {
     try {
         // $ne = not equal
         const products = await Product.find({status: {$ne: "inactive"}}).limit(3);
-       return {
+        return {
             status: "OK",
             message: "SUCCESS",
             data: products,
         };
     } catch (error) {
-       return error;
+        return error;
     }
 
 };
@@ -219,7 +219,7 @@ const getProductToShowHome = async () => {
 const getProductsByCategory = async (category) => {
     try {
         const products = await Product.find({category: category, status: {$ne: "inactive"}});
-       return{
+        return {
             status: "OK",
             message: "SUCCESS",
             data: products,
@@ -235,10 +235,10 @@ const getProductsByName = async (name) => {
     try {
         const products = await Product.find({
             name: {$regex: name, $options: "i"}, status: {$ne: "inactive"}
-            // $regex: name: tìm các name có chứa chuỗi da nhập.
+            // $regex: name: tìm các name có chứa chuỗi da nhập ( chuoi con).
             // $options: "i": không phân biệt chữ hoa/thường.
         });
-       return {
+        return {
             status: "OK",
             message: "SUCCESS",
             data: products,
@@ -306,7 +306,7 @@ const getProductById = async (id) => {
 const deleteProduct = async (id) => {
 
     try {
-        // 1. Tìm sản phẩm trước để lấy thông tin ảnh
+        // Tìm sản phẩm trước để lấy thông tin ảnh
         const checkProduct = await Product.findOne({_id: id});
 
         if (checkProduct === null) {
@@ -316,10 +316,10 @@ const deleteProduct = async (id) => {
             });
         }
 
-        // 2. Xóa ảnh trên Cloudinary (nếu có)
+        // Xóa ảnh trên Cloudinary (nếu có)
         // Kiểm tra xem mảng images có dữ liệu không
         if (checkProduct.images && checkProduct.images.length > 0) {
-            // Dùng Promise.all để xóa nhiều ảnh cùng lúc cho nhanh
+            // Dùng Promise.all để xóa nhiều ảnh cùng lúc
             const deletePromises = checkProduct.images.map(img => {
                 if (img.public_id) {
                     return deleteFromCloudinary(img.public_id);
@@ -330,7 +330,7 @@ const deleteProduct = async (id) => {
             await Promise.all(deletePromises);
         }
 
-        // 3. Sau khi xóa ảnh xong thì mới xóa trong Database
+        //Sau khi xóa ảnh xong thì mới xóa trong Database
         await Product.findByIdAndDelete(id);
 
         return {

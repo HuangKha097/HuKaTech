@@ -66,11 +66,32 @@ const getUserById = async (req, res) => {
         })
     }
 }
+const refreshToken = async (req, res) => {
+    try {
+        // Lấy token từ header (Frontend sẽ gửi lên dạng Bearer <refresh_token>)
+        const token = req.headers.token?.split(" ")[1];
+
+        if (!token) {
+            return res.status(200).json({
+                status: "Error",
+                message: "The token is required"
+            });
+        }
+
+        const result = await UserService.refreshTokenService(token);
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(404).json({
+            message: error.message
+        });
+    }
+};
 
 
 module.exports = {
     createUser,
     loginUser,
     getUserById,
-    logoutUser
+    logoutUser,
+    refreshToken
 }

@@ -11,20 +11,14 @@ const OrderDetailPopup = ({ isOpen, onClose, order }) => {
     if (!isOpen || !order) return null;
 
     // Tính tổng tiền đơn hàng (giả định cấu trúc cart có price và quantity)
-    // Bạn có thể chỉnh lại cho khớp với object product trong mảng cart của bạn
     const calculateTotal = () => {
         if (!order.cart || order.cart.length === 0) return 0;
         return order.cart.reduce((total, item) => total + ((item.price || 0) * (item.quantity || 1)), 0);
     };
 
     return (
-        // Bấm vào lớp phủ mờ bên ngoài sẽ đóng Popup
         <div className={cx('overlay')} onClick={onClose}>
-
-            {/* stopPropagation để bấm vào trong bảng không bị đóng */}
             <div className={cx('modal')} onClick={(e) => e.stopPropagation()}>
-
-                {/* Header */}
                 <div className={cx('header')}>
                     <h2>Order Details: #{order._id.substring(order._id.length - 6).toUpperCase()}</h2>
                     <button className={cx('closeBtn')} onClick={onClose}>
@@ -32,7 +26,6 @@ const OrderDetailPopup = ({ isOpen, onClose, order }) => {
                     </button>
                 </div>
 
-                {/* Body */}
                 <div className={cx('body')}>
                     <div className={cx('infoGrid')}>
                         <div className={cx('infoCard')}>

@@ -20,6 +20,7 @@ const Login = () => {
             if (res.status === "OK") {
                 dispatch(setToken(res.access_token));
                 localStorage.setItem("token", res.access_token);
+                localStorage.setItem("refresh_token", res.refresh_token)
                 navigate("/");
             } else {
                 setErrortext(res.message);

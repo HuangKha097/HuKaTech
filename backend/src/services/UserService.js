@@ -1,6 +1,7 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const {genneralAccesToken, genneralRefreshToken} = require("./JwtService");
+const jwt = require("jsonwebtoken");
 
 const createUser = (newUser) => {
     return new Promise(async (resolve, reject) => {
@@ -104,11 +105,50 @@ const getUserById = (userId) => {
         }
     })
 }
+const refreshTokenService = (token) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xác thực refresh_token có hợp lệ không
+            jwt.verify(token, process.env.REFRESH_TOKEN, async (err, user) => {
+                if (err) {
+                    return resolve({
+                        status: "ERROR",
+                        message: "Invalid refresh token"
+                    });
+                }
 
+                // (Tùy chọn) Kiểm tra xem refresh_token gửi lên có khớp với token lưu trong DB của user không
+                const checkUser = await User.findById(user.id);
+
+                if (!checkUser || checkUser.refresh_token !== token) {
+                    return resolve({
+                        status: "ERROR",
+                        message: "Refresh token is not valid for this user"
+                    });
+                }
+
+                // Nếu hợp lệ, tạo access_token mới
+                const access_token = await genneralAccesToken({
+                    id: user.id,
+                    isAdmin: user.isAdmin
+                });
+
+                resolve({
+                    status: "OK",
+                    message: "SUCCESS",
+                    access_token: access_token
+                });
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 
 module.exports = {
     createUser,
     loginUser,
     getUserById,
-    logoutUser
+    logoutUser,
+    refreshTokenService
 }

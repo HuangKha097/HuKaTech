@@ -1,11 +1,11 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
 export const login = async (data) => {
-    const res = await axios.post("http://localhost:8000/api/user/sign-in", data);
+    const res = await axiosClient.post(`/user/sign-in`, data);
     return res.data;
-}
+};
 
 export const logout = async () => {
-    const res = await axios.post("http://localhost:8000/api/user/logout");
+    const res = await axiosClient.post(`/user/sign-out`);
     return res.data;
 };

@@ -8,5 +8,7 @@ router.post('/sign-in', userController.loginUser)
 router.post('/sign-out', authMiddleware, userController.logoutUser);
 router.get('/get-user-by-id', userController.getUserById)
 
+router.post('/refresh-token', userController.refreshToken);
+
 
 module.exports = router;
