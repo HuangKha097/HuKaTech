@@ -6,7 +6,6 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popup from "../components/Popup";
 import CategoryCard from "../components/CategoryCard.jsx";
-
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories, setCategoryEdit } from "../redux/categorySlice.js";
 import {
@@ -16,6 +15,9 @@ import {
     updateCategory,
     addNewCategory,
 } from "../services/CategoryService.js";
+
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const cxPages = classNames.bind(pagesStyles);
 const cx = classNames.bind(pageStyles);
@@ -46,7 +48,12 @@ const CategoryPage = () => {
     const fetchCategoriesData = async () => {
         setIsLoading(true);
         try {
-            const res = await getAllCategories();
+            // to test loading
+            // await new Promise(resolve => setTimeout(resolve, 3000));
+
+            const res = await  getAllCategories()
+
+            console.log(res)
             if (res.status === "SUCCESS" || res.success) {
                 dispatch(setCategories(res.data));
             }
@@ -205,9 +212,9 @@ const CategoryPage = () => {
                 </button>
             </form>
 
-            {/* CARDS */}
+
             {isLoading ? (
-                <div className={cx("loading")}>Loading...</div>
+                <div style={{ textAlign: "center", padding: "20px", flex: "1" }}><CircularProgress /></div>
             ) : (
                 <div className={cx("cards-grid")}>
                     {currentCategories.map((category) => (

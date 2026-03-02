@@ -39,7 +39,7 @@ input {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1.4rem;
-    width: 40rem;
+    min-width: 40rem;
     height: 4.2rem;
     outline: none;
     transition: border-color 0.2s;
@@ -54,7 +54,7 @@ select {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1.4rem;
-    width: 24rem;
+    min-width: 24rem;
     height: 4.2rem;
     outline: none;
     cursor: pointer;

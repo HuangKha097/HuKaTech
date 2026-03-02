@@ -70,7 +70,10 @@ const Products = () => {
         }
         return 'https://via.placeholder.com/60';
     };
-
+    const handleAddNewProduct = () => {
+        dispatch(setProductsEdit(null));
+        navigate("/products/form");
+    };
     const handleToggleActive = async (productId) => {
         try {
             const res = await ProductService.handleActiveProduct(productId);
@@ -108,7 +111,7 @@ const Products = () => {
             const res = await ProductService.getProductById(product._id);
             if (res.status === "OK" && res.message === "SUCCESS") {
                 dispatch(setProductsEdit(res.data));
-                navigate(`/products/edit-product/${product._id}`);
+                navigate(`/products/form`);
             } else {
                 alert("Error occurred while getting products");
             }
@@ -221,9 +224,9 @@ const Products = () => {
                     <h1>Products Management</h1>
                     <p>Manage your product inventory and catalog</p>
                 </div>
-                <Link to="add-new-product">
-                    <button className={cx("add-btn")}>+ Add Product</button>
-                </Link>
+                <button className={cx("add-btn")} onClick={handleAddNewProduct}>
+                    + Add Product
+                </button>
             </div>
 
             <form className={cx("filter-block")} onSubmit={handleSubmit}>

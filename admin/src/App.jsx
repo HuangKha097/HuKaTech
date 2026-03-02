@@ -1,10 +1,9 @@
 import classNames from "classnames/bind";
 import Slidebar from "./components/Slidebar.jsx";
 import style from "./assets/css/App.module.scss"
-import AddNewProduct from "./pages/AddNewProduct.jsx";
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import Products from "./pages/Products.jsx";
-import EditProduct from "./pages/EditProduct.jsx";
+import ProductForm from "./pages/ProductForm.jsx";
 import Orders from "./pages/Orders.jsx";
 import Categories from "./pages/Categories.jsx";
 import Settings from "./pages/Settings.jsx";
@@ -54,23 +53,7 @@ function App() {
                         }
                     />
 
-                    <Route
-                        path="/products/add-new-product"
-                        element={
-                            <ProtectedRoute>
-                                <AddNewProduct />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    <Route
-                        path="/products/edit-product/:id"
-                        element={
-                            <ProtectedRoute>
-                                <EditProduct />
-                            </ProtectedRoute>
-                        }
-                    />
+                    <Route path="/products/form" element={<ProductForm />} />
 
                     <Route
                         path="/categories"
