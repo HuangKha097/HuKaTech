@@ -55,6 +55,35 @@ const logoutUser = async (req, res) => {
         });
     }
 };
+const changePassword = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { currentPassword, newPassword, confirmPassword } = req.body;
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            return res.status(200).json({
+                status: "Error",
+                message: "All fields are required"
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(200).json({
+                status: "Error",
+                message: "New password and confirm password do not match"
+            });
+        }
+
+        const result = await UserService.changePassword(userId, req.body);
+        return res.status(200).json(result);
+
+    } catch (error) {
+        return res.status(500).json({
+            status: "ERROR",
+            message: error.message || error
+        });
+    }
+};
 const getUserById = async (req, res) => {
     try {
         const userId = req.query._id
@@ -93,5 +122,6 @@ module.exports = {
     loginUser,
     getUserById,
     logoutUser,
-    refreshToken
+    refreshToken,
+    changePassword
 }

@@ -90,6 +90,43 @@ const logoutUser = (userId) => {
         }
     });
 };
+
+const changePassword = (userId, data) => {
+    return new Promise(async (resolve, reject) => {
+        const { currentPassword, newPassword } = data;
+        try {
+            const user = await User.findById(userId);
+            if (!user) {
+                return resolve({
+                    status: "ERROR",
+                    message: "User does not exist"
+                });
+            }
+
+            // Kiểm tra mật khẩu hiện tại
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+            if (!isMatch) {
+                return resolve({
+                    status: "ERROR",
+                    message: "Incorrect current password"
+                });
+            }
+
+            // Mã hóa mật khẩu mới và lưu vào DB
+            const hashPassword = bcrypt.hashSync(newPassword, 10);
+            user.password = hashPassword;
+            await user.save();
+
+            resolve({
+                status: "OK",
+                message: "Password changed successfully"
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 const getUserById = (userId) => {
     return new Promise(async (resolve, reject) => {
 
@@ -150,5 +187,6 @@ module.exports = {
     loginUser,
     getUserById,
     logoutUser,
-    refreshTokenService
+    refreshTokenService,
+    changePassword
 }

@@ -27,10 +27,12 @@
 
 .td {
   padding: 12px 16px;
+
   border-bottom: 1px solid #f3f4f6;
   font-size: 14px;
   color: #374151;
   vertical-align: middle;
+
 }
 
 .row:hover {
@@ -44,6 +46,13 @@
 .priceCol { width: 110px; }
 .stockCol { width: 70px; text-align: center; }
 .categoryCol { width: 120px; }
+.actionCol { width: 140px; text-align: center; }
+.ordersCol { width: 10%; text-align: center; } /* Cột mới */
+.spentCol { width: 12%; } /* Cột mới */
+.phoneCol { width: 15%; }
+.emailCol { width: 20%; }
+.addressCol { width: 30%; }
+
 .actionCol { width: 140px; text-align: center; }
 
 /* --- 2. STYLE NỘI DUNG --- */

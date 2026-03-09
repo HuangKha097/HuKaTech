@@ -9,3 +9,8 @@ export const logout = async () => {
     const res = await axiosClient.post(`/user/sign-out`);
     return res.data;
 };
+
+export const changePassword = async (data) => {
+    const res = await axiosClient.post(`/user/change-password`, data);
+    return res.data;
+};

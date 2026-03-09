@@ -16,6 +16,7 @@ const cxTable = classNames.bind(tableStyle);
 const Orders = () => {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.list);
+    console.log("orders", orders);
 
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
@@ -182,26 +183,36 @@ const Orders = () => {
         {header: 'Pay Method', accessor: 'payMethod', tdClassName: 'centerText'},
         {
             header: 'Status',
-            render: (item) => (
-                <select
-                    value={item.status}
-                    onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                    style={{
-                        padding: '0.5rem',
-                        borderRadius: '4px',
-                        border: '1px solid #d1d5db',
-                        fontWeight: 'bold',
-                        outline: 'none',
-                        color: item.status === 'Cancelled' ? 'red' : item.status === 'Delivered' ? 'green' : 'black'
-                    }}
-                >
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Cancelled">Cancelled</option>
-                </select>
-            )
+            render: (item) => {
+                // Kiểm tra xem đơn hàng đã chốt hạ chưa
+                const isLocked = item.status === 'Delivered' || item.status === 'Cancelled';
+
+                return (
+                    <select
+                        value={item.status}
+                        onChange={(e) => handleStatusChange(item._id, e.target.value)}
+                        disabled={isLocked} // VÔ HIỆU HÓA DROPDOWN NẾU ĐÃ KHOÁ
+                        style={{
+                            padding: '0.5rem',
+                            borderRadius: '4px',
+                            border: '1px solid #d1d5db',
+                            fontWeight: 'bold',
+                            outline: 'none',
+                            color: item.status === 'Cancelled' ? '#dc2626' : item.status === 'Delivered' ? '#059669' : 'black',
+                            // Đổi màu nền và con trỏ chuột để admin biết là không bấm được nữa
+                            backgroundColor: isLocked ? '#f3f4f6' : 'white',
+                            cursor: isLocked ? 'not-allowed' : 'pointer',
+                            opacity: isLocked ? 0.8 : 1
+                        }}
+                    >
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                );
+            }
         },
         {
             header: 'Action',

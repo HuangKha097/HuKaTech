@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fortawesome/free-solid-svg-icons": "^7.0.1",
@@ -17,6 +18,7 @@
     "@mui/material": "^7.3.2",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^0.27.2",
+    "baseline-browser-mapping": "^2.10.0",
     "classnames": "^2.5.1",
     "framer-motion": "^12.23.13",
     "react": "^19.1.1",

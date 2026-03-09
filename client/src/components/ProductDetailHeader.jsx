@@ -20,7 +20,6 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
     const [currentProductImage, setCurrentProductImage] = useState(0);
     const imageLength = props?.images?.length - 1;
 
-    // --- 1. Hàm lấy ảnh an toàn ---
     const getProductImage = () => {
         if (!props) return 'https://via.placeholder.com/300';
 
@@ -59,6 +58,7 @@ const ProductDetailHeader = ({delay = 0.3, props}) => {
             countInStock: props.countInStock, // QUAN TRỌNG: Gửi kèm số lượng tồn kho lên Redux
         };
     };
+
 
     // --- 2. Xử lý thêm vào giỏ hàng ---
     const handleAddToCart = () => {

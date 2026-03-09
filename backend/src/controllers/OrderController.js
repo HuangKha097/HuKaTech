@@ -55,7 +55,6 @@ const updateOrder = async (req, res) => {
                 message: "The orderId is required in params",
             });
         }
-
         const response = await OrderService.updateOrder(orderId, data);
 
         if (response.status === "ERR") {

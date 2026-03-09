@@ -10,46 +10,27 @@ const cx = classNames.bind(styles);
 const Submenu = () => {
     const dispatch = useDispatch();
     const submenuValue = useSelector(selectValue);
+    const categorieData = useSelector(
+        (state) => state.categories.list
+    );
+
 
 
     return (
         <ul className={cx('container')}>
-            <Link
-                to={`/category/Black%20Friday%20Deals`}
-                onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = '/category/Black%20Friday%20Deals';
-                }}
-            >
-                <li onClick={() => dispatch(setSubmenuValue('black-friday-deals'))}>Black Friday Deals</li>
-            </Link>
-            <Link
-                to={`/category/New%20Arrivals`}
-                onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = '/category/New%20Arrivals';
-                }}
-            >
-                <li onClick={() => dispatch(setSubmenuValue('new-arrivals'))}>New Arrivals</li>
-            </Link>
-            <Link
-                onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = '/category/Hot%20Deals';
-                }}
-                to={`/category/Hot%20Deals`}
-            >
-                <li onClick={() => dispatch(setSubmenuValue('hot-deals'))}>Hot Deals</li>
-            </Link>
-            <Link
-                onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = '/category/Discounts';
-                }}
-                to={`/category/Discounts`}
-            >
-                <li onClick={() => dispatch(setSubmenuValue('discouts'))}>Discounts</li>
-            </Link>
+            {categorieData.length > 0 && categorieData.map((item, index) => (
+                <Link
+                    key={index}
+                    to={`/category/${item}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        window.location.href = `/category/${item.name}`;
+                    }}
+                >
+                    <li onClick={() => dispatch(setSubmenuValue(item.name))}>{item.name}</li>
+                </Link>
+            ))}
+
         </ul>
     );
 };

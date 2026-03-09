@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import classNames from "classnames/bind";
 import styles from "../assets/css/NavBar.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -11,6 +11,8 @@ import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {clearSubfilter, setProductsSearch} from "../redux/SubfilterSlice.js";
 import * as ProductService from "../services/ProductService.js";
+import * as CategoryService  from "../services/CategoryService.js"
+import {setCategories} from "../redux/CategorySlice.js";
 
 const cx = classNames.bind(styles);
 
@@ -23,6 +25,8 @@ const NavBar = () => {
         (state) => state.subfilter
     );
 
+
+
     const [activeMenu, setActiveMenu] = useState("");
     const [valueSearch, setValueSearch] = useState("");
 
@@ -30,6 +34,23 @@ const NavBar = () => {
 
     const hasFilters =
         type.length > 0 || brand.length > 0 || !!priceRange;
+
+    useEffect(() => {
+         const getActiveCategories = async () => {
+          try {
+              const result = await CategoryService.getActiceCategories();
+
+
+              if (result?.status === "SUCCESS") {
+                  console.log("Categories getActiveCategories", result?.data);
+                  dispatch(setCategories(result?.data));
+              }
+          }catch (error) {
+              console.log(error);
+          }
+      }
+      getActiveCategories();
+    }, []);
 
     const handleSearch = async () => {
         try {

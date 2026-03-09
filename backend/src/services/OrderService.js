@@ -1,5 +1,5 @@
 const Order = require("../models/OrderModel");
-
+const CustomerService = require("../services/CustomerService");
 const Product = require("../models/ProductModel");
 
 // Hàm tính toán trạng thái
@@ -85,6 +85,13 @@ const createNewOrder = (newOrder) => {
                     });
                 }
 
+                await CustomerService.upsertCustomer({
+                    name,
+                    phone,
+                    email,
+                    address
+                });
+
                 resolve({
                     status: "OK",
                     message: "SUCCESS",
@@ -155,11 +162,28 @@ const updateOrder = (id, data) => {
                 return;
             }
 
-            // runValidators: true để Mongoose kiểm tra enum của status khi update
+            // Nếu đơn hàng đã giao hoặc đã hủy từ trước đó, từ chối mọi thao tác update
+            if (checkOrder.status === "Delivered" || checkOrder.status === "Cancelled") {
+                return resolve({
+                    status: "ERR",
+                    message: `Đơn hàng đã ở trạng thái ${checkOrder.status}, không thể thay đổi nữa!`,
+                });
+            }
+            // ---------------------------------
             const updatedOrder = await Order.findByIdAndUpdate(id, data, {
                 new: true,
                 runValidators: true
             });
+
+            if (checkOrder.status !== "Delivered" && updatedOrder.status === "Delivered") {
+                // Tính tổng số tiền
+                const orderTotal = updatedOrder.cart.reduce((total, item) => {
+                    return total + (item.price * item.quantity);
+                }, 0);
+
+                // Cộng tiền
+                await CustomerService.incrementCustomerStats(updatedOrder.phone, orderTotal);
+            }
 
             resolve({
                 status: "OK",

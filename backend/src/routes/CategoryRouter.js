@@ -8,6 +8,6 @@ router.put("/update-category/:id", authMiddleware, categoryController.updateCate
 router.delete("/delete-category/:id", authMiddleware, categoryController.deleteCategory)
 router.get("/get-all-categories", authMiddleware, categoryController.getAllCategories)
 router.get("/search-categories", authMiddleware, categoryController.searchCategories)
-router.get("/get-active-categories", authMiddleware, categoryController.getActiveCategories)
+router.get("/get-active-categories", categoryController.getActiveCategories)
 
 module.exports = router;
