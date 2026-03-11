@@ -1,12 +1,20 @@
-
 @keyframes shine {
   to {
     background-position: 200% center;
   }
 }
 
+@keyframes bannerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .container {
-  width: 100%;
+
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -32,17 +40,20 @@
     & h1 {
       width: 50rem;
       font-size: 5.6rem;
-      font-weight: 600;
-      color: var(--White_80, rgba(250, 250, 250, 0.8));
+      font-weight: 700;
+      background: var(--title-color);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       line-height: 1.2;
+
     }
 
     & p {
-      width: 62.2rem;
+      max-width: 55ch;
       font-size: 2rem;
       font-weight: 500;
       opacity: 0.8;
-      color: var(--White_60, rgba(250, 250, 250, 0.6));
+      color: var(--text-header-color);
       line-height: 1.2;
     }
   }
@@ -53,35 +64,29 @@
     justify-content: center;
     gap: 1.2rem;
     list-style: none;
-
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background: var(--btn-background-color);
+    box-shadow: var( --btn-shadow-color);
 
     padding: 1rem 2rem;
-    border-radius: 50px;
-    height: fit-content;
+    border-radius: 4rem;
     margin-bottom: 0.5rem;
-
     & li {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: var(--text-content-color);
       font-size: 0;
       cursor: pointer;
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: #fff;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        background-color: var(--text-header-color);
+        box-shadow: var( --btn-shadow-color);
         transform: scale(1.2);
       }
 
       &.active {
-        background-color: #0dded1;
+        background-color: var(--primary-color);
         box-shadow: 0 0 8px rgba(13, 222, 209, 0.6);
         transform: scale(1.3);
       }
@@ -91,14 +96,16 @@
 
 .banner {
   width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 1.2rem 2.4rem;
-  background-color: #3f3f3f;
   overflow: hidden;
-  gap: 48px;
+  background-color: #3f3f3f;
+  padding: 1.8rem;
+
+  .banner-track {
+    display: flex;
+    gap: 48px;
+    width: max-content;
+    animation: bannerScroll 80s linear infinite;
+  }
 
   & span {
     font-size: 1.6rem;

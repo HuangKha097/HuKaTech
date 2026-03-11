@@ -28,12 +28,14 @@ const Home = () => {
         <div className={cx('container')}>
             <Hero />
 
-            {typeProductList.map((cat, index) => (
-                <motion.div key={cat} {...fadeUp(index * 0.2)}>
-                    <ProductShow category={cat} />
-                </motion.div>
-            ))}
+           <div className={cx('products-wrapper')}>
+               {typeProductList.map((cat, index) => (
+                   <motion.div key={cat} {...fadeUp(index * 0.2)}>
+                       <ProductShow category={cat} />
+                   </motion.div>
+               ))}
 
+           </div>
             <motion.div {...fadeUp(0.2)}>
                 <CustomerReview />
             </motion.div>

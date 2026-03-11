@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/FAQ.module.scss';
 import Tag from '../components/Tag';
-import { motion, AnimatePresence } from 'framer-motion';
+import {AnimatePresence, motion} from 'framer-motion';
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +42,7 @@ const FAQ = () => {
 
     // Animation cho danh sách xuất hiện
     const listVariants = {
-        hidden: { opacity: 0 },
+        hidden: {opacity: 0},
         visible: {
             opacity: 1,
             transition: {
@@ -52,11 +52,11 @@ const FAQ = () => {
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
+        hidden: {opacity: 0, y: 20},
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.5, ease: 'easeOut' },
+            transition: {duration: 0.5, ease: 'easeOut'},
         },
     };
 
@@ -65,11 +65,11 @@ const FAQ = () => {
             {/* Header nằm trực tiếp trong container */}
             <motion.div
                 className={cx('header')}
-                initial={{ opacity: 0, y: -30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
+                initial={{opacity: 0, y: -30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.8, ease: 'easeOut'}}
             >
-                <Tag props={'Support'} />
+                <Tag props={'Support'}/>
                 <h2 className={cx('title')}>Frequently Asked Questions</h2>
             </motion.div>
 
@@ -80,12 +80,12 @@ const FAQ = () => {
                     variants={listVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
+                    viewport={{once: true, amount: 0.2}}
                 >
                     {faqData.map((item, index) => (
                         <motion.div
                             key={index}
-                            className={cx('faq-item', { active: activeIndex === index })}
+                            className={cx('faq-item', {active: activeIndex === index})}
                             variants={itemVariants}
                         >
                             <div
@@ -102,10 +102,10 @@ const FAQ = () => {
                                 {activeIndex === index && (
                                     <motion.div
                                         className={cx('answer-wrapper')}
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        initial={{height: 0, opacity: 0}}
+                                        animate={{height: "auto", opacity: 1}}
+                                        exit={{height: 0, opacity: 0}}
+                                        transition={{duration: 0.3, ease: "easeInOut"}}
                                     >
                                         <p className={cx('answer')}>{item.answer}</p>
                                     </motion.div>

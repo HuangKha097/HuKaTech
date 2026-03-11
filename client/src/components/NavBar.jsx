@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import classNames from "classnames/bind";
 import styles from "../assets/css/NavBar.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {clearSubfilter, setProductsSearch} from "../redux/SubfilterSlice.js";
 import * as ProductService from "../services/ProductService.js";
-import * as CategoryService  from "../services/CategoryService.js"
+import * as CategoryService from "../services/CategoryService.js"
 import {setCategories} from "../redux/CategorySlice.js";
 
 const cx = classNames.bind(styles);
@@ -25,8 +25,6 @@ const NavBar = () => {
         (state) => state.subfilter
     );
 
-
-
     const [activeMenu, setActiveMenu] = useState("");
     const [valueSearch, setValueSearch] = useState("");
 
@@ -35,21 +33,40 @@ const NavBar = () => {
     const hasFilters =
         type.length > 0 || brand.length > 0 || !!priceRange;
 
+    const [hideNav, setHideNav] = useState(false);
+    const lastScroll = useRef(0);
+
     useEffect(() => {
-         const getActiveCategories = async () => {
-          try {
-              const result = await CategoryService.getActiceCategories();
+        const handleScroll = () => {
+            const currentScroll = window.scrollY;
+
+            if (currentScroll > lastScroll.current && currentScroll > 250) {
+                setHideNav(true);
+            } else {
+                setHideNav(false);
+            }
+
+            lastScroll.current = currentScroll;
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const getActiveCategories = async () => {
+            try {
+                const result = await CategoryService.getActiceCategories();
 
 
-              if (result?.status === "SUCCESS") {
-                  console.log("Categories getActiveCategories", result?.data);
-                  dispatch(setCategories(result?.data));
-              }
-          }catch (error) {
-              console.log(error);
-          }
-      }
-      getActiveCategories();
+                if (result?.status === "SUCCESS") {
+                    console.log("Categories getActiveCategories", result?.data);
+                    dispatch(setCategories(result?.data));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getActiveCategories();
     }, []);
 
     const handleSearch = async () => {
@@ -105,7 +122,7 @@ const NavBar = () => {
     };
 
     return (
-        <div className={cx("container")}>
+        <div className={cx("container", {hide: hideNav})}>
             {/* LOGO */}
             <div className={cx("logo")}>
                 <img src={logo} onClick={() => navigate("/")} alt="logo shop"/>
@@ -126,7 +143,6 @@ const NavBar = () => {
                     onKeyDown={handleKeyDown}
                 />
 
-                {/* FILTER */}
                 <div
                     className={cx("filter-wrapper")}
                     onMouseEnter={() =>
@@ -139,9 +155,7 @@ const NavBar = () => {
                     </button>
 
                     <div
-                        className={cx("submenu-advanced-search", {
-                            isOpen: activeMenu === "advanced-menu"
-                        })}
+                        className={cx("submenu-advanced-search")}
                     >
                         <SubmenuAdvancedSearch/>
                     </div>
@@ -178,9 +192,7 @@ const NavBar = () => {
                             />
                         </svg>
                         <div
-                            className={cx("submenu", {
-                                isOpen: activeMenu === "sub-menu"
-                            })}
+                            className={cx("submenu")}
                         >
                             <Submenu/>
                         </div>

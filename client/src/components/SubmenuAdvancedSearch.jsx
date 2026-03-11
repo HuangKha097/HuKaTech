@@ -43,12 +43,11 @@ const SubmenuAdvancedSearch = () => {
                             checked={type.includes(item)}
                             onChange={() => dispatch(toggleType(item.toLowerCase()))}
                         />
-                        {item}
+                        <span className={cx("item-menu")}>{item}</span>
                     </label>
                 ))}
             </div>
 
-            {/* PRICE RANGE (CHỈ 1) */}
             <div className={cx("body-menu")}>
                 <span className={cx("title")}>Price Range</span>
                 {priceRanges.map(item => (
@@ -59,7 +58,7 @@ const SubmenuAdvancedSearch = () => {
                             checked={priceRange === item}
                             onChange={() => dispatch(setPriceRange(item))}
                         />
-                        {item}
+                        <span className={cx("item-menu")}>{item}</span>
                     </label>
                 ))}
             </div>
@@ -74,7 +73,7 @@ const SubmenuAdvancedSearch = () => {
                             checked={brand.includes(item)}
                             onChange={() => dispatch(toggleBrand(item.toLowerCase()))}
                         />
-                        {item}
+                        <span className={cx("item-menu")}>{item}</span>
                     </label>
                 ))}
             </div>

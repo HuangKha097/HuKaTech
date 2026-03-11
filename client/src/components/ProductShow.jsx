@@ -48,7 +48,7 @@ const ProductShow = ({ category }) => {
                             >
                                 <path
                                     d="M 1.775 20 L 0 18.225 L 8.225 10 L 0 1.775 L 1.775 0 L 11.775 10 Z"
-                                    fill="rgb(250,250,250)"
+                                    fill="currentColor"
                                 ></path>
                             </svg>
                         </span>

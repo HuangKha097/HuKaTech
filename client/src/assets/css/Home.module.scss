@@ -1,3 +1,6 @@
-.container {
-    background-color: #141414;
+.products-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+  margin : 10rem 0;
 }

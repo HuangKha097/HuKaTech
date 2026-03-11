@@ -38,7 +38,7 @@ const About = () => {
         },
     };
 
-    // Animation cho từng đoạn text
+
     const itemVariants = {
         hidden: { opacity: 0, y: -20 },
         visible: {
