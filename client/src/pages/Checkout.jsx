@@ -78,8 +78,6 @@ const Checkout = () => {
         <>
             <div className={cx('container')}>
                 <div className={cx('content')}>
-
-                    {/* KHU VỰC HIỂN THỊ THÔNG BÁO */}
                     {showAlert === 'success' && (
                         <Alert className={cx('alert')} severity="success" onClose={() => setShowAlert('')}>
                             Đơn hàng của bạn đã được đặt thành công. Vui lòng kiểm tra email!

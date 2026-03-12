@@ -46,7 +46,7 @@ button:hover {
 }
 
 input {
-    width: 48rem;
+    /*width: 48rem;*/
     font-size: 1.6rem;
     line-height: 1.2;
     background-color: rgba(249, 249, 249, 0.08);
