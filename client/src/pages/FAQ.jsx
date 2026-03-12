@@ -39,8 +39,6 @@ const FAQ = () => {
             answer: "Tất cả các thiết bị điện tử tại HUKA đều được bảo hành chính hãng 12 tháng. Nếu có lỗi kỹ thuật, hãy liên hệ với bộ phận CSKH để được hỗ trợ sửa chữa hoặc đổi mới."
         }
     ];
-
-    // Animation cho danh sách xuất hiện
     const listVariants = {
         hidden: {opacity: 0},
         visible: {
@@ -62,7 +60,6 @@ const FAQ = () => {
 
     return (
         <div className={cx('container')}>
-            {/* Header nằm trực tiếp trong container */}
             <motion.div
                 className={cx('header')}
                 initial={{opacity: 0, y: -30}}
@@ -72,8 +69,6 @@ const FAQ = () => {
                 <Tag props={'Support'}/>
                 <h2 className={cx('title')}>Frequently Asked Questions</h2>
             </motion.div>
-
-            {/* Body chứa padding lớn, bọc lấy danh sách câu hỏi */}
             <div className={cx('body')}>
                 <motion.div
                     className={cx('faq-list')}

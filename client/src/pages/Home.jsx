@@ -16,7 +16,6 @@ const Home = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    // Cấu hình chung cho animation
     const fadeUp = (delay = 0) => ({
         initial: { opacity: 0, y: 50 },
         whileInView: { opacity: 1, y: 0 },

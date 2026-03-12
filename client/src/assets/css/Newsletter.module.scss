@@ -5,7 +5,7 @@
   padding: 10rem;
   gap: 2rem;
 
-  & .title {
+  .title {
     text-align: center;
     width: 50%;
     font-size: 5.6rem;
@@ -16,7 +16,7 @@
     line-height: 1.2;
   }
 
-  & .desc {
+  .desc {
     font-size: 2rem;
     font-weight: 500;
     color: var(--text-content-color);
@@ -25,15 +25,19 @@
     width: 30%;
   }
 
-  & form {
+  form {
     display: flex;
     gap: 2rem;
 
-    & button {
+    input {
+      width: 42rem;
+    }
+
+    button {
       font-size: 1.6rem;
       font-weight: 500;
       border-radius: 4rem;
-
+      padding: 1.4rem 2rem;
     }
   }
 }

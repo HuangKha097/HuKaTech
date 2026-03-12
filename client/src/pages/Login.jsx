@@ -5,23 +5,14 @@ import styles from '../assets/css/LoginPage.module.scss';
 const cx = classNames.bind(styles);
 
 const LoginPage = () => {
-    // State quản lý việc trượt panel (Login <-> Register)
+
     const [isActive, setIsActive] = useState(false);
-
-    // State quản lý hiển thị form Forgot Password
     const [showForgot, setShowForgot] = useState(false);
-
-    // State quản lý ẩn/hiện mật khẩu
     const [showPassword, setShowPassword] = useState(false);
-
-    // State cho Forgot Password flow (gửi code -> nhập code)
     const [codeSent, setCodeSent] = useState(false);
-
-    // Xử lý chuyển đổi Login/Register
     const handleRegisterClick = () => setIsActive(true);
     const handleLoginClick = () => setIsActive(false);
 
-    // Xử lý Forgot Password
     const handleForgotClick = (e) => {
         e.preventDefault();
         setShowForgot(true);
@@ -29,11 +20,11 @@ const LoginPage = () => {
 
     const handleBackToLogin = () => {
         setShowForgot(false);
-        setCodeSent(false); // Reset trạng thái form quên mật khẩu
+        setCodeSent(false);
     };
 
     const handleSendCode = () => {
-        // Logic gửi code ở đây
+
         setCodeSent(true);
     };
 
@@ -41,7 +32,6 @@ const LoginPage = () => {
         <div className={cx('login-page-wrapper')}>
             <div className={cx('container', { active: isActive, 'show-forgot': showForgot })} id="container">
 
-                {/* --- FORM SIGN UP --- */}
                 <div className={cx('form-container', 'sign-up')}>
                     <form>
                         <h1>Create Account</h1>
@@ -58,7 +48,6 @@ const LoginPage = () => {
                     </form>
                 </div>
 
-                {/* --- FORM SIGN IN --- */}
                 <div className={cx('form-container', 'sign-in')}>
                     <form>
                         <h1>Sign In</h1>
@@ -91,7 +80,6 @@ const LoginPage = () => {
                     </form>
                 </div>
 
-                {/* --- TOGGLE PANEL (Overlay trượt) --- */}
                 <div className={cx('toggle-container')}>
                     <div className={cx('toggle')}>
                         <div className={cx('toggle-panel', 'toggle-left')}>
@@ -110,8 +98,6 @@ const LoginPage = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* --- FORM FORGOT PASSWORD --- */}
                 <div className={cx('form-container', 'forgot-password')}>
                     <span className={cx('close-forgot')} onClick={handleBackToLogin}>&times;</span>
 
@@ -123,8 +109,6 @@ const LoginPage = () => {
                         <input type="email" placeholder="Email" required />
 
                         <button type="button" onClick={handleSendCode}>Send Code</button>
-
-                        {/* Code field hiển thị sau khi bấm Send Code */}
                         <div className={cx('code-field', { show: codeSent })}>
                             <span>Enter code and new password</span>
                             <input type="text" placeholder="Verification Code" />

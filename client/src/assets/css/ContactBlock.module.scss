@@ -3,22 +3,22 @@
   bottom: 0;
   right: 0;
   display: flex;
-  flex-direction: column;
   padding: 2rem;
-  gap: 2rem;
+  gap: 1.4rem;
   transition: all 0.5s;
 
-  & button {
-    padding: 1rem;
+  button {
+    width: 5.6rem;
+    height: 5.6rem;
     font-size: 1.4rem;
     font-weight: 600;
     border-radius: 50%;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  & .move-top {
-    transform: scaleY(-1);
-    width: 5.6rem;
-    height: 5.6rem;
+  .move-top {
+    padding: 1.8rem;
   }
 }

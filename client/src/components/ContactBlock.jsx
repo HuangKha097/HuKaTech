@@ -5,13 +5,13 @@ import styles from '../assets/css/ContactBlock.module.scss';
 
 const cx = classNames.bind(styles);
 const ContactBlock = () => {
-    const [isShowMoveTop, setIsShoMoveTop] = useState(false);
-    const [isShowHotLine, setIsShoHotLine] = useState(false);
+    const [isShowButton, setIsShowButton] = useState(false);
+
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsShoHotLine(window.scrollY > 100);
-            setIsShoMoveTop(window.scrollY > 600);
+
+            setIsShowButton(window.scrollY > 600);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -29,11 +29,11 @@ const ContactBlock = () => {
     };
     return (
         <div className={cx('wrapper')}>
-            {/* {isShowHotLine && <button className={cx('hotline')}>0912345678</button>} */}
-            {isShowMoveTop && (
+             {isShowButton && <button className={cx('link-btn')}><span>Zalo</span></button>}
+            {isShowButton && (
                 <button onClick={scrollToTop} className={cx('move-top')}>
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 15L7 10H17L12 15Z" fill="#FAFAFA" />
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 9L17 14H7L12 9Z" fill="#FAFAFA"/>
                     </svg>
                 </button>
             )}

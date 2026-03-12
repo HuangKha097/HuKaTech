@@ -1,5 +1,5 @@
-.item-wrapper{
-  background: #0dded1;
+.item-wrapper {
+  background: var(--primary-color);
   width: fit-content;
   height: 100%;
   padding: 0.4rem 1.2rem;
@@ -9,8 +9,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  .item{
+
+  .item {
     font-size: 1.4rem;
-    color: #ececec;
+    color: var(--background-color);
   }
 }

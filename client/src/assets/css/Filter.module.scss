@@ -1,53 +1,54 @@
 .container {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  .sort {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.479);
+    width: 30%;
+    min-width: 300px;
+    height: 2px;
+    overflow: visible;
+    align-content: center;
+    flex-wrap: nowrap;
+    border-radius: 15px;
+    margin-bottom: 5rem;
+  }
 
-    & .sort {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.479);
-        width: 30%;
-        min-width: 300px;
-        height: 2px;
-        overflow: visible;
-        align-content: center;
-        flex-wrap: nowrap;
+  select {
+    text-align: start;
+    width: 30%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(249, 249, 249, 0.08);
+    color: var(--text-header-color);
+    font-size: 16px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
 
-        border-radius: 15px;
-        margin-bottom: 5rem;
+    &:focus {
+      outline: none;
+      box-shadow: var(--btn-shadow-color);
     }
-    & select {
-        text-align: start;
-        width: 30%; /* chiều rộng */
-        padding: 10px 15px; /* khoảng cách trong */
-        border: none; /* bỏ viền mặc định */
-        border-radius: 15px; /* bo góc */
-        background-color: #222; /* màu nền */
-        color: #fff; /* màu chữ */
-        font-size: 16px; /* cỡ chữ */
-        appearance: none; /* bỏ style mặc định (Chrome, Safari) */
-        -moz-appearance: none; /* bỏ style mặc định (Firefox) */
-        -webkit-appearance: none; /* bỏ style mặc định (Safari) */
-        cursor: pointer;
-    }
+  }
 
-    & select:focus {
-        outline: none; /* bỏ outline xanh khi focus */
-        border: 2px solid #555; /* thêm border khi focus */
-    }
-    & button {
-        cursor: pointer;
-        width: 30%; /* chiều rộng */
-        padding: 10px 15px; /* khoảng cách trong */
-        border: none; /* bỏ viền mặc định */
-        border-radius: 15px; /* bo góc */
-        background-color: #222; /* màu nền */
-        color: #fff; /* màu chữ */
-        font-size: 16px; /* cỡ chữ */
-        appearance: none; /* bỏ style mặc định (Chrome, Safari) */
-        -moz-appearance: none; /* bỏ style mặc định (Firefox) */
-        -webkit-appearance: none; /* bỏ style mặc định (Safari) */
-    }
+  button {
+    cursor: pointer;
+    width: 30%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(249, 249, 249, 0.08);
+    color: var(--text-header-color);
+    font-size: 16px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
 }

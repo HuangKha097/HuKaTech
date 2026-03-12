@@ -24,7 +24,7 @@ const Search = () => {
     return (
         <div className={cx("container")}>
             <div className={cx("content")}>
-                {/* Header */}
+
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -43,7 +43,6 @@ const Search = () => {
                     </motion.h1>
                 </motion.div>
 
-                {/* Products */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}

@@ -9,8 +9,6 @@ const cx = classNames.bind(styles);
 const ProductCard = ({ props }) => {
     const navigate = useNavigate();
 
-
-    // --- LOGIC XỬ LÝ ẢNH THÔNG MINH ---
     const getProductImage = () => {
         if (props.images && props.images.length > 0 && props.images[0].url) {
             return props.images[0].url;

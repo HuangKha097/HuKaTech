@@ -2,24 +2,23 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/Checkout.module.scss';
 import CheckoutProduct from '../components/CheckOutProduct.jsx';
-import * as OrderService from '../services/OrdrerService'; // Chú ý kiểm tra lại tên file gốc có bị sai chính tả không nhé
+import * as OrderService from '../services/OrdrerService';
 import { Alert } from '@mui/material';
 import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
 const Checkout = () => {
-    // 1. Lấy giỏ hàng trực tiếp từ Redux (Chuẩn và an toàn nhất)
+
     const products = useSelector(state => state.cart.products);
 
-    // Khởi tạo state bằng chuỗi rỗng ('') thay vì mảng ([''])
     const [showAlert, setShowAlert] = useState('');
-    const [errorMessage, setErrorMessage] = useState(''); // Thêm state để lưu câu thông báo lỗi từ Backend
+    const [errorMessage, setErrorMessage] = useState('');
 
     const [formOrder, setFormOrder] = useState({
         name: '',
         email: '',
-        phone: '', // Nên để chuỗi rỗng thay vì số 0
+        phone: '',
         address: '',
         city: '',
         moreInfo: '',
@@ -38,27 +37,17 @@ const Checkout = () => {
         try {
             const res = await OrderService.createNewOrder(values);
             console.log("Phản hồi từ Backend:", res);
-
-            // 2. Kiểm tra dựa theo status mà Backend trả về
-            // Tùy vào cách bạn cấu hình axios, res có thể bọc trong res.data
             const responseData = res.data ? res.data : res;
 
             if (responseData.status === 'OK') {
                 setShowAlert('success');
                 setTimeout(() => {
-                    // Khuyên dùng: Chỉ xóa dữ liệu Redux Persist thay vì clear toàn bộ Local Storage
-                    // (để tránh mất token đăng nhập nếu có)
                     localStorage.removeItem('persist:root');
-
-                    // Chuyển hướng người dùng về trang chủ hoặc trang thông báo thành công
                     window.location.href = '/';
                 }, 3000);
             } else {
-                // CHẶN BẢO MẬT: Hiển thị lỗi từ Backend (ví dụ: "Sản phẩm A chỉ còn 5 cái")
                 setShowAlert('error');
                 setErrorMessage(responseData.message || "Có lỗi xảy ra khi tạo đơn hàng!");
-
-                // Tự động tắt thông báo lỗi sau 5 giây
                 setTimeout(() => {
                     setShowAlert('');
                 }, 5000);
@@ -91,12 +80,10 @@ const Checkout = () => {
 
                     <div className={cx('checkout-wrapper')}>
                         <div className={cx('block-left')}>
-                            <span className={cx('tittle')}>Shipping Information</span>
+                            <span className={cx('title')}>Shipping Information</span>
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
-
-                                    // 3. Sử dụng products từ Redux thay vì đọc Local Storage
                                     if (!products || products.length === 0) {
                                         setShowAlert('error');
                                         setErrorMessage("Giỏ hàng của bạn đang trống, không thể đặt hàng!");
@@ -111,11 +98,9 @@ const Checkout = () => {
                                         return;
                                     }
 
-                                    // Gộp formOrder và mảng products lại thành payload gửi xuống Backend
                                     handleAddOrder({ ...formOrder, cart: products });
                                 }}
                             >
-                                {/* CÁC INPUT FORM GIỮ NGUYÊN */}
                                 <label htmlFor="name">
                                     <input name="name" value={formOrder.name} className={cx('infor-input')} type="text" required placeholder="Full name" onChange={handleChange} />
                                 </label>
@@ -142,7 +127,7 @@ const Checkout = () => {
                                     </label>
                                 </div>
 
-                                <span className={cx('tittle')}>Payment</span>
+                                <span className={cx('title')}>Payment</span>
                                 <label>
                                     <select name="payMethod" value={formOrder.payMethod} onChange={handleChange} required>
                                         <option value="">Select PayMethod</option>
@@ -156,10 +141,9 @@ const Checkout = () => {
                             </form>
                         </div>
 
-                        {/* KHU VỰC HIỂN THỊ ĐƠN HÀNG BÊN PHẢI */}
                         <div className={cx('block-right')}>
-                            <span className={cx('tittle')}>Order Summary</span>
-                            <div className={cx('oder-wrapper')}>
+                            <span className={cx('title')}>Order Summary</span>
+                            <div className={cx('order-wrapper')}>
                                 <div className={cx('body')}>
                                     {products && products.length > 0 ? (
                                         products.map((item, index) => <CheckoutProduct key={index} item={item} />)

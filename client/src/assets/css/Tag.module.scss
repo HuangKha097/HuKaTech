@@ -1,15 +1,16 @@
 .container {
-    box-sizing: border-box;
-    width: fit-content;
-    height: min-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 1.2rem;
-    background:var(--btn-background-color);
-    border-radius: 4rem;
-    & span {
-        font-size: 1.4rem;
-        color: var(--text-header-color);
-    }
+  box-sizing: border-box;
+  width: fit-content;
+  height: min-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  background: var(--btn-background-color);
+  border-radius: 4rem;
+
+  span {
+    font-size: 1.4rem;
+    color: var(--text-header-color);
+  }
 }

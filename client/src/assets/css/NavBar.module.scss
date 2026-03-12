@@ -14,16 +14,17 @@
     transform: translateY(-100%);
   }
 
-  & .logo {
+  .logo {
     display: flex;
     align-items: center;
 
-    & img {
+    img {
       max-height: 15rem;
+      cursor: pointer;
     }
   }
 
-  & .search {
+  .search {
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -39,18 +40,17 @@
     overflow: visible;
     z-index: 1001;
 
-    & .icon {
-      color: rgba(250, 250, 250, 0.4);
+    .icon {
+      color: var(--text-content-color);
       font-size: 1.6rem;
-
     }
 
-    & input {
+    input {
       background: transparent;
       border: none;
       outline: none;
       flex: 1;
-      color: white;
+      color: var(--text-header-color);
 
       &:focus {
         outline: none;
@@ -69,7 +69,6 @@
       display: flex;
       align-items: center;
 
-
       .submenu-advanced-search {
         visibility: hidden;
         opacity: 0;
@@ -79,19 +78,17 @@
         right: 0;
         padding-top: 15px;
         transform: translateY(100%);
-
         z-index: 1002;
       }
 
       &:hover .submenu-advanced-search {
         visibility: visible;
         opacity: 1;
-      transform: translateY(0);
-
+        transform: translateY(0);
       }
     }
 
-    & .filter-btn {
+    .filter-btn {
       padding: 0.8rem 1.6rem;
       border-radius: 4rem;
       font-size: 1.4rem;
@@ -105,12 +102,12 @@
     }
   }
 
-  & .hotlinks {
+  .hotlinks {
     display: flex;
     gap: 3.4rem;
     align-items: center;
 
-    & li {
+    li {
       position: relative;
       font-size: 1.6rem;
       color: var(--text-header-color);
@@ -121,7 +118,7 @@
         align-items: center;
       }
 
-      & .submenu {
+      .submenu {
         visibility: hidden;
         opacity: 0;
         transition: all 0.5s;
@@ -131,18 +128,17 @@
         padding-top: 10px;
         transform: translateY(100%);
       }
-      &:hover .submenu{
+
+      &:hover .submenu {
         visibility: visible;
         opacity: 1;
         transform: translateY(0);
       }
-
     }
 
     .signin-li {
       text-decoration: underline;
     }
-
   }
 }
 
@@ -150,7 +146,7 @@
   position: relative;
 
   .count-products-cart {
-    background-color: #0dded1;
+    background-color: var(--primary-color);
     text-align: center;
     font-size: 1.2rem;
     padding: 0.2rem;
@@ -160,5 +156,61 @@
     position: absolute;
     top: -80%;
     right: -10%;
+  }
+}
+
+/* --- Responsive Tablet & Mobile --- */
+@media (max-width: 1024px) {
+  .container {
+    padding: 2rem 4rem; /* Thu nhỏ khoảng cách 2 bên */
+  }
+
+  .search {
+    width: 250px; /* Thu nhỏ thanh tìm kiếm cho vừa không gian */
+  }
+
+  /* Biến hotlinks thành menu trượt */
+  .hotlinks {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh; /* Cao bằng toàn bộ màn hình */
+    width: 300px; /* Độ rộng của menu trượt */
+    background-color: var(--background-color);
+    flex-direction: column; /* Chuyển các link xếp dọc */
+    align-items: flex-start;
+    padding: 8rem 4rem;
+    gap: 4rem;
+
+    /* Hiệu ứng trượt */
+    transform: translateX(100%); /* Giấu hoàn toàn sang bên phải */
+    transition: transform 0.4s ease-in-out;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+
+    /* Thêm class này bằng React để mở menu */
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+.menu-toggle-btn {
+  display: none; /* Hidden by default on desktop */
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: var(--text-header-color);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.6rem 2rem;
+  }
+
+  .search {
+    display: none; /* Tạm ẩn thanh tìm kiếm trên mobile hoặc bạn có thể thiết kế nó thành 1 nút icon */
+  }
+  .menu-toggle-btn {
+    display: block; /* Show the hamburger button */
   }
 }

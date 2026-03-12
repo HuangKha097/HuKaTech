@@ -33,7 +33,7 @@ const About = () => {
         hidden: {},
         visible: {
             transition: {
-                staggerChildren: 0.3, // cách nhau 0.3s
+                staggerChildren: 0.3,
             },
         },
     };

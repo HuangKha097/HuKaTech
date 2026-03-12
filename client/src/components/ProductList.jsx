@@ -8,12 +8,10 @@ import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const ProductList = () => {
-    // Nên đặt tên setProducts (số nhiều) cho chuẩn convention
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false); // Nên thêm state loading
+    const [loading, setLoading] = useState(false);
 
     const { category } = useParams();
-    // Decode để xử lý các ký tự đặc biệt hoặc dấu cách (ví dụ: "Smart%20Phone" -> "Smart Phone")
     const decodedCategory = decodeURIComponent(category);
 
     useEffect(() => {
@@ -21,9 +19,6 @@ const ProductList = () => {
             setLoading(true);
             try {
                 const res = await ProductService.getProductsByCategory(decodedCategory);
-
-                // Kiểm tra dựa trên cấu trúc trả về từ Service
-                // Nếu Service trả về { status: "OK", data: [...] }
                 if (res?.data) {
                     setProducts(res.data);
                 }
@@ -38,9 +33,7 @@ const ProductList = () => {
             fetchProduct();
         }
 
-    }, [decodedCategory]); // <--- QUAN TRỌNG: Phải có biến này để khi đổi URL thì fetch lại API
-
-    // Hiển thị loading (Optional)
+    }, [decodedCategory]);
     if (loading) {
         return <div style={{textAlign: 'center', marginTop: '50px'}}>Loading...</div>;
     }
@@ -50,7 +43,6 @@ const ProductList = () => {
             <div className={cx('product-list')}>
                 {products && products.length > 0 ? (
                     products.map((item) => {
-                        // Lưu ý: key nên dùng id của sản phẩm thay vì index để tối ưu hiệu năng React
                         return (
                             <ProductCard
                                 key={item._id || item.id}
@@ -60,7 +52,6 @@ const ProductList = () => {
                         );
                     })
                 ) : (
-                    // Xử lý khi không có sản phẩm nào
                     <div style={{width: '100%', textAlign: 'center'}}>Không tìm thấy sản phẩm nào</div>
                 )}
             </div>

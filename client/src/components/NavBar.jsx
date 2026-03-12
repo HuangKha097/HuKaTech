@@ -28,6 +28,12 @@ const NavBar = () => {
     const [activeMenu, setActiveMenu] = useState("");
     const [valueSearch, setValueSearch] = useState("");
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     const timeoutRef = useRef(null);
 
     const hasFilters =
@@ -123,12 +129,12 @@ const NavBar = () => {
 
     return (
         <div className={cx("container", {hide: hideNav})}>
-            {/* LOGO */}
+
             <div className={cx("logo")}>
                 <img src={logo} onClick={() => navigate("/")} alt="logo shop"/>
             </div>
 
-            {/* SEARCH */}
+
             <label htmlFor="search" className={cx("search")}>
                 <FontAwesomeIcon
                     className={cx("icon")}
@@ -161,16 +167,16 @@ const NavBar = () => {
                     </div>
                 </div>
 
-                {/* FILTERS CHOSEN */}
                 {hasFilters && (
                     <div className={cx("filters-choose-block")}>
                         <FiltersChooseBlock/>
                     </div>
                 )}
             </label>
-
-            {/* NAV LINKS */}
-            <ul className={cx("hotlinks")}>
+            <button className={cx('menu-toggle-btn')} onClick={toggleMenu}>
+                ☰
+            </button>
+            <ul className={cx("hotlinks",{ open: isMenuOpen })}>
                 <li>
                     <div
                         className={cx("menuWrapper")}

@@ -14,7 +14,6 @@
 }
 
 .container {
-
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -23,7 +22,7 @@
   flex-direction: column;
   justify-content: flex-end;
 
-  & .main-block {
+  .main-block {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -32,12 +31,12 @@
     margin-bottom: 4rem;
   }
 
-  & .text-block {
+  .text-block {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 
-    & h1 {
+    h1 {
       width: 50rem;
       font-size: 5.6rem;
       font-weight: 700;
@@ -45,10 +44,9 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1.2;
-
     }
 
-    & p {
+    p {
       max-width: 55ch;
       font-size: 2rem;
       font-weight: 500;
@@ -58,19 +56,19 @@
     }
   }
 
-  & .list-banner {
+  .list-banner {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1.2rem;
     list-style: none;
     background: var(--btn-background-color);
-    box-shadow: var( --btn-shadow-color);
-
+    box-shadow: var(--btn-shadow-color);
     padding: 1rem 2rem;
     border-radius: 4rem;
     margin-bottom: 0.5rem;
-    & li {
+
+    li {
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -81,7 +79,7 @@
 
       &:hover {
         background-color: var(--text-header-color);
-        box-shadow: var( --btn-shadow-color);
+        box-shadow: var(--btn-shadow-color);
         transform: scale(1.2);
       }
 
@@ -97,7 +95,7 @@
 .banner {
   width: 100%;
   overflow: hidden;
-  background-color: #3f3f3f;
+  background-color: rgba(249, 249, 249, 0.08); 
   padding: 1.8rem;
 
   .banner-track {
@@ -107,7 +105,7 @@
     animation: bannerScroll 80s linear infinite;
   }
 
-  & span {
+  span {
     font-size: 1.6rem;
     font-weight: 700;
     white-space: pre;
@@ -117,8 +115,8 @@
     background: linear-gradient(
                     to right,
                     #fafafa 20%,
-                    #0dded1 40%,
-                    #0dded1 60%,
+                    var(--primary-color) 40%,
+                    var(--primary-color) 60%,
                     #fafafa 80%
     );
     background-size: 200% auto;

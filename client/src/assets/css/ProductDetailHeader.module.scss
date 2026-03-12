@@ -5,10 +5,9 @@
   padding-bottom: 2rem;
   gap: 6rem;
 
-  & .image {
+  .image {
     position: relative;
     flex: 2;
-
     height: 55rem;
     border-radius: 1.5rem;
 
@@ -19,7 +18,7 @@
       object-fit: cover;
     }
 
-    & .next-btn {
+    .next-btn {
       width: 3rem;
       height: 3rem;
       position: absolute;
@@ -27,20 +26,20 @@
       padding: 2rem;
     }
 
-    & .left {
+    .left {
       top: 50%;
       left: 1rem;
       transform: translateY(-50%);
     }
 
-    & .right {
+    .right {
       top: 50%;
       right: 1rem;
       transform: translateY(-50%);
     }
   }
 
-  & .info {
+  .info {
     flex: 3;
     display: flex;
     flex-direction: column;
@@ -48,13 +47,13 @@
     height: 55rem;
     justify-content: space-between;
 
-    & .name-price {
+    .name-price {
       display: flex;
       flex-direction: column;
       gap: 2rem;
       flex-shrink: 0;
 
-      & h2 {
+      h2 {
         font-size: 4rem;
         width: 100%;
         white-space: pre-wrap;
@@ -65,27 +64,27 @@
         margin: 0;
       }
 
-      & .price {
+      .price {
         display: flex;
         align-items: center;
         font-weight: 500;
         line-height: 1.2;
         gap: 3rem;
 
-        & .old-price {
+        .old-price {
           font-size: 1.8rem;
           text-decoration: line-through;
           color: var(--text-content-color);
         }
 
-        & .new-price {
+        .new-price {
           font-size: 2.4rem;
           color: var(--text-header-color);
         }
       }
     }
 
-    & .desc {
+    .desc {
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -112,7 +111,7 @@
         }
       }
 
-      & p {
+      p {
         font-size: 1.6rem;
         width: 100%;
         white-space: pre-wrap;
@@ -124,7 +123,7 @@
       }
     }
 
-    & .btn-group {
+    .btn-group {
       flex-shrink: 0;
       display: flex;
       gap: 2rem;
@@ -135,13 +134,14 @@
         border-radius: 4rem;
         font-size: 1.6rem;
         font-weight: 600;
+        padding: 1.4rem 2rem;
       }
 
-      & .btn-add {
+      .btn-add {
         flex: 2;
       }
 
-      & .btn-buy {
+      .btn-buy {
         flex: 3;
       }
     }

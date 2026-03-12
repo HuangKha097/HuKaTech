@@ -42,7 +42,6 @@ const DetailCategory = () => {
 
                 </motion.div>
 
-                {/* Product List */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +51,6 @@ const DetailCategory = () => {
                     <ProductList category={decodedCategory} />
                 </motion.div>
 
-                {/* Newsletter */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}

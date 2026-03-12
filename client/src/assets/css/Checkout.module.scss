@@ -17,26 +17,25 @@
   justify-content: center;
   gap: 4rem;
 
-  .tittle {
+  .title {
     font-size: 2.2rem;
     font-weight: 500;
-
     color: var(--text-header-color);
   }
 
-  & .block-left {
+  .block-left {
     flex: 3;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     justify-content: flex-start;
 
-    & form {
+    form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      & label {
+      label {
         display: flex;
         align-items: center;
         padding: 1rem 0;
@@ -46,69 +45,59 @@
         flex-wrap: nowrap;
         gap: 10px;
 
-        & .infor-input {
+        .infor-input {
           padding: 1.4rem 1.6rem;
           width: 100%;
         }
 
         select {
           width: 100%;
-          padding: 10px 15px;
-          border: none; /* bỏ viền mặc định */
-          border-radius: 24px; /* bo góc */
-          background-color: #222; /* màu nền */
-          color: #fff; /* màu chữ */
-          font-size: 16px; /* cỡ chữ */
-          appearance: none; /* bỏ style mặc định (Chrome, Safari) */
-          -moz-appearance: none; /* bỏ style mặc định (Firefox) */
-          -webkit-appearance: none; /* bỏ style mặc định (Safari) */
-        }
-
-        select:focus {
-          outline: none; /* bỏ outline xanh khi focus */
-          border: 2px solid #555; /* thêm border khi focus */
+          border-radius: 4rem;
         }
       }
 
-      & .address-detail-block {
+      .address-detail-block {
         display: flex;
         gap: 2rem;
       }
 
-      & button {
+      button {
         border-radius: 4rem;
         font-size: 1.6rem;
         font-weight: 500;
+        padding: 1.4rem 2rem;
       }
     }
   }
 
-  & .block-right {
+  .block-right {
     flex: 2;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 
-    & .oder-wrapper {
+    .order-wrapper {
+      display: flex;
+      flex-direction: column;
       padding: 2rem;
       width: 100%;
-      height: 42rem;
+      height: 80%;
       border: var(--border-color);
       border-radius: 0.8rem;
 
-      & hr {
+      hr {
         border: var(--border-color);
         border-radius: 0.5rem;
         width: 90%;
       }
 
-      & .body {
+      .body {
+        flex: 1;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         gap: 2rem;
         width: 100%;
-        height: 62%;
-        max-height: 60%;
+        height: 20rem;
         border-radius: 0.8rem;
         overflow-y: scroll;
 
@@ -121,17 +110,16 @@
         }
 
         &::-webkit-scrollbar-thumb {
-          background-color: #444;
+          background-color: var(--text-content-color);
           border-radius: 10px;
         }
 
-        & .no-product {
+        .no-product {
           display: flex;
           width: 100%;
           height: 100%;
           align-items: center;
           justify-content: center;
-
           color: var(--text-header-color);
           font-size: 1.8rem;
           font-weight: 500;
@@ -144,20 +132,20 @@
         padding: 1rem 0;
       }
 
-      & .detail-price {
+      .detail-price {
         display: flex;
         flex-direction: column;
         gap: 1rem;
 
-        & span {
-          color: var(--White_40, rgba(250, 250, 250, 0.9));
+        span {
+          color: var(--btn-text-color);
           font-size: 1.8rem;
           font-weight: 500;
         }
       }
 
-      & .total {
-        color: var(--White_40, rgba(250, 250, 250, 0.9));
+      .total {
+        color: var(--btn-text-color);
         font-size: 2rem;
         font-weight: 500;
       }

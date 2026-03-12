@@ -1,6 +1,5 @@
 .container {
-
-  background-color: #141414;
+  background-color: var(--background-color);
 
   .header {
     height: 50vh;
@@ -39,13 +38,11 @@
     flex-direction: column;
     align-items: flex-start;
 
-
     .faq-list {
       width: 100%;
       display: flex;
       flex-direction: column;
     }
-
 
     .faq-item {
       width: 100%;
@@ -79,13 +76,11 @@
           h3 {
             transform: scale(1.01);
           }
-
           .icon {
-            color: #fff;
+            color: var(--btn-text-color);
           }
         }
       }
-
 
       .answer-wrapper {
         overflow: hidden;
@@ -107,7 +102,7 @@
       &.active {
         .icon {
           transform: rotate(45deg);
-          color: #fff;
+          color: var(--btn-text-color);
         }
       }
     }
@@ -128,7 +123,6 @@
 @media (max-width: 768px) {
   .container .header {
     height: 40vh;
-
     .title {
       font-size: 3.2rem;
       width: 90%;
@@ -136,10 +130,8 @@
   }
   .container .body {
     padding: 0 2rem;
-
     .faq-item {
       padding: 2rem 0;
-
       .question h3 {
         font-size: 1.8rem;
       }

@@ -8,8 +8,6 @@ const cx = classNames.bind(styles);
 
 const SubmenuAdvancedSearch = () => {
     const dispatch = useDispatch();
-
-    // Lấy state rõ ràng từ redux
     const {type, brand, priceRange} = useSelector(
         state => state.subfilter
     );
