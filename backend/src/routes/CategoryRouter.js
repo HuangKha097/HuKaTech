@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const categoryController = require("../controllers/categoryController");
+const categoryController = require("../controllers/CategoryController.js");
 const authMiddleware = require('../middlewares/authMiddleware')
 
 router.post("/add-new-category", authMiddleware, categoryController.addNewCategory)
