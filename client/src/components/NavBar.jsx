@@ -1,27 +1,28 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "../assets/css/NavBar.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartShopping, faMagnifyingGlass, faSortDown} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faXmark, faCartShopping, faMagnifyingGlass, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import Submenu from "./Submenu";
-import {Link, useNavigate} from "react-router-dom";
-import {logo} from "../assets/images";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { logo } from "../assets/images";
 import SubmenuAdvancedSearch from "./SubmenuAdvancedSearch.jsx";
 import FiltersChooseBlock from "./FiltersChooseBlock.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {clearSubfilter, setProductsSearch} from "../redux/SubfilterSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { clearSubfilter, setProductsSearch } from "../redux/SubfilterSlice.js";
 import * as ProductService from "../services/ProductService.js";
 import * as CategoryService from "../services/CategoryService.js"
-import {setCategories} from "../redux/CategorySlice.js";
+import { setCategories } from "../redux/CategorySlice.js";
 
 const cx = classNames.bind(styles);
 
 const NavBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const productsCart = useSelector((state) => state.cart.products);
-    const {type, brand, priceRange} = useSelector(
+    const { type, brand, priceRange } = useSelector(
         (state) => state.subfilter
     );
 
@@ -29,6 +30,31 @@ const NavBar = () => {
     const [valueSearch, setValueSearch] = useState("");
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        setIsMenuOpen(false);
+        setActiveMenu("");
+    }, [location]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsMenuOpen(false);
+            }
+            if (!event.target.closest(`.${styles['filter-wrapper']}`) && !event.target.closest(`.${styles['menuWrapper']}`)) {
+                setActiveMenu("");
+            }
+        };
+
+        if (isMenuOpen || activeMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isMenuOpen, activeMenu]);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -100,6 +126,7 @@ const NavBar = () => {
 
             if (res.status === "OK") {
                 dispatch(setProductsSearch(res.data));
+                setIsMenuOpen(false);
                 navigate("/search");
             }
         } catch (error) {
@@ -127,63 +154,74 @@ const NavBar = () => {
         }, 300);
     };
 
+    const handleTogglePopUp = (value, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setActiveMenu(activeMenu === value ? "" : value);
+    };
+
+    const renderSearch = (isMobileClassName) => (
+        <label htmlFor={`search-${isMobileClassName}`} className={cx("search", isMobileClassName)}>
+            <FontAwesomeIcon
+                className={cx("icon")}
+                icon={faMagnifyingGlass}
+                onClick={handleSearch}
+            />
+            <input
+                id={`search-${isMobileClassName}`}
+                type="text"
+                placeholder="Search gadgets, devices"
+                value={valueSearch}
+                onChange={(e) => setValueSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
+
+            <div
+                className={cx("filter-wrapper", { active: activeMenu === "advanced-menu" })}
+                onMouseEnter={() => handleMouseEnterPopUp("advanced-menu")}
+                onMouseLeave={handleMouseLeavePopUp}
+            >
+                <button className={cx("filter-btn")} onClick={(e) => handleTogglePopUp("advanced-menu", e)}>
+                    Filters <FontAwesomeIcon icon={faSortDown} />
+                </button>
+
+                <div className={cx("submenu-advanced-search")}>
+                    <SubmenuAdvancedSearch />
+                </div>
+            </div>
+
+            {hasFilters && (
+                <div className={cx("filters-choose-block")}>
+                    <FiltersChooseBlock />
+                </div>
+            )}
+        </label>
+    );
+
     return (
-        <div className={cx("container", {hide: hideNav})}>
+        <div ref={menuRef} className={cx("container", { hide: hideNav })}>
 
             <div className={cx("logo")}>
-                <img src={logo} onClick={() => navigate("/")} alt="logo shop"/>
+                <img src={logo} onClick={() => navigate("/")} alt="logo shop" />
             </div>
 
 
-            <label htmlFor="search" className={cx("search")}>
-                <FontAwesomeIcon
-                    className={cx("icon")}
-                    icon={faMagnifyingGlass}
-                />
-                <input
-                    id="search"
-                    type="text"
-                    placeholder="Search gadgets, devices"
-                    value={valueSearch}
-                    onChange={(e) => setValueSearch(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                />
-
-                <div
-                    className={cx("filter-wrapper")}
-                    onMouseEnter={() =>
-                        handleMouseEnterPopUp("advanced-menu")
-                    }
-                    onMouseLeave={handleMouseLeavePopUp}
-                >
-                    <button className={cx("filter-btn")}>
-                        Filters <FontAwesomeIcon icon={faSortDown}/>
-                    </button>
-
-                    <div
-                        className={cx("submenu-advanced-search")}
-                    >
-                        <SubmenuAdvancedSearch/>
-                    </div>
-                </div>
-
-                {hasFilters && (
-                    <div className={cx("filters-choose-block")}>
-                        <FiltersChooseBlock/>
-                    </div>
-                )}
-            </label>
+            {renderSearch("desktop-search")}
             <button className={cx('menu-toggle-btn')} onClick={toggleMenu}>
-                ☰
+                <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} />
             </button>
-            <ul className={cx("hotlinks",{ open: isMenuOpen })}>
+            <ul className={cx("hotlinks", { open: isMenuOpen })}>
+                <li className={cx("mobile-search-container")}>
+                    {renderSearch("mobile-search")}
+                </li>
                 <li>
                     <div
-                        className={cx("menuWrapper")}
+                        className={cx("menuWrapper", { active: activeMenu === "sub-menu" })}
                         onMouseEnter={() =>
                             handleMouseEnterPopUp("sub-menu")
                         }
                         onMouseLeave={handleMouseLeavePopUp}
+                        onClick={(e) => handleTogglePopUp("sub-menu", e)}
                     >
                         Category
                         <svg
@@ -200,7 +238,7 @@ const NavBar = () => {
                         <div
                             className={cx("submenu")}
                         >
-                            <Submenu/>
+                            <Submenu />
                         </div>
                     </div>
                 </li>

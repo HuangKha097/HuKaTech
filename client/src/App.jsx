@@ -19,7 +19,7 @@ const Layout = () => {
     return (
         <>
             {/*{!isLoginPage && <NavBar/>}*/}
-             <NavBar/>
+            <NavBar />
 
             <Routes>
                 <Route path="/" element={<Home />} />

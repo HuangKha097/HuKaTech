@@ -64,3 +64,12 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 0.8rem;
+    z-index: 10;
+  }
+}

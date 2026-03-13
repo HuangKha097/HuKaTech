@@ -26,5 +26,21 @@
                 color: #0dded1;
             }
         }
+}
 
+@media (max-width: 1024px) {
+  .container {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    margin-top: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem 1.6rem;
+
+    li {
+      padding: 0.8rem 0;
+    }
+  }
 }

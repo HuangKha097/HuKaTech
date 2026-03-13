@@ -111,3 +111,15 @@ select option:checked {
     width: 100%;
     background-color: var(--background-color);
 }
+
+@media (max-width: 1024px) {
+    .content {
+        padding: 0 4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 0 2rem;
+    }
+}

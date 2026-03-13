@@ -75,3 +75,44 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .container {
+    .header {
+      .title {
+        width: 70%;
+        font-size: 4.2rem;
+      }
+      .search {
+        width: 50%;
+      }
+    }
+    
+    .products-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      padding: 0 4rem 4rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    .header {
+      height: 40vh;
+      .title {
+        width: 90%;
+        font-size: 3.2rem;
+      }
+      .search {
+        width: 80%;
+        min-width: unset;
+      }
+    }
+    
+    .products-wrapper {
+      grid-template-columns: 1fr;
+      padding: 0 2rem 4rem;
+    }
+  }
+}

@@ -147,3 +147,55 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding-top: 10rem;
+    gap: 4rem;
+
+    .image {
+      width: 100%;
+      height: 45rem;
+      flex: unset;
+    }
+
+    .info {
+      width: 100%;
+      height: auto;
+      flex: unset;
+
+      .desc {
+        max-height: 30rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding-top: 8rem;
+
+    .image {
+      height: 30rem;
+    }
+
+    .info {
+      .name-price {
+        h2 {
+          font-size: 3.2rem;
+        }
+        .price {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+    }
+  }
+}

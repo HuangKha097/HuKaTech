@@ -20,3 +20,27 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media (max-width: 1024px) {
+  .container {
+    padding-top: 8rem;
+
+    h2 {
+      font-size: 4rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 6rem;
+
+    h2 {
+      font-size: 3.2rem;
+    }
+
+    .reviews-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+}
