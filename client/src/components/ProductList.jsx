@@ -39,6 +39,12 @@ const ProductList = () => {
                 console.log('Error fetching products:', error);
             } finally {
                 setLoading(false);
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth',
+                    });
+                }, 300);
             }
         };
 
@@ -48,10 +54,12 @@ const ProductList = () => {
     }, [decodedCategory, currentPage]);
 
     const handleNextPage = () => {
+
         if (currentPage < totalPage) setCurrentPage(prev => prev + 1);
     };
 
     const handlePrevPage = () => {
+
         if (currentPage > 1) setCurrentPage(prev => prev - 1);
     };
 
@@ -80,11 +88,17 @@ const ProductList = () => {
                     </div>
 
                     {totalPage > 1 && (
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', marginTop: '30px' }}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '20px',
+                            marginTop: "10rem",
+                        }}>
                             <button
                                 onClick={handlePrevPage}
                                 disabled={currentPage === 1}
-                                style={{ padding: '8px 16px', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+                                style={{cursor: currentPage === 1 ? 'not-allowed' : 'pointer'}}
                             >
                                 Trang trước
                             </button>
@@ -94,7 +108,7 @@ const ProductList = () => {
                             <button
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPage}
-                                style={{ padding: '8px 16px', cursor: currentPage === totalPage ? 'not-allowed' : 'pointer' }}
+                                style={{cursor: currentPage === totalPage ? 'not-allowed' : 'pointer'}}
                             >
                                 Trang sau
                             </button>

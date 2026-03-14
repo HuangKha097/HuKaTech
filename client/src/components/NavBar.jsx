@@ -202,7 +202,12 @@ const NavBar = () => {
         <div ref={menuRef} className={cx("container", { hide: hideNav })}>
 
             <div className={cx("logo")}>
-                <img src={logo} onClick={() => navigate("/")} alt="logo shop" />
+                <img
+                    src={logo}
+                    onClick={() => window.location.href = "/"}
+                    alt="logo shop"
+                    style={{ cursor: "pointer" }}
+                />
             </div>
 
 

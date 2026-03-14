@@ -9,9 +9,9 @@ const Newsletter = () => {
         <div className={cx('container')}>
             <h3 className={cx('title')}>Stay Updated on Latest Product Releases</h3>
             <p className={cx('desc')}>Never Miss a beat and stay update with new product arrivals and promotions</p>
-            <form>
+            <form onSubmit={e => e.preventDefault()}>
                 <input type="email" name="input" id="input" placeholder="Email Address" />
-                <button type="submit">Subscribe</button>
+                <button type="submit" >Subscribe</button>
             </form>
         </div>
     );

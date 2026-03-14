@@ -50,7 +50,7 @@
       font-weight: 600;
       color: var(--text-header-color);
 
-      li {
+      li, a {
         display: flex;
         justify-content: space-between;
         gap: 1rem;
