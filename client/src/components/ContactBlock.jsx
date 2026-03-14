@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/ContactBlock.module.scss';
 
 const cx = classNames.bind(styles);
+
 const ContactBlock = () => {
     const [isShowButton, setIsShowButton] = useState(false);
 
-
     useEffect(() => {
         const handleScroll = () => {
-
             setIsShowButton(window.scrollY > 600);
         };
 
@@ -27,9 +25,18 @@ const ContactBlock = () => {
             behavior: 'smooth',
         });
     };
+
     return (
         <div className={cx('wrapper')}>
-             {isShowButton && <button className={cx('link-btn')}><span>Zalo</span></button>}
+            {isShowButton && (
+                <button
+                    className={cx('link-btn')}
+                    onClick={() => window.open('https://chat.zalo.me/', '_blank')}
+                >
+                    Zalo
+                </button>
+            )}
+
             {isShowButton && (
                 <button onClick={scrollToTop} className={cx('move-top')}>
                     <svg viewBox="0 0 24 24">

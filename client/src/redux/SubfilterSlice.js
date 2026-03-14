@@ -11,7 +11,6 @@ const subfilterSlice = createSlice({
     name: "subfilter",
     initialState,
     reducers: {
-        // TYPE (multi)
         toggleType(state, action) {
             const value = action.payload;
             state.type.includes(value)
@@ -19,15 +18,12 @@ const subfilterSlice = createSlice({
                 : state.type.push(value);
         },
 
-        // BRAND (multi)
         toggleBrand(state, action) {
             const value = action.payload;
             state.brand.includes(value)
                 ? state.brand = state.brand.filter(item => item !== value)
                 : state.brand.push(value);
         },
-
-        // PRICE RANGE (single)
         setPriceRange(state, action) {
             state.priceRange = action.payload;
         },
@@ -36,14 +32,12 @@ const subfilterSlice = createSlice({
             state.priceRange = null;
         },
 
-        // CLEAR ALL FILTER
         clearSubfilter(state) {
             state.type = [];
             state.brand = [];
             state.priceRange = null;
         },
 
-        // SEARCH RESULT
         setProductsSearch(state, action) {
             state.productsSearch = action.payload;
         }

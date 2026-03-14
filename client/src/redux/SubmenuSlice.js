@@ -17,5 +17,4 @@ const submenuSlice = createSlice({
 
 export const { setSubmenuValue, clearSubmenuValue} = submenuSlice.actions;
 export default submenuSlice.reducer;
-//selector
 export const selectValue = (state) => state.submenu.value;

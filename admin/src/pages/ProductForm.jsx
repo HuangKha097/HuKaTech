@@ -14,24 +14,20 @@ const cx = classNames.bind(pageStyles);
 const ProductForm = () => {
     const navigate = useNavigate();
 
-    // Lấy data từ Redux do trang Products.jsx truyền vào
     const productEdit = useSelector(state => state.products.productsEdit);
 
-    // Nếu productEdit có _id thì là chế độ Edit, ngược lại là Add
     const isEditMode = Boolean(productEdit && productEdit._id);
 
     const [isLoading, setIsLoading] = useState(false);
     const [files, setFiles] = useState([]);
-    const [images, setImages] = useState([]); // Chứa preview URL của ảnh mới upload
+    const [images, setImages] = useState([]);
 
     const [activeCategories, setActiveCategories] = useState([]);
 
-    // State chung cho form
     const [formData, setFormData] = useState({
         name: '', description: '', oldPrice: '', newPrice: '', type: '', category: '', countInStock: 0, oldImages: [] // Chứa ảnh cũ từ DB khi ở chế độ Edit
     });
 
-    // Fill dữ liệu nếu là chế độ Edit
     useEffect(() => {
         if (isEditMode) {
             setFormData({
@@ -55,7 +51,6 @@ const ProductForm = () => {
         }));
     };
 
-    // Lấy danh sách danh mục đang active
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -71,7 +66,6 @@ const ProductForm = () => {
         fetchCategories();
     }, []);
 
-    // --- XỬ LÝ HÌNH ẢNH ---
     const handleChangeImages = (e) => {
         const selectedFiles = Array.from(e.target.files);
         setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
@@ -80,7 +74,7 @@ const ProductForm = () => {
         setImages(prevImages => [...prevImages, ...imagePreviews]);
         console.log("imagePreviews: ", imagePreviews);
 
-        e.target.value = null; // Reset input file
+        e.target.value = null;
     };
 
     const removeOldImage = (indexToRemove) => {
@@ -90,17 +84,15 @@ const ProductForm = () => {
     };
 
     const removeNewImage = (indexToRemove) => {
-        //Thu hồi (revoke) URL của riêng bức ảnh bị xoá để tránh memory leak
+
         URL.revokeObjectURL(images[indexToRemove]);
         setImages(images.filter((_, index) => index !== indexToRemove));
         setFiles(files.filter((_, index) => index !== indexToRemove));
     };
 
-    // --- SUBMIT FORM ---
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validate ảnh
         if (isEditMode) {
             if (formData.oldImages.length === 0 && files.length === 0) {
                 alert("Sản phẩm phải có ít nhất 1 hình ảnh");
@@ -125,23 +117,22 @@ const ProductForm = () => {
             payloadData.append("category", formData.category);
             payloadData.append("countInStock", formData.countInStock);
 
-            // Append ảnh mới
             files.forEach(file => {
                 payloadData.append("images", file);
             });
 
             let res;
             if (isEditMode) {
-                // Xử lý Edit
+
                 payloadData.append("oldImages", JSON.stringify(formData.oldImages));
                 res = await ProductService.updateProduct(productEdit._id, payloadData);
                 if (res.status === "OK") alert("Cập nhật sản phẩm thành công!");
             } else {
-                // Xử lý Add
+
                 res = await ProductService.addNewProduct(payloadData);
                 if (res.status === "OK") {
                     alert("Thêm sản phẩm thành công!");
-                    // Reset form sau khi Add
+
                     setFormData({
                         name: '',
                         description: '',
@@ -249,7 +240,7 @@ const ProductForm = () => {
                 <div className={cx("image-upload-block")}>
                     <h4 className={cx("widget-title")}>Product Image</h4>
                     <label htmlFor="fileInputHidden" className={cx("upload-area")} id="uploadArea">
-                        {/* SVG Icon giữ nguyên */}
+
                         <p className={cx("upload-text")}>
                             <span className={cx("click-text")}>Click to upload</span> or drag and drop
                         </p>

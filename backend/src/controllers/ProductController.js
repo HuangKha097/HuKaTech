@@ -1,37 +1,35 @@
 const ProductService = require("../services/ProductService");
-const { uploadToCloudinary, deleteFromCloudinary } = require("../middlewares/cloudinary");
+const {uploadToCloudinary, deleteFromCloudinary} = require("../middlewares/cloudinary");
 const Product = require("../models/ProductModel");
 
 const addNewProduct = async (req, res) => {
     try {
-        const {productName, description, oldPrice, newPrice, type, category, countInStock} = req.body;
+        const {name, description, oldPrice, newPrice, type, category, countInStock} = req.body;
 
         let productImages = [];
+        console.log("Files nhận được từ frontend:", req.files);
 
-        // Kiểm tra nếu có file (req.files số nhiều)
         if (req.files && req.files.length > 0) {
-            // Dùng Promise.all để upload song song nhiều ảnh cùng lúc cho nhanh
+
             const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
 
-            // Chờ tất cả upload xong
             const uploadResults = await Promise.all(uploadPromises);
 
-            // Map kết quả về đúng định dạng Model yêu cầu
+
             productImages = uploadResults.map(result => ({
                 url: result.secure_url,
                 public_id: result.public_id
             }));
         }
-
-        // Nếu bắt buộc phải check
+        console.log("productImages", productImages);
         if (productImages.length === 0) {
             return res.status(400).json({status: 'ERR', message: 'Vui lòng chọn ít nhất 1 ảnh'});
         }
-        // ---------------------------
+
 
         const newProductData = {
-            name: productName,
-            images: productImages, // Lưu mảng ảnh vừa upload
+            name: name,
+            images: productImages,
             type: type,
             newPrice: Number(newPrice),
             oldPrice: Number(oldPrice),
@@ -55,15 +53,14 @@ const updateProduct = async (req, res) => {
         const productId = req.params.id;
 
         if (!productId) {
-            return res.status(400).json({ status: "ERR", message: "Product ID is required" });
+            return res.status(400).json({status: "ERR", message: "Product ID is required"});
         }
 
         const productInDb = await Product.findById(productId);
         if (!productInDb) {
-            return res.status(404).json({ status: "ERR", message: "Product not found" });
+            return res.status(404).json({status: "ERR", message: "Product not found"});
         }
 
-        // XỬ LÝ ẢNH
         let oldImages = [];
         if (req.body.oldImages) {
             try {
@@ -103,7 +100,7 @@ const updateProduct = async (req, res) => {
         const dataToUpdate = {
             ...req.body,
             images: finalImages,
-            _id: productId // Truyền ID để Service  check trùng tên ngoại trừ ID này
+            _id: productId
         };
 
         const response = await ProductService.updateProduct(dataToUpdate);
@@ -133,9 +130,9 @@ const getAllProducts = async (req, res) => {
 
 const advancedSearchProductAdmin = async (req, res) => {
     try {
-    const result = await ProductService.advancedSearchProductAdmin(req.query);
-    return res.status(200).json(result);
-    }catch (e) {
+        const result = await ProductService.advancedSearchProductAdmin(req.query);
+        return res.status(200).json(result);
+    } catch (e) {
         return res.status(500).json({
             status: "ERR",
             message: e.message
@@ -155,7 +152,6 @@ const advancedSearchProductClient = async (req, res) => {
 };
 
 
-
 const getProductToShowHome = async (req, res) => {
     try {
         const result = await ProductService.getProductToShowHome();
@@ -170,8 +166,9 @@ const getProductToShowHome = async (req, res) => {
 
 const getProductsByCategory = async (req, res) => {
     try {
-        const category = req.query.category;
-        const result = await ProductService.getProductsByCategory(category);
+        const {category, limit, skip} = req.query;
+        const result = await ProductService.getProductsByCategory(category, limit, skip);
+
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({

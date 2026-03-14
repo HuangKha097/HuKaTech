@@ -1,7 +1,11 @@
 import axiosClient from "./axiosClient";
 
 export const addNewProduct = async (data) => {
-    const res = await axiosClient.post(`/product/add-new-product`, data);
+    const res = await axiosClient.post(`/product/add-new-product`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
     return res.data;
 };
 

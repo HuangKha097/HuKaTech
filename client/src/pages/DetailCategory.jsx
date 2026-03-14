@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/DetailCategory.module.scss';
 import Newsletter from '../components/Newsletter';
 import Tag from '../components/Tag';
-import { motion } from 'framer-motion';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import ProductList from '../components/ProductList';
-import { useParams } from 'react-router-dom';
+import {motion} from 'framer-motion';
+import ProductList from '../components/ProductList.jsx';
+import {useParams} from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 const DetailCategory = () => {
-    const { category } = useParams();
+    const {category} = useParams();
     const decodedCategory = decodeURIComponent(category); // loại bỏ %20
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -23,18 +21,18 @@ const DetailCategory = () => {
     return (
         <div className={cx('container')}>
             <div className={cx('content')}>
-                {/* Header Section */}
+
                 <motion.div
-                    initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    initial={{opacity: 0, y: -30}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.6, ease: 'easeOut'}}
                     className={cx('header')}
                 >
-                    <Tag props={decodedCategory} />
+                    <Tag props={decodedCategory}/>
                     <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.6, ease: 'easeOut', delay: 0.2}}
                         className={cx('title')}
                     >
                         As Hot As They Come. Shop Now!
@@ -43,21 +41,21 @@ const DetailCategory = () => {
                 </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    initial={{opacity: 0, y: 50}}
+                    whileInView={{opacity: 1, y: 0}}
+                    transition={{duration: 0.8, ease: 'easeOut', delay: 0.2}}
+                    viewport={{once: true, amount: 0.3}}
                 >
-                    <ProductList category={decodedCategory} />
+                    <ProductList category={decodedCategory}/>
                 </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    initial={{opacity: 0, y: 50}}
+                    whileInView={{opacity: 1, y: 0}}
+                    transition={{duration: 0.8, ease: 'easeOut', delay: 0.3}}
+                    viewport={{once: true, amount: 0.3}}
                 >
-                    <Newsletter />
+                    <Newsletter/>
                 </motion.div>
             </div>
         </div>

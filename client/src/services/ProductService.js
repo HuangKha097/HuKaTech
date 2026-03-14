@@ -20,9 +20,13 @@ export const getProductToShowHome = async () => {
     return res.data;
 };
 
-export const getProductsByCategory = async (category) => {
+export const getProductsByCategory = async (category, limit, skip) => {
     const res = await axios.get(`${BASE_URL}/get-products-by-category`, {
-        params: {category: category}
+        params: {
+            category: category,
+            limit: limit,
+            skip: skip
+        }
     });
     return res.data;
 };

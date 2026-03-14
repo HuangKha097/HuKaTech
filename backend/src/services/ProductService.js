@@ -22,9 +22,9 @@ const addNewProduct = async (newProduct) => {
                 message: "Tên sản phẩm đã tồn tại",
             };
         }
-        newProduct.status = calculateStatusByStock(countInStock, newProduct.status);
 
-        // Dữ liệu newProduct đã được Controller định dạng chuẩn (bao gồm images có public_id)
+        newProduct.status = calculateStatusByStock(newProduct.countInStock, newProduct.status);
+
         const createdProduct = await Product.create(newProduct);
 
         if (createdProduct) {
@@ -42,7 +42,6 @@ const updateProduct = async (productUpdate) => {
     try {
         const {_id, name, countInStock, status} = productUpdate;
 
-        // Check trùng tên (Trừ chính thằng đang sửa ra: $ne: _id)
         const checkProduct = await Product.findOne({
             name: name,
             _id: {$ne: _id}
@@ -55,7 +54,6 @@ const updateProduct = async (productUpdate) => {
             };
         }
 
-        // Lấy thông tin sản phẩm hiện tại trong DB để đối chiếu
         const existingProduct = await Product.findById(_id);
         if (!existingProduct) {
             return {
@@ -64,11 +62,9 @@ const updateProduct = async (productUpdate) => {
             };
         }
 
-        // Xác định tồn kho và trạng thái mới nhất để tính toán
         const updatedStock = countInStock !== undefined ? countInStock : existingProduct.countInStock;
         const targetStatus = status !== undefined ? status : existingProduct.status;
 
-        // Cập nhật lại status theo stock
         productUpdate.status = calculateStatusByStock(updatedStock, targetStatus);
 
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -118,20 +114,16 @@ const advancedSearchProductAdmin = async (payload) => {
         }
         if (name) {
             query.name = {$regex: name, $options: 'i'};
-            // $options: 'i' để không phân biệt hoa thường
-        }
 
-        // Nếu có type -> Thêm điều kiện tìm chính xác
+        }
         if (type) {
             query.type = type;
         }
 
-        // Nếu có status -> Thêm điều kiện tìm chính xác
         if (status) {
             query.status = status;
         }
 
-        // 4. Thực hiện truy vấn vào Database
         const searchResults = await Product.find(query);
 
         return {
@@ -216,18 +208,33 @@ const getProductToShowHome = async () => {
 
 };
 
-const getProductsByCategory = async (category) => {
+
+const getProductsByCategory = async (category, limit, skip) => {
     try {
-        const products = await Product.find({category: category, status: {$ne: "inactive"}});
+        const query = {category: category, status: {$ne: "inactive"}};
+
+        const limitNum = limit ? Number(limit) : 9;
+        const skipNum = skip ? Number(skip) : 0;
+
+        const products = await Product.find(query)
+            .skip(skipNum)
+            .limit(limitNum);
+
+
+        const total = await Product.countDocuments(query);
+
         return {
             status: "OK",
             message: "SUCCESS",
             data: products,
+            total: total,
         };
     } catch (error) {
-        return error;
+        return {
+            status: "ERR",
+            message: error.message
+        };
     }
-
 };
 
 const getProductsByName = async (name) => {
@@ -306,7 +313,7 @@ const getProductById = async (id) => {
 const deleteProduct = async (id) => {
 
     try {
-        // Tìm sản phẩm trước để lấy thông tin ảnh
+
         const checkProduct = await Product.findOne({_id: id});
 
         if (checkProduct === null) {
@@ -319,7 +326,7 @@ const deleteProduct = async (id) => {
         // Xóa ảnh trên Cloudinary (nếu có)
         // Kiểm tra xem mảng images có dữ liệu không
         if (checkProduct.images && checkProduct.images.length > 0) {
-            // Dùng Promise.all để xóa nhiều ảnh cùng lúc
+            // Dùng Promise.all xóa nhiều ảnh cùng lúc
             const deletePromises = checkProduct.images.map(img => {
                 if (img.public_id) {
                     return deleteFromCloudinary(img.public_id);
@@ -330,7 +337,6 @@ const deleteProduct = async (id) => {
             await Promise.all(deletePromises);
         }
 
-        //Sau khi xóa ảnh xong thì mới xóa trong Database
         await Product.findByIdAndDelete(id);
 
         return {
@@ -353,12 +359,9 @@ const handleActiveProduct = async (id) => {
             };
         }
 
-        // Nếu đang khóa -> Mở khóa thì phải check lại số lượng tồn kho
         if (product.status === "inactive") {
-            // Truyền tham số thứ 2 là "active" giả lập để hàm helper tự phân loại stock
             product.status = calculateStatusByStock(product.countInStock, "active");
         } else {
-            // Nếu đang hiển thị (active/low-stock/out-of-stock) -> Đổi thành khóa (inactive)
             product.status = "inactive";
         }
 

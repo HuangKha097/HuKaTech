@@ -12,7 +12,7 @@ export const addProduct = async ({ userId, productId,  name , price , quantity }
 }
 
 export const getProducts = async (cartId) =>{
-    // axios.post(url, body, config).
+
     const res = await axios.get(
     `${BASE_URL}/get-products?_id=${cartId}`,{
       headers: { "Content-Type": "application/json"}

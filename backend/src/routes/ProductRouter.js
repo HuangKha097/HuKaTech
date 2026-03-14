@@ -4,12 +4,7 @@ const productController = require("../controllers/ProductController");
 
 const authMiddleware = require('../middlewares/authMiddleware')
 
-//  Import middleware upload từ file cấu hình (đảm bảo đường dẫn đúng)
 const {upload} = require("../middlewares/cloudinary");
-
-
-// 'images': Tên key
-// 3: Số lượng file tối đa cho phép upload 1 lần
 router.post(
     "/add-new-product", authMiddleware,
 upload.array('images', 3),
