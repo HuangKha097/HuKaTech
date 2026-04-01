@@ -4,7 +4,7 @@ const genneralAccesToken = async (payload) => {
     return jwt.sign(
         payload,
         process.env.ACCESS_TOKEN,
-        { expiresIn: "15s" }
+        { expiresIn: "3d" }
     );
 };
 
