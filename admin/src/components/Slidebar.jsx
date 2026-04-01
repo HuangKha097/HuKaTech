@@ -23,7 +23,7 @@ const Slidebar = () => {
     return (
         <div className={cx('slidebar-container')}>
             <div className={cx('logo-container')}>
-                <img src="../../public/logo.png" alt=""/>
+                <img src="/logo.png" alt="Logo" />
             </div>
             <ul className={cx('slidebar-list')}>
                 <Link to={"sales&reports"}
