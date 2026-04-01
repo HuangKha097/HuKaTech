@@ -14,7 +14,7 @@ const port = process.env.PORT || 8000;
 const allowedOrigins = [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://hukatech.netlify.app"
+    "https://hukatech.netlify.app",
     "https://hukamanager.netlify.app"
 ];
 
