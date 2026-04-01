@@ -5,6 +5,7 @@ import {Link} from "react-router-dom"
 import * as UserService from "../services/UserService.js"
 import {useDispatch} from "react-redux";
 import {setToken} from "../redux/userSlice.js"
+import CircularProgress from '@mui/material/CircularProgress';
 
 const cx = classNames.bind(style);
 const Login = () => {
@@ -13,8 +14,10 @@ const Login = () => {
     const [phone, setPhone] = useState();
     const [password, setPassword] = useState();
     const [errorText, setErrortext] = useState()
+    const [loading, setLoading] = useState(false);
     const handleSubmit = async (data) => {
         try {
+            setLoading(true)
             const res = await UserService.login(data);
 
             if (res.status === "OK") {
@@ -28,6 +31,8 @@ const Login = () => {
 
         } catch (error) {
             console.log("error: ", error);
+        } finally {
+            setLoading(false)
         }
     }
     return (
@@ -52,9 +57,11 @@ const Login = () => {
                         errorText
                     }
                 </span>}
-                <button type="submit">
-                    Login
-                </button>
+                {
+                    !loading?<button type="submit">
+                        Login
+                    </button>:<CircularProgress />
+                }
                 <Link>
                     Forgot password?
                 </Link>
