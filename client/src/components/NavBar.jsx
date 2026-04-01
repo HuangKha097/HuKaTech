@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "../assets/css/NavBar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark, faCartShopping, faMagnifyingGlass, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark, faCartShopping, faMagnifyingGlass, faSortDown, faArrowRightToBracket} from "@fortawesome/free-solid-svg-icons";
 import Submenu from "./Submenu";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logo } from "../assets/images";
@@ -261,7 +261,7 @@ const NavBar = () => {
                     <li className={cx("check-out-li")}>
                         Checkout{" "}
                         <FontAwesomeIcon
-                            className={cx("cart-icon")}
+
                             icon={faCartShopping}
                         />
                         <div className={cx("count-products-cart")}>
@@ -272,6 +272,12 @@ const NavBar = () => {
                                 )
                                 : 0}
                         </div>
+                    </li>
+                </Link>
+                <Link to="/login">
+                    <li className={cx("check-out-li")}>
+                        Login
+                        <FontAwesomeIcon   icon={faArrowRightToBracket} />
                     </li>
                 </Link>
             </ul>

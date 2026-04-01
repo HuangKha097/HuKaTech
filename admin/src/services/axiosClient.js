@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://hukatech.onrender.com/api',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -36,7 +36,7 @@ axiosClient.interceptors.response.use(
                 }
 
 
-                const res = await axios.post(`http://localhost:8000/api/user/refresh-token`, {}, {
+                const res = await axios.post(`${process.env.VITE_API_URL_USER}/refresh-token`, {}, {
                     headers: {token: `Bearer ${refreshToken}`}
                 });
 

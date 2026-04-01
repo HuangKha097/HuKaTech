@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../assets/css/LoginPage.module.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark} from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 
@@ -36,15 +38,15 @@ const LoginPage = () => {
                     <form>
                         <h1>Create Account</h1>
 
-                        <span>or use your email for registration</span>
+                        <span>or use your phone for registration</span>
                         <input type="text" placeholder="Name" required />
-                        <input type="email" placeholder="Email" required />
+                        <input type="text" placeholder="Phone number" required />
                         <input type="password" placeholder="Password" required />
                         <input type="password" placeholder="Confirm your Password" required />
 
-                        <a href="/isLoginedIndex.html">
+
                             <button className={cx('btn')}>Sign Up</button>
-                        </a>
+
                     </form>
                 </div>
 
@@ -52,8 +54,8 @@ const LoginPage = () => {
                     <form>
                         <h1>Sign In</h1>
 
-                        <span>or use your email password</span>
-                        <input type="email" placeholder="Email" />
+                        <span>or use your phone password</span>
+                        <input type="text" placeholder="Phone number" />
 
                         <div className={cx('password-field')}>
                             <input
@@ -66,9 +68,9 @@ const LoginPage = () => {
                             ></i>
                         </div>
 
-                        <button type="button" onClick={handleForgotClick} id="showForgot">
+                        <a type="button" onClick={handleForgotClick} id="showForgot">
                             Forget Your Password?
-                        </button>
+                        </a>
 
                         <button
                             className={cx('btn-login')}
@@ -99,14 +101,14 @@ const LoginPage = () => {
                     </div>
                 </div>
                 <div className={cx('form-container', 'forgot-password')}>
-                    <span className={cx('close-forgot')} onClick={handleBackToLogin}>&times;</span>
+                    <span className={cx('close-forgot')} onClick={handleBackToLogin}><FontAwesomeIcon icon={faCircleXmark} /></span>
 
                     <form id="forgotPasswordForm">
                         <h1>Reset Password</h1>
                         <p className={cx('message')}></p>
 
-                        <span>Enter your email to receive a code</span>
-                        <input type="email" placeholder="Email" required />
+                        <span>Enter your phone to receive a code</span>
+                        <input type="text" placeholder="Phone number" required />
 
                         <button type="button" onClick={handleSendCode}>Send Code</button>
                         <div className={cx('code-field', { show: codeSent })}>
