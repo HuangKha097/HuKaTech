@@ -11,8 +11,8 @@ const cx = classNames.bind(style);
 const Login = () => {
     const dispatch = useDispatch();
 
-    const [phone, setPhone] = useState();
-    const [password, setPassword] = useState();
+    const [phone, setPhone] = useState("0969422821");
+    const [password, setPassword] = useState("123456");
     const [errorText, setErrortext] = useState()
     const [loading, setLoading] = useState(false);
     const handleSubmit = async (data) => {
