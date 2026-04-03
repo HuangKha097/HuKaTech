@@ -274,12 +274,12 @@ const NavBar = () => {
                         </div>
                     </li>
                 </Link>
-                <Link to="/login">
-                    <li className={cx("check-out-li")}>
-                        Login
-                        <FontAwesomeIcon   icon={faArrowRightToBracket} />
-                    </li>
-                </Link>
+                {/*<Link to="/login">*/}
+                {/*    <li className={cx("check-out-li")}>*/}
+                {/*        Login*/}
+                {/*        <FontAwesomeIcon   icon={faArrowRightToBracket} />*/}
+                {/*    </li>*/}
+                {/*</Link>*/}
             </ul>
         </div>
     );
